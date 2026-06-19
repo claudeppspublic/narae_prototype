@@ -1,0 +1,52 @@
+<!-- @dsCard group="○○부 Gov Portal" viewport="1280x720" name="Government portal — interactive" subtitle="Home · service list · application flow" -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>KRDS 정부포털 UI Kit</title>
+<link rel="stylesheet" href="../../styles.css" />
+<style> body { margin: 0; background: var(--color-surface-gray-subtler); } </style>
+</head>
+<body>
+<a href="#main" style="position:absolute;left:8px;top:-200px;z-index:2000;padding:10px 16px;border-radius:6px;background:var(--color-element-primary);color:#fff;font:700 15px var(--krds-font-sans);text-decoration:none" onfocus="this.style.top='8px'" onblur="this.style.top='-200px'">본문 바로가기</a>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<script type="text/babel" src="AppShell.jsx"></script>
+<script type="text/babel" src="HomeScreen.jsx"></script>
+<script type="text/babel" src="ServiceListScreen.jsx"></script>
+<script type="text/babel" src="ServiceDetailScreen.jsx"></script>
+<script type="text/babel" src="LoginScreen.jsx"></script>
+<script type="text/babel" src="SearchResultScreen.jsx"></script>
+<script type="text/babel">
+  function App() {
+    const [screen, setScreen] = React.useState("home");
+    const nav = (s) => {
+      const map = { policy: "search", about: "list", news: "search", search: "search" };
+      setScreen(map[s] || s);
+      window.scrollTo({ top: 0 });
+    };
+    const Shell = window.AppShell;
+    return (
+      <Shell active={screen} onNavigate={nav}>
+        {screen === "home" && <window.HomeScreen onNavigate={nav} />}
+        {screen === "list" && <window.ServiceListScreen onNavigate={nav} />}
+        {screen === "detail" && <window.ServiceDetailScreen onNavigate={nav} />}
+        {screen === "login" && <window.LoginScreen onNavigate={nav} />}
+        {screen === "search" && <window.SearchResultScreen onNavigate={nav} />}
+      </Shell>
+    );
+  }
+  function mount() {
+    if (!(window.AppShell && window.HomeScreen && window.ServiceListScreen && window.ServiceDetailScreen && window.LoginScreen && window.SearchResultScreen)) {
+      return setTimeout(mount, 30);
+    }
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  }
+  mount();
+</script>
+</body>
+</html>
