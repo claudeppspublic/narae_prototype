@@ -12,7 +12,7 @@ export const ROOT_NODE = {
   nodeId: 'NODE-ROOT',
   nodeType: 'COMPANY',
   refId: null,
-  label: '행정기관',
+  label: '행정안전부',
   status: 'OK',
   regularYn: false,
 }

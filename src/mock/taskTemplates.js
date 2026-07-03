@@ -2,23 +2,24 @@
 // 스키마: templateId, projectType(DEPT_REGULAR), taskSet[]
 export const taskTemplates = [
   {
-    templateId: 'TT-BUDGET',
+    templateId: 'TT-001',
     projectType: 'DEPT_REGULAR',
-    orgUnitId: 'ORG-01-01-01',
+    orgUnitId: null,
+    name: '월간 행정업무 세트',
     taskSet: [
-      { taskNm: '예산 편성 지침 수립', taskType: 'REGULAR', priorityLevel: 'HIGH' },
-      { taskNm: '분기별 재정집행 점검', taskType: 'REGULAR', priorityLevel: 'NORMAL' },
-      { taskNm: '예산 결산 보고서 작성', taskType: 'REGULAR', priorityLevel: 'NORMAL' },
+      { taskNm: '월간 업무보고 작성', taskType: 'REGULAR', priorityLevel: 'NORMAL' },
+      { taskNm: '부서 회의록 정리', taskType: 'REGULAR', priorityLevel: 'NORMAL' },
+      { taskNm: '정기 통계 갱신', taskType: 'REGULAR', priorityLevel: 'NORMAL' },
     ],
   },
   {
-    templateId: 'TT-SATISFACTION',
+    templateId: 'TT-002',
     projectType: 'DEPT_REGULAR',
-    orgUnitId: 'ORG-01-01-02',
+    orgUnitId: null,
+    name: '분기 성과점검 세트',
     taskSet: [
-      { taskNm: '만족도 설문 설계', taskType: 'REGULAR', priorityLevel: 'NORMAL' },
-      { taskNm: '데이터 수집·분석', taskType: 'REGULAR', priorityLevel: 'HIGH' },
-      { taskNm: '개선안 도출·보고', taskType: 'REGULAR', priorityLevel: 'NORMAL' },
+      { taskNm: '분기 성과지표 점검', taskType: 'REGULAR', priorityLevel: 'NORMAL' },
+      { taskNm: '관리과제 진도 점검', taskType: 'REGULAR', priorityLevel: 'NORMAL' },
     ],
   },
 ]
