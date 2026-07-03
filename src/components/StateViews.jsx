@@ -27,8 +27,8 @@ export function ErrorState({ error, onRetry }) {
   return (
     <div style={{ ...center, minHeight: '12rem' }} role="alert">
       <div style={{ fontSize: '2rem' }} aria-hidden>⚠️</div>
-      <p style={{ fontWeight: 'var(--krds-weight-bold)', marginTop: 'var(--krds-space-4)', color: 'var(--narae-status-risk)' }}>
-        요청을 처리하지 못했습니다
+      <p style={{ fontWeight: 'var(--krds-weight-bold)', marginTop: 'var(--krds-space-4)', color: 'var(--color-risk-text)' }}>
+        ! 요청을 처리하지 못했습니다
       </p>
       <p style={muted}>{error?.message ?? '알 수 없는 오류'}</p>
       {onRetry && (

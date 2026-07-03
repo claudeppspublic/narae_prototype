@@ -8,7 +8,7 @@ export default function Field({
       {label && (
         <span style={{ fontSize: 'var(--krds-body-medium)', fontWeight: 'var(--krds-weight-medium)' }}>
           {label}
-          {required && <span style={{ color: 'var(--narae-status-risk)', marginLeft: 2 }}>*</span>}
+          {required && <span style={{ color: 'var(--color-risk-text)', marginLeft: 2 }}>*</span>}
         </span>
       )}
       <input
@@ -24,13 +24,13 @@ export default function Field({
           height: 'var(--krds-control-medium)',
           padding: '0 var(--krds-space-7)',
           borderRadius: 'var(--krds-radius-medium)',
-          border: `1px solid ${error ? 'var(--narae-status-risk)' : 'var(--color-border-basic, #d1d5db)'}`,
+          border: `1px solid ${error ? 'var(--color-risk-base)' : 'var(--color-border-basic, #d1d5db)'}`,
           background: 'var(--color-background-white)',
           fontSize: 'var(--krds-body-medium)',
         }}
       />
       {error && (
-        <span role="alert" style={{ fontSize: 'var(--krds-body-small)', color: 'var(--narae-status-risk)' }}>
+        <span role="alert" style={{ fontSize: 'var(--krds-body-small)', color: 'var(--color-risk-text)' }}>
           {error}
         </span>
       )}

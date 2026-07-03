@@ -146,7 +146,7 @@ function MembersTab({ org, subOrgs, members, linkedCount }) {
                 <span style={{ fontWeight: 'var(--krds-weight-medium)' }}>{m.empNm}</span>
                 <span style={{ marginLeft: 'var(--krds-space-5)', fontSize: 'var(--krds-body-small)', color: 'var(--color-text-assistive,#6b7280)' }}>{m.position}</span>
               </div>
-              {onLeave && <Badge variant="warn">{EMPLOYMENT_STATUS.ON_LEAVE}</Badge>}
+              {onLeave && <Badge variant="neutral">{EMPLOYMENT_STATUS.ON_LEAVE}</Badge>}
             </div>
           </Card>
         )

@@ -145,10 +145,10 @@ function ErrorBubble({ msg, onRetry }) {
       <div style={{
         maxWidth: '70%', padding: 'var(--krds-space-6) var(--krds-space-7)',
         borderRadius: 'var(--krds-radius-large)',
-        border: '1px solid color-mix(in srgb, var(--narae-status-risk) 35%, transparent)',
-        background: 'color-mix(in srgb, var(--narae-status-risk) 6%, transparent)',
+        border: '1px solid var(--color-risk-border)',
+        background: 'var(--color-risk-bg)',
       }}>
-        <p style={{ margin: 0, fontWeight: 'var(--krds-weight-bold)', color: 'var(--narae-status-risk)' }}>
+        <p style={{ margin: 0, fontWeight: 'var(--krds-weight-bold)', color: 'var(--color-risk-text)' }}>
           ⚠️ 답변을 생성하지 못했습니다
         </p>
         <p style={{ margin: 'var(--krds-space-2) 0 0', fontSize: 'var(--krds-body-small)', color: 'var(--color-text-assistive,#6b7280)' }}>

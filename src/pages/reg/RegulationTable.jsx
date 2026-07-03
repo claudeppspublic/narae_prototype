@@ -43,7 +43,7 @@ export default function RegulationTable() {
     ...(canEdit ? [{ key: 'manage', header: '관리', width: 110, render: (r) => (
       <span style={{ display: 'flex', gap: 'var(--krds-space-5)' }}>
         <button onClick={() => toast(`${r.name} 수정 (mock)`, 'info')} style={miniBtn}>수정</button>
-        <button onClick={() => { setDeleted((s) => new Set(s).add(r.regulationId)); toast(`${r.name} 삭제됨 (mock)`, 'ok') }} style={{ ...miniBtn, color: 'var(--narae-status-risk)', borderColor: 'var(--narae-status-risk)' }}>삭제</button>
+        <button onClick={() => { setDeleted((s) => new Set(s).add(r.regulationId)); toast(`${r.name} 삭제됨 (mock)`, 'ok') }} style={{ ...miniBtn, color: 'var(--color-risk-text)', borderColor: 'var(--color-risk-border)' }}>삭제</button>
       </span>
     ) }] : []),
   ]

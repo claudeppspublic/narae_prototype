@@ -21,13 +21,16 @@ const DAY = 86400000
 const totalDays = Math.round((RANGE_END - RANGE_START) / DAY)
 const MONTHS = ['2026-01', '2026-02', '2026-03', '2026-04', '2026-05', '2026-06']
 
+// 상태색상정책 §3: 진행중·완료=초록 · 대기=회색 · 보류=노랑 · 지연=빨강 (-base: 그래픽 전용)
 const STATUS_COLOR = {
-  IN_PROGRESS: 'var(--narae-accent)',
-  COMPLETED: 'var(--narae-status-ok)',
-  PENDING: 'var(--color-text-assistive, #9ca3af)',
-  ON_HOLD: 'var(--narae-status-warn)',
-  DELAYED: 'var(--narae-status-risk)',
+  IN_PROGRESS: 'var(--color-ok-base)',
+  COMPLETED: 'var(--color-ok-base)',
+  PENDING: 'var(--color-neutral-base)',
+  ON_HOLD: 'var(--color-warn-base)',
+  DELAYED: 'var(--color-risk-base)',
 }
+// 지연 바 빗금 — 색 단독 금지(정책 §6), 기한 초과는 패턴 병행
+const DELAYED_STRIPES = 'repeating-linear-gradient(45deg, rgba(255,255,255,.45) 0 4px, transparent 4px 8px)'
 const pct = (date) => {
   const d = new Date(date)
   const clamped = Math.max(RANGE_START, Math.min(RANGE_END, d))
@@ -101,7 +104,7 @@ export default function WorkGantt() {
                       <div style={{ flex: 1, position: 'relative', height: 28 }}>
                         <button onClick={() => openTask(t.taskId)} title={`${t.taskNm} · ${t.progress}%`}
                           style={{ position: 'absolute', left: `${left}%`, width: `${width}%`, top: 4, height: 20, borderRadius: 'var(--krds-radius-small)', border: 'none', cursor: 'pointer', background: `color-mix(in srgb, ${STATUS_COLOR[t.status]} 30%, transparent)`, overflow: 'hidden', padding: 0 }}>
-                          <span style={{ position: 'absolute', inset: 0, width: `${t.progress}%`, background: STATUS_COLOR[t.status], borderRadius: 'var(--krds-radius-small)' }} />
+                          <span style={{ position: 'absolute', inset: 0, width: `${t.progress}%`, background: t.status === 'DELAYED' ? `${DELAYED_STRIPES}, var(--color-risk-base)` : STATUS_COLOR[t.status], borderRadius: 'var(--krds-radius-small)' }} />
                         </button>
                       </div>
                     </div>

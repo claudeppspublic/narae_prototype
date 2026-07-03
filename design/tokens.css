@@ -16,11 +16,33 @@
   --narae-role-manager: var(--color-light-primary-50);
   --narae-role-member: var(--color-light-success-50);
 
-  /* 상태 색상 (업무·리스크) */
-  --narae-status-ok: var(--color-light-success-50);
-  --narae-status-warn: var(--color-light-warning-50);
-  --narae-status-risk: var(--color-light-danger-50);
-  --narae-status-info: var(--color-light-information-50);
+  /* ── 상태 색상 4색 × 4단계 — UI/UX 상태색상정책서 v0.1 (docs/20260703) ──
+     -base: 그래픽(점·링·차트·게이지) 전용, 텍스트 금지 (warn-base는 대비 3.19:1)
+     -text: 텍스트·틴트 위 글자·솔리드 배지 배경(빨강·초록·회색만 — 노랑 솔리드 금지)
+     -bg:   틴트 배경 · -border: 배지/칩 테두리
+     KRDS 시스템 컬러 확정 시 값만 교체, 의미·매핑 불변 */
+  --color-risk-base: #DC2626;
+  --color-risk-text: #B91C1C;
+  --color-risk-bg: #FEF2F2;
+  --color-risk-border: #FCA5A5;
+  --color-warn-base: #D97706;
+  --color-warn-text: #B45309;
+  --color-warn-bg: #FFFBEB;
+  --color-warn-border: #FCD34D;
+  --color-ok-base: #16A34A;
+  --color-ok-text: #15803D;
+  --color-ok-bg: #F0FDF4;
+  --color-ok-border: #86EFAC;
+  --color-neutral-base: #6B7280;
+  --color-neutral-text: #4B5563;
+  --color-neutral-bg: #F3F4F6;
+  --color-neutral-border: #D1D5DB;
+
+  /* 레거시 별칭 — 그래픽 용도(-base)로 정렬. 신규 코드는 --color-{계열}-{용도} 사용 */
+  --narae-status-ok: var(--color-ok-base);
+  --narae-status-warn: var(--color-warn-base);
+  --narae-status-risk: var(--color-risk-base);
+  --narae-status-info: var(--color-neutral-base); /* 정책: '정보'는 회색(중립) */
 
   /* 초소형 캡션 — 캔버스 노드·배지·메타 텍스트 전용.
      KRDS 본문 최소 토큰(body-xsmall 13px) 미만의 유일한 허용 예외. */

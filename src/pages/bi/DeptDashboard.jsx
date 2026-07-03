@@ -64,7 +64,7 @@ export default function DeptDashboard() {
           <>
             {/* KPI */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 'var(--krds-space-6)', marginBottom: 'var(--krds-space-10)' }}>
-              <Kpi label="진행중" value={kpi.inProgress} tone="primary" />
+              <Kpi label="진행중" value={kpi.inProgress} tone="ok" />
               <Kpi label="지연·위험" value={kpi.delayed} tone="risk" />
               <Kpi label="일정 준수율" value={`${kpi.compliance}%`} tone={kpi.compliance >= 80 ? 'ok' : 'warn'} />
               <Kpi label="즉시 개입" value={kpi.critical} tone="risk" />
@@ -120,7 +120,8 @@ export default function DeptDashboard() {
 }
 
 function Kpi({ label, value, tone }) {
-  const color = { primary: 'var(--narae-accent)', ok: 'var(--narae-status-ok)', warn: 'var(--narae-status-warn)', risk: 'var(--narae-status-risk)' }[tone]
+  // KPI 값 텍스트 — 정책 §2.2: -text 단계만 사용
+  const color = { primary: 'var(--narae-accent)', ok: 'var(--color-ok-text)', warn: 'var(--color-warn-text)', risk: 'var(--color-risk-text)' }[tone]
   return (
     <Card>
       <div style={{ fontSize: 'var(--krds-body-small)', color: 'var(--color-text-assistive,#6b7280)' }}>{label}</div>

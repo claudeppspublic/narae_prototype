@@ -133,7 +133,8 @@ export default function ProjectRegister() {
                 <span style={{ flex: 1, fontWeight: 'var(--krds-weight-medium)' }}>{t.taskNm}</span>
                 <Badge variant="neutral">{t.taskType === 'REGULAR' ? '정기' : '수시'}</Badge>
                 <Badge variant="primary">{t.source}</Badge>
-                {t.confidence && <span style={{ fontSize: 'var(--krds-body-small)', color: t.confidence >= 80 ? 'var(--narae-status-ok)' : 'var(--narae-status-warn)' }}>신뢰도 {t.confidence}%</span>}
+                {/* [CONFIRM: BI 임계값(정책 §8) 확정 전 — 수치 기반 색 자동 결정 금지(§7)로 무채색 처리] */}
+                {t.confidence && <span style={{ fontSize: 'var(--krds-body-small)', color: 'var(--color-text-assistive)' }}>신뢰도 {t.confidence}%</span>}
               </div>
             ))}
             <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 'var(--krds-space-6)' }}>

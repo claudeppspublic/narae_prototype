@@ -148,11 +148,11 @@ export const REGULATION_CATEGORY = {
   ETC: '기타',
 }
 
-// 상태 KEY → 위험/뱃지 색 토큰 매핑 헬퍼
+// 상태 KEY → 그래픽(점·링·게이지) 색 토큰 — 상태색상정책 §2.2 -base 단계(텍스트 사용 금지)
 export const RISK_TOKEN = {
-  OK: 'var(--narae-status-ok)',
-  WARN: 'var(--narae-status-warn)',
-  RISK: 'var(--narae-status-risk)',
+  OK: 'var(--color-ok-base)',
+  WARN: 'var(--color-warn-base)',
+  RISK: 'var(--color-risk-base)',
 }
 
 export const label = (map, key) => map[key] ?? key

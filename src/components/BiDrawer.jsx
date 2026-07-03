@@ -7,9 +7,10 @@ import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell,
 } from 'recharts'
 
+// 지표 값 '텍스트' 색 — 상태색상정책 §2.2: 텍스트는 -text 단계만(-base 금지)
 const TONE = {
-  ok: 'var(--narae-status-ok)', warn: 'var(--narae-status-warn)',
-  risk: 'var(--narae-status-risk)', primary: 'var(--narae-accent)',
+  ok: 'var(--color-ok-text)', warn: 'var(--color-warn-text)',
+  risk: 'var(--color-risk-text)', primary: 'var(--narae-accent)',
   neutral: 'var(--color-text-basic)',
 }
 

@@ -89,7 +89,7 @@ export default function Login() {
             />
 
             {authError && (
-              <p role="alert" style={{ color: 'var(--narae-status-risk)', fontSize: 'var(--krds-body-small)', margin: 0 }}>
+              <p role="alert" style={{ color: 'var(--color-risk-text)', fontSize: 'var(--krds-body-small)', margin: 0 }}>
                 {authError}
               </p>
             )}

@@ -14,9 +14,10 @@ import WorkViewToggle from '@/components/WorkViewToggle'
 import { AsyncView } from '@/components/StateViews'
 import WorkDetailDrawer from '@/components/WorkDetailDrawer'
 
+// 상태색상정책 §3: 진행중·완료=초록 · 대기=회색 · 보류=노랑 · 지연=빨강 (-base: 그래픽 전용)
 const STATUS_COLOR = {
-  IN_PROGRESS: 'var(--narae-accent)', COMPLETED: 'var(--narae-status-ok)', PENDING: 'var(--color-text-assistive)',
-  ON_HOLD: 'var(--narae-status-warn)', DELAYED: 'var(--narae-status-risk)',
+  IN_PROGRESS: 'var(--color-ok-base)', COMPLETED: 'var(--color-ok-base)', PENDING: 'var(--color-neutral-base)',
+  ON_HOLD: 'var(--color-warn-base)', DELAYED: 'var(--color-risk-base)',
 }
 
 export default function WorkCalendar() {

@@ -57,7 +57,7 @@ export default function GoalSetting() {
                             <b>{kr.progress}%</b>
                           </div>
                           <div style={{ height: 5, background: 'var(--color-border-basic,#e5e7eb)', borderRadius: 4 }}>
-                            <div style={{ width: `${kr.progress}%`, height: 5, background: 'var(--narae-status-ok)', borderRadius: 4 }} />
+                            <div style={{ width: `${kr.progress}%`, height: 5, background: 'var(--narae-accent)', borderRadius: 4 }} />
                           </div>
                           <div style={{ marginTop: 'var(--krds-space-3)', fontSize: 'var(--krds-body-small)', color: 'var(--color-text-assistive,#9ca3af)' }}>
                             연결 업무 {kr.linkedTaskIds?.length ?? 0}건

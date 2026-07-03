@@ -221,7 +221,8 @@ export default function OrgWorkBoard() {
   )
 }
 
-const STEP_COLOR = { COMPLETED: 'var(--narae-status-ok)', IN_PROGRESS: 'var(--narae-accent)', PENDING: 'var(--color-border-basic,#cbd5e1)' }
+// 상태색상정책: 단계 상태 완료·진행=초록, 대기=회색(라벨 텍스트로 구분)
+const STEP_COLOR = { COMPLETED: 'var(--color-ok-base)', IN_PROGRESS: 'var(--color-ok-base)', PENDING: 'var(--color-neutral-border)' }
 
 /* 부속 */
 function Column({ icon, title, children, hint }) {

@@ -45,7 +45,7 @@ export default function Report() {
         <h2 style={{ fontSize: 'var(--krds-heading-small)', fontWeight: 'var(--krds-weight-bold)', margin: '0 0 var(--krds-space-6)' }}>{label} 업무 추진 현황 보고</h2>
         <ul style={{ lineHeight: 2, paddingLeft: 'var(--krds-space-8)' }}>
           <li>총 관리 업무: <b>{stats.total}건</b></li>
-          <li>완료: <b>{stats.done}건</b> · 지연·위험: <b style={{ color: 'var(--narae-status-risk)' }}>{stats.delayed}건</b></li>
+          <li>완료: <b>{stats.done}건</b> · 지연·위험: <b style={{ color: 'var(--color-risk-text)' }}>{stats.delayed}건</b></li>
           <li>주요 리스크: 디지털 예산관리 시스템 구축 지연, AI 민원처리 담당자 과부하</li>
           <li>{label} 중점 추진 사항 및 다음 기간 계획 (mock 요약)</li>
         </ul>
@@ -54,7 +54,7 @@ export default function Report() {
       {/* 발송 (승인 HITL) */}
       <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 'var(--krds-space-5)', alignItems: 'center' }}>
         {!canSend && <span style={{ fontSize: 'var(--krds-body-small)', color: 'var(--color-text-assistive,#9ca3af)' }}>발송은 과장+ 권한이 필요합니다</span>}
-        {sent ? <span style={{ color: 'var(--narae-status-ok)', fontWeight: 'var(--krds-weight-bold)' }}>✓ 발송 완료</span>
+        {sent ? <span style={{ color: 'var(--color-ok-text)', fontWeight: 'var(--krds-weight-bold)' }}>✓ 발송 완료</span>
           : <Button size="md" onClick={() => setConfirm(true)} disabled={!canSend}>발송</Button>}
       </div>
 

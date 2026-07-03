@@ -14,9 +14,10 @@ import { regulationsOfStep } from '@/mock/regulations'
 import { approvalLinesOf } from '@/mock/approvalLines'
 import { goalsForTask } from '@/mock/goals'
 import { subTasksOf } from '@/mock/subTasks'
-import { TASK_STATUS, PROCESS_STEP, RISK_GRADE, APPROVAL_ROLE, PRIORITY_LEVEL, SECURITY_LEVEL } from '@/lib/codes'
+import { TASK_STATUS, PROCESS_STEP, RISK_GRADE, APPROVAL_ROLE, PRIORITY_LEVEL, SECURITY_LEVEL, RISK_TOKEN } from '@/lib/codes'
 
-const STEP_COLOR = { COMPLETED: 'var(--narae-status-ok)', IN_PROGRESS: 'var(--narae-accent)', PENDING: 'var(--color-border-basic)' }
+// 상태색상정책: 단계 상태 완료·진행=초록, 대기=회색(라벨 텍스트로 구분 — 색 단독 금지 원칙)
+const STEP_COLOR = { COMPLETED: 'var(--color-ok-base)', IN_PROGRESS: 'var(--color-ok-base)', PENDING: 'var(--color-neutral-border)' }
 const COMMENTS = [
   { who: '강현우', when: '2일 전', text: '진척이 계획 대비 다소 지연되고 있습니다. 리소스 보강 검토 필요.' },
   { who: '조하은', when: '1일 전', text: '하위 업무 재분배로 일정 조정하겠습니다.' },
@@ -68,7 +69,8 @@ export default function WorkDetailDrawer({ taskId, open, onClose }) {
           <span style={{ marginLeft: 'auto', fontWeight: 'var(--krds-weight-bold)', color: 'var(--narae-accent)' }}>{task.progress}%</span>
         </div>
         <div style={{ height: 8, background: 'var(--color-border-basic,#e5e7eb)', borderRadius: 4, marginBottom: 'var(--krds-space-7)' }}>
-          <div style={{ width: `${task.progress}%`, height: 8, background: 'var(--narae-status-ok)', borderRadius: 4 }} />
+          {/* 게이지 채움 = 연동 상태(riskGrade) 파생 — 정책 §4 */}
+          <div style={{ width: `${task.progress}%`, height: 8, background: RISK_TOKEN[task.riskGrade] ?? 'var(--color-neutral-base)', borderRadius: 4 }} />
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--krds-space-6)' }}>
           <OverviewItem label="담당자"><Badge variant="primary">{task.assigneeNm}</Badge></OverviewItem>
@@ -191,7 +193,7 @@ function Evaluation() {
           <div key={k}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 3 }}><span>{k}</span><b>{v}점</b></div>
             <div style={{ height: 7, background: 'var(--color-border-basic,#e5e7eb)', borderRadius: 4 }}>
-              <div style={{ width: `${v}%`, height: 7, background: 'var(--narae-status-ok)', borderRadius: 4 }} />
+              <div style={{ width: `${v}%`, height: 7, background: 'var(--narae-accent)', borderRadius: 4 }} />
             </div>
           </div>
         ))}
@@ -252,5 +254,5 @@ const arrow = { padding: '0 var(--krds-space-4)', color: 'var(--color-text-assis
 const flowCard = { flexShrink: 0, minWidth: 118, padding: 'var(--krds-space-6)', borderRadius: 'var(--krds-radius-medium)', border: '1.5px solid var(--color-border-basic,#e5e7eb)', background: 'var(--color-background-white)', textAlign: 'center' }
 const metaSm = { fontSize: 'var(--narae-caption)', color: 'var(--color-text-assistive,#9ca3af)' }
 const rowCard = { display: 'flex', alignItems: 'center', gap: 'var(--krds-space-6)', padding: 'var(--krds-space-6) var(--krds-space-7)', border: '1px solid var(--color-border-basic,#e5e7eb)', borderRadius: 'var(--krds-radius-medium)' }
-const riskBox = { padding: 'var(--krds-space-7)', borderRadius: 'var(--krds-radius-medium)', background: 'color-mix(in srgb, var(--narae-status-warn) 10%, transparent)', fontSize: 'var(--krds-body-medium)', lineHeight: 1.6 }
+const riskBox = { padding: 'var(--krds-space-7)', borderRadius: 'var(--krds-radius-medium)', background: 'var(--color-warn-bg)', border: '1px solid var(--color-warn-border)', fontSize: 'var(--krds-body-medium)', lineHeight: 1.6 }
 const primaryBtn = { height: 'var(--krds-control-small)', padding: '0 var(--krds-space-10)', border: 'none', cursor: 'pointer', borderRadius: 'var(--krds-radius-medium)', background: 'var(--narae-accent)', color: '#fff', fontWeight: 'var(--krds-weight-bold)' }

@@ -28,3 +28,11 @@ export const notifications = [
 ]
 
 export const unreadCount = () => notifications.filter((n) => !n.read).length
+
+// 벨 배지 롤업 — 상태색상정책 §4 알림: 미읽음 중 리스크 존재→risk, 결재만→warn, 그 외→neutral
+export const unreadSeverity = () => {
+  const unread = notifications.filter((n) => !n.read)
+  if (unread.some((n) => n.category === '리스크')) return 'risk'
+  if (unread.some((n) => n.category === '결재')) return 'warn'
+  return 'neutral'
+}

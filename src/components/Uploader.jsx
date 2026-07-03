@@ -52,7 +52,7 @@ export default function Uploader({ hint = 'PDF · HWP · DOCX · XLSX · 최대 
           onChange={(e) => handle(e.target.files)} />
       </div>
       {error && (
-        <p role="alert" style={{ marginTop: 'var(--krds-space-4)', color: 'var(--narae-status-risk)', fontSize: 'var(--krds-body-small)' }}>
+        <p role="alert" style={{ marginTop: 'var(--krds-space-4)', color: 'var(--color-risk-text)', fontSize: 'var(--krds-body-small)' }}>
           {error}
         </p>
       )}

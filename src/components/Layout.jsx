@@ -9,7 +9,14 @@ import AiAssistantPanel from '@/components/AiAssistantPanel'
 import { useRoleStore } from '@/store/useRoleStore'
 import { useUiStore } from '@/store/useUiStore'
 import { ROLE } from '@/lib/codes'
-import { unreadCount } from '@/mock/notifications'
+import { unreadCount, unreadSeverity } from '@/mock/notifications'
+
+// 벨 배지 롤업 색 — 상태색상정책 §4: 노랑은 솔리드 금지 → 틴트(-bg/-text) 사용
+const BELL_TONE = {
+  risk: { bg: 'var(--color-risk-text)', fg: '#fff' },
+  warn: { bg: 'var(--color-warn-bg)', fg: 'var(--color-warn-text)' },
+  neutral: { bg: 'var(--color-neutral-text)', fg: '#fff' },
+}
 
 const ROLE_OPTIONS = ['ROLE_ADMIN', 'ROLE_DIR', 'ROLE_CHF', 'ROLE_TML', 'ROLE_STF']
 
@@ -85,10 +92,14 @@ export default function Layout() {
             style={aiInput}
           />
 
-          {/* CM02-03 알림 벨 → RB-02 */}
+          {/* CM02-03 알림 벨 → RB-02. 배지 색=미읽음 최고 심각도 롤업 */}
           <button aria-label="알림" onClick={() => navigate('/bi/risk')} style={iconBtn}>
             <span aria-hidden>🔔</span>
-            {unread > 0 && <span style={badgeDot}>{unread}</span>}
+            {unread > 0 && (
+              <span style={{ ...badgeDot, background: BELL_TONE[unreadSeverity()].bg, color: BELL_TONE[unreadSeverity()].fg }}>
+                {unread}
+              </span>
+            )}
           </button>
 
           {/* CM02-04 프로필 드롭다운 */}
@@ -155,7 +166,7 @@ const iconBtn = {
 }
 const badgeDot = {
   position: 'absolute', top: 2, right: 0, minWidth: '1rem', height: '1rem', padding: '0 3px',
-  borderRadius: 'var(--krds-radius-pill)', background: 'var(--narae-status-risk)', color: '#fff',
+  borderRadius: 'var(--krds-radius-pill)',
   fontSize: 'var(--narae-caption)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700,
 }
 const menu = {
