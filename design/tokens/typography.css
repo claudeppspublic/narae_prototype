@@ -1,0 +1,65 @@
+/* KRDS typography — px-ready convenience tokens + utility classes.
+   The raw Figma type scale lives (unitless) in fig-tokens.css; these are the
+   desktop px values components and specimens consume directly.
+   Scale axes: Display, Heading, Title(=Heading aliases), Body, Label, Link, Code. */
+
+:root {
+  --krds-font-sans: "Pretendard GOV", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+
+  /* Font weights (KRDS uses Regular 400 + Bold 700 as the working pair) */
+  --krds-weight-regular: 400;
+  --krds-weight-medium: 500;
+  --krds-weight-bold: 700;
+
+  /* Display — marketing / hero */
+  --krds-display-large: 60px;
+  --krds-display-medium: 44px;
+  --krds-display-small: 36px;
+
+  /* Heading */
+  --krds-heading-xlarge: 40px;
+  --krds-heading-large: 32px;
+  --krds-heading-medium: 24px;
+  --krds-heading-small: 19px;
+  --krds-heading-xsmall: 17px;
+  --krds-heading-xxsmall: 15px;
+
+  /* Body */
+  --krds-body-large: 19px;
+  --krds-body-medium: 17px;
+  --krds-body-small: 15px;
+  --krds-body-xsmall: 13px;
+
+  /* Label / UI */
+  --krds-label-large: 19px;
+  --krds-label-medium: 17px;
+  --krds-label-small: 15px;
+  --krds-label-xsmall: 13px;
+
+  /* Line heights */
+  --krds-lh-display: 1.3; /* @kind other */
+  --krds-lh-heading: 1.4; /* @kind other */
+  --krds-lh-body: 1.5; /* @kind other */
+  --krds-lh-tight: 1.35; /* @kind other */
+}
+
+/* ── Utility classes ───────────────────────────────────────────── */
+.krds-display-l { font: var(--krds-weight-bold) var(--krds-display-large)/var(--krds-lh-display) var(--krds-font-sans); letter-spacing: -0.02em; }
+.krds-display-m { font: var(--krds-weight-bold) var(--krds-display-medium)/var(--krds-lh-display) var(--krds-font-sans); letter-spacing: -0.02em; }
+.krds-display-s { font: var(--krds-weight-bold) var(--krds-display-small)/var(--krds-lh-display) var(--krds-font-sans); letter-spacing: -0.01em; }
+
+.krds-heading-xl { font: var(--krds-weight-bold) var(--krds-heading-xlarge)/var(--krds-lh-heading) var(--krds-font-sans); letter-spacing: -0.01em; }
+.krds-heading-l  { font: var(--krds-weight-bold) var(--krds-heading-large)/var(--krds-lh-heading) var(--krds-font-sans); letter-spacing: -0.01em; }
+.krds-heading-m  { font: var(--krds-weight-bold) var(--krds-heading-medium)/var(--krds-lh-heading) var(--krds-font-sans); }
+.krds-heading-s  { font: var(--krds-weight-bold) var(--krds-heading-small)/var(--krds-lh-heading) var(--krds-font-sans); }
+.krds-heading-xs { font: var(--krds-weight-bold) var(--krds-heading-xsmall)/var(--krds-lh-heading) var(--krds-font-sans); }
+
+.krds-body-l  { font: var(--krds-weight-regular) var(--krds-body-large)/var(--krds-lh-body) var(--krds-font-sans); }
+.krds-body-m  { font: var(--krds-weight-regular) var(--krds-body-medium)/var(--krds-lh-body) var(--krds-font-sans); }
+.krds-body-s  { font: var(--krds-weight-regular) var(--krds-body-small)/var(--krds-lh-body) var(--krds-font-sans); }
+.krds-body-xs { font: var(--krds-weight-regular) var(--krds-body-xsmall)/var(--krds-lh-body) var(--krds-font-sans); }
+
+.krds-label-l  { font: var(--krds-weight-bold) var(--krds-label-large)/var(--krds-lh-body) var(--krds-font-sans); }
+.krds-label-m  { font: var(--krds-weight-bold) var(--krds-label-medium)/var(--krds-lh-body) var(--krds-font-sans); }
+.krds-label-s  { font: var(--krds-weight-bold) var(--krds-label-small)/var(--krds-lh-body) var(--krds-font-sans); }

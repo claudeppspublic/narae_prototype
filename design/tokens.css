@@ -1,0 +1,39 @@
+/*
+ * 나래 AI 프로토타입 — 프로젝트 커스텀 토큰
+ *
+ * KRDS 기본 토큰(fig-tokens, fonts, typography 등)은 main.jsx에서 개별 import.
+ * 이 파일은 나래 프로젝트 고유 변수만 정의.
+ */
+
+:root {
+  /* 기조: 정부 블루 헤더(GNB) + 정부 블루 강조 */
+  --narae-header-bg: var(--color-light-primary-50, #2456E6);
+  --narae-header-text: #FFFFFF;
+  --narae-accent: var(--color-light-primary-50, #2456E6);
+
+  /* 역할 뱃지 색상 */
+  --narae-role-admin: var(--color-light-danger-50);
+  --narae-role-manager: var(--color-light-primary-50);
+  --narae-role-member: var(--color-light-success-50);
+
+  /* 상태 색상 (업무·리스크) */
+  --narae-status-ok: var(--color-light-success-50);
+  --narae-status-warn: var(--color-light-warning-50);
+  --narae-status-risk: var(--color-light-danger-50);
+  --narae-status-info: var(--color-light-information-50);
+
+  /* 초소형 캡션 — 캔버스 노드·배지·메타 텍스트 전용.
+     KRDS 본문 최소 토큰(body-xsmall 13px) 미만의 유일한 허용 예외. */
+  --narae-caption: 12px;
+
+  /* 시맨틱 색 별칭 — fig-tokens에 없는 3종 보강 (KRDS 그레이 스케일 매핑).
+     정의 전에는 컴포넌트별 인라인 폴백 hex가 그대로 렌더링되어 drift가 있었다. */
+  --color-text-assistive: var(--color-light-gray-50);        /* #6d7882, 흰 배경 대비 4.9:1 */
+  --color-border-basic: var(--color-light-gray-10);          /* #e6e8ea */
+  --color-background-alternative: var(--color-light-gray-5); /* #f4f5f6 */
+
+  /* Drawer 폭 스케일 — rem/px 혼재하던 4개 드로어 통일 */
+  --narae-drawer-sm: 480px;  /* AI 어시스턴트 패널 */
+  --narae-drawer-md: 640px;  /* BI Drawer */
+  --narae-drawer-lg: 760px;  /* 업무 상세 등 기본 Drawer */
+}
