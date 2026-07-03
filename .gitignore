@@ -1,0 +1,17 @@
+# 의존성·빌드 산출물
+node_modules/
+dist/
+
+# 로컬 환경
+.env
+.env.*.local
+*.local
+
+# 로그·OS 잡파일
+npm-debug.log*
+.DS_Store
+Thumbs.db
+
+# 에디터
+.vscode/
+.idea/
