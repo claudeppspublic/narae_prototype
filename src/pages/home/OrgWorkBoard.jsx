@@ -244,8 +244,9 @@ export default function OrgWorkBoard() {
         </aside>
       </div>
 
-      {/* 오버레이 목표관리 BI Drawer (조직/실무자/업무 단위) */}
-      <BiDrawer open={!!biNode} node={biNode} onClose={() => setBiNode(null)} />
+      {/* 오버레이 목표관리 BI Drawer (조직/실무자/업무 단위) — INT-CM03-14: [결재 상세 보기]→WF-02 */}
+      <BiDrawer open={!!biNode} node={biNode} onClose={() => setBiNode(null)}
+        onApprovalDetail={(tid) => { setBiNode(null); setDrawerTaskId(tid) }} />
       {/* 업무 상세(WF-02) Drawer — 워크플로우 단계 클릭 시 */}
       <WorkDetailDrawer taskId={drawerTaskId} open={!!drawerTaskId} onClose={() => setDrawerTaskId(null)} />
     </div>
