@@ -68,6 +68,14 @@ src/
   App.jsx               ← 라우팅 + 레이아웃
 ```
 
+## 결재→BI→보고서 흐름 구현 규칙 (REF-23)
+- 구현 순서: Phase 0 mock → WF-02(INT-11~14) → CM-03(INT-13~15) → RB-01(INT-03~05) → RB-03(INT-04~05). 작업지시서(구현작업지시서_결재BI보고서흐름) 순서 준수.
+- 결재상태 enum = DRAFTING/APPROVING/APPROVED/REJECTED (codes.js). REJECTED=--color-risk-*, APPROVING=warn 틴트. 임의 상태 추가 금지.
+- APPROVAL_LINE 확장 키(approvalStatus/decidedAt/dueAt/elapsedDays/rejectReason/delegation)는 작업지시서 §4.1과 정확 일치.
+- 결재·BI·문제 관련 모든 뷰 상단에 ✦ AI 요약 1–2줄 상시(AI_SUMMARY mock·tone별 --color-*-text). 빈 배너 금지.
+- BI B1~B9 수치는 시연용 mock — 상호 정합성 검증하지 말 것. 단 B3 행은 실존 taskId 매핑(drill).
+- 빨강=문제 전용. 순수 진행률에 risk/warn 금지(DEF-05).
+
 ## 명령어
 ```bash
 npm run dev      # 개발 서버 (localhost:5173)
