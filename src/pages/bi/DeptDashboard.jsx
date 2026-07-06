@@ -83,6 +83,10 @@ export default function DeptDashboard() {
         <h1 style={{ fontSize: 'var(--krds-heading-medium)', fontWeight: 'var(--krds-weight-bold)', margin: 0 }}>부서 대시보드</h1>
         <span style={{ display: 'flex', alignItems: 'center', gap: 'var(--krds-space-7)', fontSize: 'var(--krds-body-small)', color: 'var(--color-text-assistive,#6b7280)' }}>
           <span>조회 범위: <b style={{ color: 'var(--narae-accent)' }}>{ROLE[role]}</b> (상단 역할 토글로 전환)</span>
+          {/* INT-RB01-05 — 현재 BI 스냅샷(biSnapshot mock)을 RB-03 초안에 전달(from=bi) */}
+          <button data-testid="rb01-05" onClick={() => navigate('/bi/report?from=bi')} style={reportBtn}>
+            보고서 작성
+          </button>
         </span>
       </div>
 
