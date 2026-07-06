@@ -11,7 +11,7 @@ import AiSummaryBanner from '@/components/AiSummaryBanner'
 import ApprovalTimeline from '@/components/ApprovalTimeline'
 import { useUiStore } from '@/store/useUiStore'
 import { useApprovalStore, effectiveLinesOf } from '@/store/useApprovalStore'
-import { taskApprovalStatus } from '@/lib/approval'
+import { taskApprovalStatus, lineDelayDays } from '@/lib/approval'
 import { findTask } from '@/mock/tasks'
 import { stepsOf } from '@/mock/steps'
 import { regulationsOfStep } from '@/mock/regulations'
@@ -115,6 +115,8 @@ export default function WorkDetailDrawer({ taskId, open, onClose }) {
             <AiSummaryBanner screen="wf02" contextType="task" contextId={task.taskId}
               style={{ marginBottom: 'var(--krds-space-7)' }} />
             <Workflow steps={steps} approvals={approvals} subtasks={subtasks} />
+            {/* INT-WF02-13 ④ 하단 CTA — 지연·반려 존재 시 [BI로 원인 분석] risk 강조 (이동은 INT-WF02-14) */}
+            <CtaBar approvals={approvals} />
           </>
         )}
         {tab === 'regulations' && <Regulations items={linkedRegs} />}
@@ -132,6 +134,20 @@ function OverviewItem({ label, children, full }) {
     <div style={{ gridColumn: full ? '1 / -1' : undefined }}>
       <div style={{ fontSize: 'var(--krds-body-small)', color: 'var(--color-text-assistive,#6b7280)', marginBottom: 2 }}>{label}</div>
       <div style={{ fontWeight: 'var(--krds-weight-medium)' }}>{children}</div>
+    </div>
+  )
+}
+
+// 워크플로우 탭 하단 CTA — INT-WF02-13(강조)·14(이동). 문제(지연/반려) 존재 시 BI CTA risk 강조.
+function CtaBar({ approvals, onBi, onReport }) {
+  const hasProblem = approvals.some((l) => l.approvalStatus === 'REJECTED' || lineDelayDays(l) > 0)
+  return (
+    <div data-testid="wf02-13" style={{ display: 'flex', gap: 'var(--krds-space-5)', paddingTop: 'var(--krds-space-6)', borderTop: '1px solid var(--color-border-basic,#eef0f2)' }}>
+      <button data-testid="wf02-14" onClick={onBi}
+        style={{ ...ctaBtn, ...(hasProblem ? ctaRisk : {}) }}>
+        {hasProblem ? '⚠ BI로 원인 분석' : 'BI로 원인 분석'}
+      </button>
+      <button onClick={onReport} style={ctaBtn}>보고서 작성</button>
     </div>
   )
 }
@@ -158,9 +174,9 @@ function Workflow({ steps, approvals, subtasks }) {
       </div>
 
       <div>
-        {/* INT-WF02-11 ③ 결재선 타임라인(기안→검토→승인·상태색) — 지연 판정은 INT-WF02-13에서 활성화 */}
+        {/* INT-WF02-11 ③ 결재선 타임라인 · INT-WF02-13 지연 판정(dueAt 경과/평균 초과→risk·"+n일") */}
         <div style={flowLabel}>결재 과정</div>
-        <ApprovalTimeline lines={approvals} delayCheck={false} />
+        <ApprovalTimeline lines={approvals} />
       </div>
 
       {subtasks.length > 0 && (
@@ -269,3 +285,13 @@ const rowCard = { display: 'flex', alignItems: 'center', gap: 'var(--krds-space-
 const riskBox = { padding: 'var(--krds-space-7)', borderRadius: 'var(--krds-radius-medium)', background: 'var(--color-warn-bg)', border: '1px solid var(--color-warn-border)', fontSize: 'var(--krds-body-medium)', lineHeight: 1.6 }
 const primaryBtn = { height: 'var(--krds-control-small)', padding: '0 var(--krds-space-10)', border: 'none', cursor: 'pointer', borderRadius: 'var(--krds-radius-medium)', background: 'var(--narae-accent)', color: '#fff', fontWeight: 'var(--krds-weight-bold)' }
 const disabledBtn = { background: 'var(--color-neutral-bg)', color: 'var(--color-neutral-text)', cursor: 'not-allowed' }
+// CTA 버튼 — 기본(neutral 외곽)·문제 시 risk 강조(INT-WF02-13)
+const ctaBtn = {
+  height: 'var(--krds-control-small)', padding: '0 var(--krds-space-8)', cursor: 'pointer',
+  borderRadius: 'var(--krds-radius-medium)', border: '1px solid var(--color-border-basic,#e5e7eb)',
+  background: 'var(--color-background-white)', color: 'var(--color-text-basic)',
+  fontSize: 'var(--krds-body-small)', fontWeight: 'var(--krds-weight-bold)',
+}
+const ctaRisk = {
+  border: '1.5px solid var(--color-risk-border)', background: 'var(--color-risk-bg)', color: 'var(--color-risk-text)',
+}
