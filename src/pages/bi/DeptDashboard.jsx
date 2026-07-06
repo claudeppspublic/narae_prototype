@@ -20,6 +20,8 @@ import { SegToggle } from '@/components/Tabs'
 import { AsyncView } from '@/components/StateViews'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 import B1 from './widgets/B1'
+import B2 from './widgets/B2'
+import B3 from './widgets/B3'
 
 // 기간 스코프 라벨 — 진입 컨텍스트(period) 표시·전환. REF-23 §4.4가 위젯별 단일 시드를
 // 정의하므로 기간별 시드 전환은 미구현. [CONFIRM: 기간별 시드(REF-22 §7-4)]
@@ -97,6 +99,8 @@ export default function DeptDashboard() {
             <h3 style={{ ...chartTitle, marginBottom: 'var(--krds-space-6)' }}>결재 프로세스 BI</h3>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--krds-space-8)', marginBottom: 'var(--krds-space-10)' }}>
               <B1 />
+              <B2 />
+              <B3 />
             </div>
 
             {/* KPI */}
