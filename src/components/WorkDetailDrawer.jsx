@@ -3,6 +3,7 @@
 // 워크플로우=진행단계+결재선 타임라인(INT-WF02-11)+AI 요약 배너 · 결재 상신 버튼 · WF02-03/04/05/07/11
 // [CONFIRM] 평가·보고서 탭은 mock (기획확인 대상)
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Drawer from '@/components/Drawer'
 import Tabs from '@/components/Tabs'
 import Badge, { StatusBadge, RiskBadge } from '@/components/Badge'
@@ -13,6 +14,7 @@ import { useUiStore } from '@/store/useUiStore'
 import { useApprovalStore, effectiveLinesOf } from '@/store/useApprovalStore'
 import { taskApprovalStatus, lineDelayDays } from '@/lib/approval'
 import { findTask } from '@/mock/tasks'
+import { findUser } from '@/mock/users'
 import { stepsOf } from '@/mock/steps'
 import { regulationsOfStep } from '@/mock/regulations'
 import { goalsForTask } from '@/mock/goals'
@@ -29,6 +31,7 @@ const COMMENTS = [
 
 export default function WorkDetailDrawer({ taskId, open, onClose }) {
   const toast = useUiStore((s) => s.toast)
+  const navigate = useNavigate()
   const submitted = useApprovalStore((s) => s.submitted)
   const submit = useApprovalStore((s) => s.submit)
   const baseTask = taskId ? findTask(taskId) : null
@@ -53,6 +56,12 @@ export default function WorkDetailDrawer({ taskId, open, onClose }) {
   }
   const submitDisabled = approvalState === 'APPROVING' || approvalState === 'APPROVED'
   const submitLabel = approvalState === 'REJECTED' ? '재상신' : '결재 상신'
+
+  // INT-WF02-14: [BI로 원인 분석] → RB-01 컨텍스트 이동(taskId·orgUnitId·period). Drawer 닫고 이동.
+  const orgUnitId = findUser(task.assigneeId)?.orgUnitId ?? ''
+  const goBi = () => { onClose?.(); navigate(`/bi/dashboard?taskId=${task.taskId}&orgUnitId=${orgUnitId}&period=weekly`) }
+  // [보고서 작성] — RB-03 이동(초안 자동생성 연계는 INT-RB03-04, Phase 4)
+  const goReport = () => { onClose?.(); navigate(`/bi/report?taskId=${task.taskId}`) }
 
   const tabs = [
     { key: 'workflow', label: '워크플로우' },
@@ -115,8 +124,8 @@ export default function WorkDetailDrawer({ taskId, open, onClose }) {
             <AiSummaryBanner screen="wf02" contextType="task" contextId={task.taskId}
               style={{ marginBottom: 'var(--krds-space-7)' }} />
             <Workflow steps={steps} approvals={approvals} subtasks={subtasks} />
-            {/* INT-WF02-13 ④ 하단 CTA — 지연·반려 존재 시 [BI로 원인 분석] risk 강조 (이동은 INT-WF02-14) */}
-            <CtaBar approvals={approvals} />
+            {/* INT-WF02-13 ④ 하단 CTA(문제 시 risk 강조) · INT-WF02-14 RB-01 컨텍스트 이동 */}
+            <CtaBar approvals={approvals} onBi={goBi} onReport={goReport} />
           </>
         )}
         {tab === 'regulations' && <Regulations items={linkedRegs} />}
