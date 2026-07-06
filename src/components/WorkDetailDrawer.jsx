@@ -10,10 +10,11 @@ import { EmptyState } from '@/components/StateViews'
 import AiSummaryBanner from '@/components/AiSummaryBanner'
 import ApprovalTimeline from '@/components/ApprovalTimeline'
 import { useUiStore } from '@/store/useUiStore'
+import { useApprovalStore, effectiveLinesOf } from '@/store/useApprovalStore'
+import { taskApprovalStatus } from '@/lib/approval'
 import { findTask } from '@/mock/tasks'
 import { stepsOf } from '@/mock/steps'
 import { regulationsOfStep } from '@/mock/regulations'
-import { approvalLinesOf } from '@/mock/approvalLines'
 import { goalsForTask } from '@/mock/goals'
 import { subTasksOf } from '@/mock/subTasks'
 import { TASK_STATUS, PROCESS_STEP, RISK_GRADE, PRIORITY_LEVEL, SECURITY_LEVEL, RISK_TOKEN } from '@/lib/codes'
@@ -28,6 +29,8 @@ const COMMENTS = [
 
 export default function WorkDetailDrawer({ taskId, open, onClose }) {
   const toast = useUiStore((s) => s.toast)
+  const submitted = useApprovalStore((s) => s.submitted)
+  const submit = useApprovalStore((s) => s.submit)
   const baseTask = taskId ? findTask(taskId) : null
   const [tab, setTab] = useState('workflow')
 
@@ -36,12 +39,20 @@ export default function WorkDetailDrawer({ taskId, open, onClose }) {
   if (!baseTask) return null
   const task = baseTask
   const steps = stepsOf(task.projectId)
-  const approvals = approvalLinesOf(task.taskId)
+  // INT-WF02-12: 상신 오버레이 반영 결재선 (store 동기 → 타임라인·배지 즉시 갱신)
+  const approvals = effectiveLinesOf(task.taskId, submitted)
   const subtasks = subTasksOf(task.taskId)
   const goals = goalsForTask(task.taskId)
   const linkedRegs = steps.flatMap((s) => regulationsOfStep(s.stepId))
 
-  const submitApproval = () => toast('결재가 상신되었습니다 (mock)', 'ok')
+  // INT-WF02-12 전이: DRAFTING→상신 가능 · APPROVING/APPROVED→비활성 · REJECTED→'재상신'(전이는 [CONFIRM])
+  const approvalState = taskApprovalStatus(approvals)
+  const submitApproval = () => {
+    if (approvalState === 'DRAFTING' && approvals.length > 0) submit(task.taskId)
+    toast(approvalState === 'REJECTED' ? '재상신되었습니다 (mock)' : '결재가 상신되었습니다 (mock)', 'ok')
+  }
+  const submitDisabled = approvalState === 'APPROVING' || approvalState === 'APPROVED'
+  const submitLabel = approvalState === 'REJECTED' ? '재상신' : '결재 상신'
 
   const tabs = [
     { key: 'workflow', label: '워크플로우' },
@@ -56,7 +67,11 @@ export default function WorkDetailDrawer({ taskId, open, onClose }) {
     <Drawer open={open} onClose={onClose} title={task.taskNm} width="var(--narae-drawer-lg)"
       footer={
         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <button onClick={submitApproval} style={primaryBtn}>결재 상신</button>
+          <button data-testid="wf02-12" onClick={submitApproval} disabled={submitDisabled}
+            title={submitDisabled ? '결재가 이미 진행·완료된 업무입니다' : undefined}
+            style={{ ...primaryBtn, ...(submitDisabled ? disabledBtn : {}) }}>
+            {submitLabel}
+          </button>
         </div>
       }
     >
@@ -253,3 +268,4 @@ const metaSm = { fontSize: 'var(--narae-caption)', color: 'var(--color-text-assi
 const rowCard = { display: 'flex', alignItems: 'center', gap: 'var(--krds-space-6)', padding: 'var(--krds-space-6) var(--krds-space-7)', border: '1px solid var(--color-border-basic,#e5e7eb)', borderRadius: 'var(--krds-radius-medium)' }
 const riskBox = { padding: 'var(--krds-space-7)', borderRadius: 'var(--krds-radius-medium)', background: 'var(--color-warn-bg)', border: '1px solid var(--color-warn-border)', fontSize: 'var(--krds-body-medium)', lineHeight: 1.6 }
 const primaryBtn = { height: 'var(--krds-control-small)', padding: '0 var(--krds-space-10)', border: 'none', cursor: 'pointer', borderRadius: 'var(--krds-radius-medium)', background: 'var(--narae-accent)', color: '#fff', fontWeight: 'var(--krds-weight-bold)' }
+const disabledBtn = { background: 'var(--color-neutral-bg)', color: 'var(--color-neutral-text)', cursor: 'not-allowed' }
