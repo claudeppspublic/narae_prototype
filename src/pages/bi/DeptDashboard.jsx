@@ -22,6 +22,12 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recha
 import B1 from './widgets/B1'
 import B2 from './widgets/B2'
 import B3 from './widgets/B3'
+import B4 from './widgets/B4'
+import B5 from './widgets/B5'
+import B6 from './widgets/B6'
+import B7 from './widgets/B7'
+import B8 from './widgets/B8'
+import B9 from './widgets/B9'
 
 // 기간 스코프 라벨 — 진입 컨텍스트(period) 표시·전환. REF-23 §4.4가 위젯별 단일 시드를
 // 정의하므로 기간별 시드 전환은 미구현. [CONFIRM: 기간별 시드(REF-22 §7-4)]
@@ -101,6 +107,12 @@ export default function DeptDashboard() {
               <B1 />
               <B2 />
               <B3 />
+              <B4 />
+              <B5 />
+              <B6 />
+              <B7 />
+              <B8 />
+              <B9 />
             </div>
 
             {/* KPI */}
