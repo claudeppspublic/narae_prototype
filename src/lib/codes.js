@@ -34,11 +34,20 @@ export const EMPLOYMENT_STATUS = {
   RESIGNED: '퇴직',
 }
 
-// 결재 상태
+// 결재 상태 — REF-23 §4.2: 4값 enum 고정(임의 상태 추가 금지)
 export const APPROVAL_STATUS = {
   DRAFTING: '기안',
   APPROVING: '결재중',
   APPROVED: '결재완료',
+  REJECTED: '반려',
+}
+
+// 결재상태 KEY → 그래픽 색 토큰 (REF-23 §4.2 · DEF-05). 배지 솔리드/틴트 구분은 UI에서(노랑=틴트).
+export const APPROVAL_TOKEN = {
+  DRAFTING: 'var(--color-neutral-base)',
+  APPROVING: 'var(--color-warn-base)',
+  APPROVED: 'var(--color-ok-base)',
+  REJECTED: 'var(--color-risk-base)',
 }
 
 // HITL 결정
