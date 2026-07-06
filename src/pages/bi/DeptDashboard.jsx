@@ -1,19 +1,29 @@
 // SCR-RB-01 — 부서 대시보드 (BI)
 // RB01-01 역할 토글→KPI·범위 갱신 · RB01-02 리스크 카드→과제 이동
+// INT-RB01-03 결재 BI(✦ AI 요약+B1~B9) · biContext(taskId·orgUnitId·period) 수신(INT-WF02-14)
 // FN-RB01-1(KPI) · FN-RB01-2(편중·병목) · 권한 팀장+ · 상태 5종
-import { useMemo } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useMemo, useState } from 'react'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { api } from '@/mock'
 import { projects } from '@/mock/projects'
 import { riskItems } from '@/mock/riskItems'
+import { findTask } from '@/mock/tasks'
+import { findOrg } from '@/mock/orgUnits'
 import { useAsync } from '@/lib/useAsync'
 import { useRoleStore } from '@/store/useRoleStore'
 import { ROLE } from '@/lib/codes'
 import Card from '@/components/Card'
 import Badge from '@/components/Badge'
 import SideNav, { BI_ITEMS } from '@/components/SideNav'
+import AiSummaryBanner from '@/components/AiSummaryBanner'
+import { SegToggle } from '@/components/Tabs'
 import { AsyncView } from '@/components/StateViews'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
+import B1 from './widgets/B1'
+
+// 기간 스코프 라벨 — 진입 컨텍스트(period) 표시·전환. REF-23 §4.4가 위젯별 단일 시드를
+// 정의하므로 기간별 시드 전환은 미구현. [CONFIRM: 기간별 시드(REF-22 §7-4)]
+const PERIODS = [{ key: 'weekly', label: '주' }, { key: 'monthly', label: '월' }, { key: 'quarterly', label: '분기' }]
 
 // --narae-caption(12px)과 동일 — recharts tick은 SVG 속성이라 var() 미지원
 const CHART_TICK = { fontSize: 12 }
@@ -22,6 +32,12 @@ export default function DeptDashboard() {
   const navigate = useNavigate()
   const role = useRoleStore((s) => s.role)
   const { data: tasks, loading, error, reload } = useAsync(() => api.getTasks({ delay: 400 }), [])
+
+  // INT-RB01-03: biContext 해석 — 없으면 부서 전체 기본(스펙 예외 규칙)
+  const [params] = useSearchParams()
+  const ctxTask = params.get('taskId') ? findTask(params.get('taskId')) : null
+  const ctxOrg = params.get('orgUnitId') ? findOrg(params.get('orgUnitId')) : null
+  const [period, setPeriod] = useState(PERIODS.some((p) => p.key === params.get('period')) ? params.get('period') : 'monthly')
 
   const kpi = useMemo(() => {
     if (!tasks) return null
@@ -62,6 +78,27 @@ export default function DeptDashboard() {
       <AsyncView loading={loading} error={error} data={tasks} reload={reload}>
         {kpi && (
           <>
+            {/* INT-RB01-03 ① ✦ AI 요약 배너(상시) + 컨텍스트 표시줄 */}
+            <div data-testid="rb01-03" style={{ marginBottom: 'var(--krds-space-8)' }}>
+              <AiSummaryBanner screen="rb01" contextType="dept" />
+              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--krds-space-6)', marginTop: 'var(--krds-space-5)', fontSize: 'var(--krds-body-small)', color: 'var(--color-text-assistive,#6b7280)' }}>
+                <span>
+                  분석 컨텍스트: <b style={{ color: 'var(--color-text-basic)' }}>
+                    {ctxTask ? `${ctxTask.taskNm}` : '부서 전체'}{ctxOrg ? ` · ${ctxOrg.orgUnitNm}` : ''}
+                  </b>
+                </span>
+                <span style={{ marginLeft: 'auto' }}>
+                  <SegToggle items={PERIODS} value={period} onChange={setPeriod} size="sm" />
+                </span>
+              </div>
+            </div>
+
+            {/* INT-RB01-03 ② 결재 프로세스 BI — B1~B9 위젯 그리드 */}
+            <h3 style={{ ...chartTitle, marginBottom: 'var(--krds-space-6)' }}>결재 프로세스 BI</h3>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--krds-space-8)', marginBottom: 'var(--krds-space-10)' }}>
+              <B1 />
+            </div>
+
             {/* KPI */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 'var(--krds-space-6)', marginBottom: 'var(--krds-space-10)' }}>
               <Kpi label="진행중" value={kpi.inProgress} tone="ok" />
