@@ -16,6 +16,7 @@ import Card from '@/components/Card'
 import Badge from '@/components/Badge'
 import SideNav, { BI_ITEMS } from '@/components/SideNav'
 import AiSummaryBanner from '@/components/AiSummaryBanner'
+import WorkDetailDrawer from '@/components/WorkDetailDrawer'
 import { SegToggle } from '@/components/Tabs'
 import { AsyncView } from '@/components/StateViews'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
@@ -46,6 +47,8 @@ export default function DeptDashboard() {
   const ctxTask = params.get('taskId') ? findTask(params.get('taskId')) : null
   const ctxOrg = params.get('orgUnitId') ? findOrg(params.get('orgUnitId')) : null
   const [period, setPeriod] = useState(PERIODS.some((p) => p.key === params.get('period')) ? params.get('period') : 'monthly')
+  // INT-RB01-04: B3 지연 Top 행 클릭 → WF-02 Drawer(워크플로우 탭·타임라인)
+  const [drawerTaskId, setDrawerTaskId] = useState(null)
 
   const kpi = useMemo(() => {
     if (!tasks) return null
@@ -78,8 +81,8 @@ export default function DeptDashboard() {
       <div style={{ flex: 1, overflowY: 'auto', padding: 'var(--krds-space-10)' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--krds-space-9)', flexWrap: 'wrap', gap: 'var(--krds-space-6)' }}>
         <h1 style={{ fontSize: 'var(--krds-heading-medium)', fontWeight: 'var(--krds-weight-bold)', margin: 0 }}>부서 대시보드</h1>
-        <span style={{ fontSize: 'var(--krds-body-small)', color: 'var(--color-text-assistive,#6b7280)' }}>
-          조회 범위: <b style={{ color: 'var(--narae-accent)' }}>{ROLE[role]}</b> (상단 역할 토글로 전환)
+        <span style={{ display: 'flex', alignItems: 'center', gap: 'var(--krds-space-7)', fontSize: 'var(--krds-body-small)', color: 'var(--color-text-assistive,#6b7280)' }}>
+          <span>조회 범위: <b style={{ color: 'var(--narae-accent)' }}>{ROLE[role]}</b> (상단 역할 토글로 전환)</span>
         </span>
       </div>
 
@@ -106,7 +109,7 @@ export default function DeptDashboard() {
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--krds-space-8)', marginBottom: 'var(--krds-space-10)' }}>
               <B1 />
               <B2 />
-              <B3 />
+              <B3 onDrill={setDrawerTaskId} />
               <B4 />
               <B5 />
               <B6 />
@@ -168,6 +171,9 @@ export default function DeptDashboard() {
         )}
       </AsyncView>
       </div>
+
+      {/* INT-RB01-04 — B3 drill 대상 업무 상세(WF-02) Drawer */}
+      <WorkDetailDrawer taskId={drawerTaskId} open={!!drawerTaskId} onClose={() => setDrawerTaskId(null)} />
     </div>
   )
 }
@@ -184,3 +190,8 @@ function Kpi({ label, value, tone }) {
 }
 
 const chartTitle = { fontSize: 'var(--krds-body-medium)', fontWeight: 'var(--krds-weight-bold)', margin: '0 0 var(--krds-space-6)' }
+const reportBtn = {
+  height: 'var(--krds-control-small)', padding: '0 var(--krds-space-8)', cursor: 'pointer',
+  borderRadius: 'var(--krds-radius-medium)', border: 'none',
+  background: 'var(--narae-accent)', color: '#fff', fontWeight: 'var(--krds-weight-bold)', fontSize: 'var(--krds-body-small)',
+}
