@@ -25,6 +25,9 @@ export const notifications = [
   { notiId: 'N-022', category: '결재', title: '예산요구서 초안 작성 결재 요청', refId: 'T-001-04', read: false, createdAt: '2026-03-16T11:15:00' },
   { notiId: 'N-023', category: '결재', title: '국회 예산심의 대응자료 결재 요청', refId: 'T-001-05', read: true, createdAt: '2026-03-04T15:30:00' },
   { notiId: 'N-024', category: '멘션', title: '황도경님이 \'현황 조사·분석\' 업무에서 회원님을 언급했습니다', refId: 'T-002-01', read: true, createdAt: '2026-02-09T13:50:00' },
+  // REF-23 §4.5 결재 시연 케이스 — 지연(T-001-02)·반려(T-001-05)
+  { notiId: 'N-025', category: '결재', title: "'부서별 예산요구 취합' 결재가 검토 단계에서 5일째 정체 중입니다(기한 초과)", refId: 'T-001-02', read: false, createdAt: '2026-07-06T08:40:00' },
+  { notiId: 'N-026', category: '결재', title: "'국회 예산심의 대응자료' 결재가 반려되었습니다 — 예산 산출 근거 미비", refId: 'T-001-05', read: false, createdAt: '2026-07-04T17:10:00' },
 ]
 
 export const unreadCount = () => notifications.filter((n) => !n.read).length

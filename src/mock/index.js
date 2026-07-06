@@ -18,12 +18,15 @@ import { riskItems, findRisk } from './riskItems'
 import { notifications, unreadCount } from './notifications'
 import { docAssets, docsByCategory } from './docAssets'
 import { canvasNodes, canvasEdges, toolAttachments, toolPalette, homeTabs } from './canvas'
+import { aiSummaries, aiSummaryFor } from './aiSummary'
+import { biMetrics, biWidget, biSnapshot } from './biMetrics'
 
 // 원시 시드 (동기 접근용)
 export const seed = {
   orgUnits, users, projects, tasks, taskRelations, steps, procedureSteps,
   approvalLines, formTemplates, taskTemplates, goals, meetings, regulations,
   riskItems, notifications, docAssets, canvasNodes, canvasEdges, toolAttachments,
+  aiSummaries, biMetrics,
 }
 
 export {
@@ -32,7 +35,7 @@ export {
   relationsFrom, relationsTo, stepsOf, findStep, proceduresOf, approvalLinesOf,
   templatesOf, findGoal, goalsForTask, findMeeting, regulationsByCategory,
   regulationsOfStep, findRegulation, findRisk, unreadCount, docsByCategory,
-  toolPalette, homeTabs,
+  toolPalette, homeTabs, aiSummaryFor, biWidget, biSnapshot,
 }
 
 // 비동기 조회 API — { delay, fail } 로 로딩/에러 상태 시연 가능
@@ -58,4 +61,7 @@ export const api = {
   getRisks: (opts) => mockFetch(riskItems, opts),
   getNotifications: (opts) => mockFetch(notifications, opts),
   getDocAssets: (category, opts) => mockFetch(docsByCategory(category), opts),
+  getAiSummary: (screen, ctx, opts) => mockFetch(aiSummaryFor(screen, ctx), opts),
+  getBiMetrics: (opts) => mockFetch(biMetrics, opts),
+  getBiSnapshot: (opts) => mockFetch(biSnapshot, opts),
 }
