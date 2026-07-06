@@ -117,8 +117,10 @@ export default function BiDrawer({ open, node, onClose, onApprovalDetail }) {
 }
 
 // 결재 프로세스 미니 요약 — ✦ AI 1줄 + 미니 스텝 + 현재 단계 메타 + [결재 상세 보기]
+// INT-CM03-15: 반려 시 사유 1줄(--color-risk-text) 노출 (compact 스텝은 사유 미표시라 별도 라인)
 function ApprovalMini({ lines, taskId, onDetail }) {
   const current = lines.find((l) => l.approvalStatus === 'APPROVING' || l.approvalStatus === 'REJECTED') ?? lines[0]
+  const rejected = lines.find((l) => l.approvalStatus === 'REJECTED')
   return (
     <div data-testid="cm03-22" style={{
       padding: 'var(--krds-space-7)', borderRadius: 'var(--krds-radius-medium)',
@@ -134,6 +136,11 @@ function ApprovalMini({ lines, taskId, onDetail }) {
         현재 {APPROVAL_STAGE[current.role] ?? current.role} · {current.approverNm} {current.title} · {current.elapsedDays}일차
         {current.delegation ? ` · ${current.delegation}` : ''}
       </div>
+      {rejected?.rejectReason && (
+        <div data-testid="cm03-24" style={{ fontSize: 'var(--krds-body-small)', color: 'var(--color-risk-text)', fontWeight: 'var(--krds-weight-medium)' }}>
+          반려: {rejected.rejectReason} — {rejected.approverNm} {rejected.title}
+        </div>
+      )}
       {onDetail && (
         <button data-testid="cm03-23" onClick={() => onDetail(taskId)} style={detailBtn}>
           결재 상세 보기
