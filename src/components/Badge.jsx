@@ -1,7 +1,7 @@
 // Badge — 상태/위험등급/일반 뱃지. UI/UX 상태색상정책서 v0.1 (docs/20260703) 준수.
 // 기본형=틴트(-bg 배경 · -text 글자 · -border 테두리) + 라벨 텍스트 필수.
 // 강조형(solid)=-text 배경+흰 글자 — 빨강·초록·회색만(노랑 솔리드 금지, 대비 미달).
-import { TASK_STATUS, RISK_GRADE } from '@/lib/codes'
+import { TASK_STATUS, RISK_GRADE, APPROVAL_STATUS } from '@/lib/codes'
 
 const VARIANT = {
   ok: { bg: 'var(--color-ok-bg)', fg: 'var(--color-ok-text)', bd: 'var(--color-ok-border)' },
@@ -40,6 +40,20 @@ export function RiskBadge({ grade }) {
     <Badge variant={map[grade] ?? 'neutral'}>
       {grade === 'RISK' && <b aria-hidden>!</b>}
       {RISK_GRADE[grade] ?? grade}
+    </Badge>
+  )
+}
+
+// 결재상태 → Badge. REF-23 §4.2: 기안=회색 솔리드 · 결재중=노랑 틴트(솔리드 금지) ·
+// 결재완료=초록 솔리드 · 반려=빨강 솔리드+'!' (INT-CM03-13·15)
+// tone 오버라이드: 지연된 결재중(approvalToneOf='risk')은 라벨 유지한 채 빨강 표시.
+export function ApprovalBadge({ status, tone }) {
+  const map = { DRAFTING: 'neutral', APPROVING: 'warn', APPROVED: 'ok', REJECTED: 'risk' }
+  const variant = tone ?? map[status] ?? 'neutral'
+  return (
+    <Badge variant={variant} solid={variant !== 'warn'}>
+      {variant === 'risk' && <b aria-hidden>!</b>}
+      {APPROVAL_STATUS[status] ?? status}
     </Badge>
   )
 }

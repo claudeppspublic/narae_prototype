@@ -7,17 +7,32 @@ import { useState, useMemo } from 'react'
 import BiDrawer from '@/components/BiDrawer'
 import WorkDetailDrawer from '@/components/WorkDetailDrawer'
 import { EmptyState } from '@/components/StateViews'
-import { RiskBadge } from '@/components/Badge'
+import { RiskBadge, ApprovalBadge } from '@/components/Badge'
 import { HOME_CATEGORY, ORG_LEVEL, PROCESS_STEP, APPROVAL_ROLE } from '@/lib/codes'
 import { rootOrgs, childrenOf, findOrg } from '@/mock/orgUnits'
 import { usersOf, findUser } from '@/mock/users'
 import { tasksByAssignee } from '@/mock/tasks'
 import { stepsOf } from '@/mock/steps'
-import { approvalLinesOf } from '@/mock/approvalLines'
 import { goals } from '@/mock/goals'
+import { useApprovalStore, effectiveLinesOf } from '@/store/useApprovalStore'
+import { approvalToneOf, taskApprovalStatus, worstTone } from '@/lib/approval'
 
 const LEVEL_LABEL = { [ORG_LEVEL.OFFICE]: '실', [ORG_LEVEL.BUREAU]: '관', [ORG_LEVEL.DIVISION]: '과' }
 const CATEGORY_ENTRIES = Object.entries(HOME_CATEGORY) // [KEY, 라벨]
+
+// INT-CM03-13 조직 롤업 칩: 하위 조직·인원의 결재선 있는 업무 tone 중 최악(빨강>노랑>초록>회색)
+function orgApprovalTone(orgUnitId, submitted) {
+  const tones = []
+  const walk = (id) => {
+    usersOf(id).forEach((u) => tasksByAssignee(u.empNo).forEach((t) => {
+      const lines = effectiveLinesOf(t.taskId, submitted)
+      if (lines.length) tones.push(approvalToneOf(lines))
+    }))
+    childrenOf(id).forEach((c) => walk(c.orgUnitId))
+  }
+  walk(orgUnitId)
+  return tones.length ? worstTone(tones) : 'neutral'
+}
 
 export default function OrgWorkBoard() {
   const [path, setPath] = useState([]) // orgUnitId 경로
@@ -26,6 +41,7 @@ export default function OrgWorkBoard() {
   const [taskId, setTaskId] = useState(null)
   const [biNode, setBiNode] = useState(null) // 오버레이 BI Drawer 대상
   const [drawerTaskId, setDrawerTaskId] = useState(null) // 업무 상세(WF-02) Drawer
+  const submitted = useApprovalStore((s) => s.submitted) // 상신 오버레이 — 칩 동기 갱신(INT-WF02-12 ②)
 
   // 현재 조직 컨텍스트
   const currentOrgId = path.length ? path[path.length - 1] : null
@@ -39,7 +55,7 @@ export default function OrgWorkBoard() {
   }, [emp, categoryKey])
   const task = tasks.find((t) => t.taskId === taskId) || null
   const detailSteps = task ? stepsOf(task.projectId) : []
-  const approvals = task ? approvalLinesOf(task.taskId) : []
+  const approvals = task ? effectiveLinesOf(task.taskId, submitted) : []
 
   const resetDown = () => { setEmployeeId(null); setTaskId(null) }
   const drill = (id) => { setPath((p) => [...p, id]); resetDown() }
@@ -79,14 +95,19 @@ export default function OrgWorkBoard() {
           {/* 조직 컬럼 */}
           {childOrgs.length > 0 && (
             <Column icon="🏢" title={`조직 (${path.length + 1}depth)`} hint="행=하위 전개 · 📊=BI">
-              {childOrgs.map((o) => (
-                <Row key={o.orgUnitId} onClick={() => drill(o.orgUnitId)}
-                  meta={`${o.empCount}명`} drillLabel="하위 조직 전개"
-                  onBi={() => openBi('ORG', o.orgUnitId, o.orgUnitNm)}>
-                  <span style={{ fontSize: 'var(--narae-caption)', padding: '0 4px', borderRadius: 3, background: 'var(--narae-accent)', color: '#fff', marginRight: 6 }}>{LEVEL_LABEL[o.level]}</span>
-                  {o.orgUnitNm}
-                </Row>
-              ))}
+              {childOrgs.map((o) => {
+                // INT-CM03-13 롤업 칩 — neutral(정보 없음)이면 생략
+                const rollup = orgApprovalTone(o.orgUnitId, submitted)
+                return (
+                  <Row key={o.orgUnitId} onClick={() => drill(o.orgUnitId)}
+                    meta={`${o.empCount}명`} drillLabel="하위 조직 전개"
+                    chip={rollup !== 'neutral' && <RollupChip tone={rollup} />}
+                    onBi={() => openBi('ORG', o.orgUnitId, o.orgUnitNm)}>
+                    <span style={{ fontSize: 'var(--narae-caption)', padding: '0 4px', borderRadius: 3, background: 'var(--narae-accent)', color: '#fff', marginRight: 6 }}>{LEVEL_LABEL[o.level]}</span>
+                    {o.orgUnitNm}
+                  </Row>
+                )
+              })}
             </Column>
           )}
 
@@ -114,15 +135,20 @@ export default function OrgWorkBoard() {
                   ? <ColEmpty text={`'${HOME_CATEGORY[categoryKey]}' 업무 없음`} />
                   : tasks.map((t) => {
                     const on = taskId === t.taskId
+                    // INT-CM03-13 업무 노드 결재 칩 — 결재선 있는 업무만 (지연/반려=risk tone 오버라이드)
+                    const lines = effectiveLinesOf(t.taskId, submitted)
                     return (
-                      <button key={t.taskId} onClick={() => setTaskId(t.taskId)}
+                      <button key={t.taskId} onClick={() => setTaskId(t.taskId)} data-testid="cm03-task-node"
                         style={{ ...taskCard, ...(on ? taskCardOn : {}) }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 6 }}>
                           <span style={{ fontWeight: 'var(--krds-weight-medium)', textAlign: 'left' }}>{t.taskNm}</span>
                           <RiskBadge grade={t.riskGrade} />
                         </div>
-                        <div style={{ marginTop: 4, fontSize: 'var(--narae-caption)', color: 'var(--color-text-assistive,#6b7280)', textAlign: 'left' }}>
-                          {t.taskType === 'REGULAR' ? '정기' : '수시'} · 진척 {t.progress}%
+                        <div style={{ marginTop: 4, display: 'flex', alignItems: 'center', gap: 6, fontSize: 'var(--narae-caption)', color: 'var(--color-text-assistive,#6b7280)' }}>
+                          <span>{t.taskType === 'REGULAR' ? '정기' : '수시'} · 진척 {t.progress}%</span>
+                          {lines.length > 0 && (
+                            <ApprovalBadge status={taskApprovalStatus(lines)} tone={approvalToneOf(lines)} />
+                          )}
                         </div>
                       </button>
                     )
@@ -155,8 +181,13 @@ export default function OrgWorkBoard() {
                     </div>
                   ))}
                 </div>
-                {/* 결재 과정 */}
-                <div style={{ ...flowLabel, marginTop: 'var(--krds-space-9)' }}>결재 과정</div>
+                {/* 결재 과정 — INT-CM03-13: 워크플로우 카드에 결재상태 칩 */}
+                <div style={{ ...flowLabel, marginTop: 'var(--krds-space-9)', display: 'flex', alignItems: 'center', gap: 8 }}>
+                  결재 과정
+                  {approvals.length > 0 && (
+                    <ApprovalBadge status={taskApprovalStatus(approvals)} tone={approvalToneOf(approvals)} />
+                  )}
+                </div>
                 {approvals.length === 0 ? (
                   <ColEmpty text="결재선 미설정" />
                 ) : (
@@ -243,12 +274,13 @@ function ColHeader({ icon, title, right }) {
     </div>
   )
 }
-// Row: [하위 전개 영역(클릭)] + [BI 버튼(상시)] 을 명확히 분리
-function Row({ children, onClick, active, meta, onBi, drillLabel }) {
+// Row: [하위 전개 영역(클릭)] + [BI 버튼(상시)] 을 명확히 분리. chip=결재 롤업 칩(INT-CM03-13)
+function Row({ children, onClick, active, meta, onBi, drillLabel, chip }) {
   return (
     <div style={{ ...rowWrap, ...(active ? rowActive : {}) }}>
       <button onClick={onClick} style={rowMain} title={drillLabel ? `클릭: ${drillLabel}` : undefined}>
         <span style={{ flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{children}</span>
+        {chip}
         {meta && <span style={rowMeta}>{meta}</span>}
         {drillLabel && <span style={chev} aria-hidden>›</span>}
       </button>
@@ -260,6 +292,25 @@ function Row({ children, onClick, active, meta, onBi, drillLabel }) {
     </div>
   )
 }
+// 조직 롤업 칩 — 색+라벨 병기(색 단독 금지). 하위 결재 상태 최악값 표시.
+function RollupChip({ tone }) {
+  const t = {
+    risk: { bg: 'var(--color-risk-bg)', fg: 'var(--color-risk-text)', bd: 'var(--color-risk-border)', label: '결재!' },
+    warn: { bg: 'var(--color-warn-bg)', fg: 'var(--color-warn-text)', bd: 'var(--color-warn-border)', label: '결재' },
+    ok: { bg: 'var(--color-ok-bg)', fg: 'var(--color-ok-text)', bd: 'var(--color-ok-border)', label: '결재' },
+  }[tone]
+  if (!t) return null
+  return (
+    <span title="하위 조직 결재 상태(최악값)" style={{
+      flexShrink: 0, padding: '0 6px', borderRadius: 'var(--krds-radius-pill)',
+      fontSize: 'var(--narae-caption)', fontWeight: 'var(--krds-weight-bold)',
+      background: t.bg, color: t.fg, border: `1px solid ${t.bd}`,
+    }}>
+      {t.label}
+    </span>
+  )
+}
+
 function SummaryRow({ k, v }) {
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between' }}>

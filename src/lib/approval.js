@@ -24,6 +24,21 @@ export function lineDelayDays(line, today = new Date()) {
   return Math.max(byDue, byAvg, 0)
 }
 
+// 노드 결재 칩 색 — REF-22 §1 '칩(회색/노랑/초록/빨강)' · §4.5 지연→빨강 (INT-CM03-13·15)
+// REJECTED·지연=risk > APPROVING=warn > 전부 APPROVED=ok > 그 외/결재선 없음=neutral
+export function approvalToneOf(lines, today = new Date()) {
+  if (!lines?.length) return 'neutral'
+  if (lines.some((l) => l.approvalStatus === 'REJECTED' || lineDelayDays(l, today) > 0)) return 'risk'
+  const status = taskApprovalStatus(lines)
+  return { APPROVING: 'warn', APPROVED: 'ok' }[status] ?? 'neutral'
+}
+
+// 롤업(조직/과제 노드 칩): 빨강>노랑>초록>회색 (INT-CM03-13)
+const TONE_RANK = { risk: 3, warn: 2, ok: 1, neutral: 0 }
+export function worstTone(tones) {
+  return tones.reduce((w, t) => (TONE_RANK[t] > TONE_RANK[w] ? t : w), 'neutral')
+}
+
 // 상신 전이(mock): DRAFTING --[상신]--> APPROVING — 기안(seq1) 완료, 검토(seq2) 진행 (spec INT-12 GWT)
 export function applySubmit(lines, todayStr = '2026-07-06') {
   return lines.map((l) =>
