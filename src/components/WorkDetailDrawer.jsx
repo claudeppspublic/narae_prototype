@@ -1,12 +1,14 @@
 // SCR-WF-02 — 업무 상세 (우측 Drawer). 간트/캘린더/테이블/홈에서 업무 클릭 진입.
 // 상단 업무개요(담당자·참여자·댓글·규정연계) + 탭: 워크플로우/규정/평가/리스크/댓글/보고서 (피드백)
-// 워크플로우=진행단계+결재과정 · 결재 상신 버튼 · WF02-01/03/04/05/07
+// 워크플로우=진행단계+결재선 타임라인(INT-WF02-11)+AI 요약 배너 · 결재 상신 버튼 · WF02-03/04/05/07/11
 // [CONFIRM] 평가·보고서 탭은 mock (기획확인 대상)
 import { useState, useEffect } from 'react'
 import Drawer from '@/components/Drawer'
 import Tabs from '@/components/Tabs'
 import Badge, { StatusBadge, RiskBadge } from '@/components/Badge'
 import { EmptyState } from '@/components/StateViews'
+import AiSummaryBanner from '@/components/AiSummaryBanner'
+import ApprovalTimeline from '@/components/ApprovalTimeline'
 import { useUiStore } from '@/store/useUiStore'
 import { findTask } from '@/mock/tasks'
 import { stepsOf } from '@/mock/steps'
@@ -14,7 +16,7 @@ import { regulationsOfStep } from '@/mock/regulations'
 import { approvalLinesOf } from '@/mock/approvalLines'
 import { goalsForTask } from '@/mock/goals'
 import { subTasksOf } from '@/mock/subTasks'
-import { TASK_STATUS, PROCESS_STEP, RISK_GRADE, APPROVAL_ROLE, PRIORITY_LEVEL, SECURITY_LEVEL, RISK_TOKEN } from '@/lib/codes'
+import { TASK_STATUS, PROCESS_STEP, RISK_GRADE, PRIORITY_LEVEL, SECURITY_LEVEL, RISK_TOKEN } from '@/lib/codes'
 
 // 상태색상정책: 단계 상태 완료·진행=초록, 대기=회색(라벨 텍스트로 구분 — 색 단독 금지 원칙)
 const STEP_COLOR = { COMPLETED: 'var(--color-ok-base)', IN_PROGRESS: 'var(--color-ok-base)', PENDING: 'var(--color-neutral-border)' }
@@ -92,7 +94,14 @@ export default function WorkDetailDrawer({ taskId, open, onClose }) {
       <Tabs items={tabs} value={tab} onChange={setTab} />
 
       <div style={{ marginTop: 'var(--krds-space-8)' }}>
-        {tab === 'workflow' && <Workflow steps={steps} approvals={approvals} subtasks={subtasks} />}
+        {tab === 'workflow' && (
+          <>
+            {/* INT-WF02-11 ① 상단 AI 요약 배너 — 컨텍스트 문장 없으면 wf02 기본, 그것도 없으면 숨김 */}
+            <AiSummaryBanner screen="wf02" contextType="task" contextId={task.taskId}
+              style={{ marginBottom: 'var(--krds-space-7)' }} />
+            <Workflow steps={steps} approvals={approvals} subtasks={subtasks} />
+          </>
+        )}
         {tab === 'regulations' && <Regulations items={linkedRegs} />}
         {tab === 'eval' && <Evaluation />}
         {tab === 'risk' && <Risk task={task} />}
@@ -134,21 +143,9 @@ function Workflow({ steps, approvals, subtasks }) {
       </div>
 
       <div>
+        {/* INT-WF02-11 ③ 결재선 타임라인(기안→검토→승인·상태색) — 지연 판정은 INT-WF02-13에서 활성화 */}
         <div style={flowLabel}>결재 과정</div>
-        {approvals.length === 0 ? <EmptyState title="결재선 미설정" /> : (
-          <div style={flowRow}>
-            {approvals.map((a, i) => (
-              <div key={a.lineId} style={{ display: 'flex', alignItems: 'center' }}>
-                {i > 0 && <span style={arrow}>→</span>}
-                <div style={{ ...flowCard, borderColor: 'var(--narae-accent)' }}>
-                  <div style={{ fontSize: 'var(--narae-caption)', color: 'var(--narae-accent)', fontWeight: 'var(--krds-weight-bold)' }}>{APPROVAL_ROLE[a.role] ?? a.role}</div>
-                  <div style={{ fontWeight: 'var(--krds-weight-medium)' }}>{a.approverNm}</div>
-                  <div style={metaSm}>{a.title}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
+        <ApprovalTimeline lines={approvals} delayCheck={false} />
       </div>
 
       {subtasks.length > 0 && (
