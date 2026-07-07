@@ -31,6 +31,22 @@ export default function Report() {
   const hasContext = fromBi || !!ctxTaskId
   const [drawerTaskId, setDrawerTaskId] = useState(null) // 결재 이력 역링크 → WF-02
 
+  // INT-RB03-05: 필수 항목(기간·대상) — 비면 발송 차단·인라인 오류·포커스 (spec §7)
+  const [range, setRange] = useState({ from: '2026-06-29', to: '2026-07-05' })
+  const [recipient, setRecipient] = useState('기획조정실장')
+  const [fieldErrors, setFieldErrors] = useState({})
+  const requestSend = () => {
+    const errs = {}
+    if (!range.from || !range.to) errs.range = '기간을 입력하세요'
+    if (!recipient.trim()) errs.recipient = '대상(수신처)을 입력하세요'
+    setFieldErrors(errs)
+    if (Object.keys(errs).length > 0) {
+      document.getElementById(errs.range ? 'rb03-range-from' : 'rb03-recipient')?.focus()
+      return // 승인 모달 미표시 (발송 차단)
+    }
+    setConfirm(true)
+  }
+
   const canSend = ['ROLE_ADMIN', 'ROLE_DIR', 'ROLE_CHF'].includes(role) // 과장+
   const stats = useMemo(() => {
     const t = seed.tasks
@@ -76,11 +92,37 @@ export default function Report() {
         )}
       </Card>
 
-      {/* 발송 (승인 HITL) */}
+      {/* INT-RB03-05 필수 항목(기간·대상) — 비면 발송 차단·인라인 오류 */}
+      <Card style={{ marginBottom: 'var(--krds-space-8)' }}>
+        <div style={{ display: 'flex', gap: 'var(--krds-space-9)', flexWrap: 'wrap' }}>
+          <div>
+            <FieldLabel required>기간</FieldLabel>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--krds-space-4)' }}>
+              <input id="rb03-range-from" type="date" value={range.from} aria-label="기간 시작"
+                onChange={(e) => { setRange((r) => ({ ...r, from: e.target.value })); if (e.target.value && range.to) setFieldErrors((f) => ({ ...f, range: undefined })) }}
+                style={{ ...formInput, ...(fieldErrors.range ? formError : {}) }} />
+              <span aria-hidden>~</span>
+              <input type="date" value={range.to} aria-label="기간 종료"
+                onChange={(e) => { setRange((r) => ({ ...r, to: e.target.value })); if (range.from && e.target.value) setFieldErrors((f) => ({ ...f, range: undefined })) }}
+                style={{ ...formInput, ...(fieldErrors.range ? formError : {}) }} />
+            </div>
+            {fieldErrors.range && <FieldError id="rb03-err-range">{fieldErrors.range}</FieldError>}
+          </div>
+          <div>
+            <FieldLabel required>대상(수신처)</FieldLabel>
+            <input id="rb03-recipient" value={recipient} aria-label="대상(수신처)"
+              onChange={(e) => { setRecipient(e.target.value); if (e.target.value.trim()) setFieldErrors((f) => ({ ...f, recipient: undefined })) }}
+              style={{ ...formInput, width: 220, ...(fieldErrors.recipient ? formError : {}) }} />
+            {fieldErrors.recipient && <FieldError id="rb03-err-recipient">{fieldErrors.recipient}</FieldError>}
+          </div>
+        </div>
+      </Card>
+
+      {/* 발송 (승인 HITL) — INT-RB03-05 유효성 통과 시에만 승인 모달 */}
       <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 'var(--krds-space-5)', alignItems: 'center' }}>
         {!canSend && <span style={{ fontSize: 'var(--krds-body-small)', color: 'var(--color-text-assistive,#9ca3af)' }}>발송은 과장+ 권한이 필요합니다</span>}
         {sent ? <span style={{ color: 'var(--color-ok-text)', fontWeight: 'var(--krds-weight-bold)' }}>✓ 발송 완료</span>
-          : <Button size="md" onClick={() => setConfirm(true)} disabled={!canSend}>발송</Button>}
+          : <span data-testid="rb03-05"><Button size="md" onClick={requestSend} disabled={!canSend}>발송</Button></span>}
       </div>
 
       {/* 승인 모달 */}
@@ -98,3 +140,25 @@ export default function Report() {
     </div>
   )
 }
+
+function FieldLabel({ children, required }) {
+  return (
+    <div style={{ fontSize: 'var(--krds-body-small)', fontWeight: 'var(--krds-weight-bold)', color: 'var(--color-text-assistive,#6b7280)', marginBottom: 'var(--krds-space-3)' }}>
+      {children}{required && <span aria-hidden style={{ color: 'var(--color-risk-text)' }}> *</span>}
+    </div>
+  )
+}
+function FieldError({ id, children }) {
+  return (
+    <div id={id} role="alert" style={{ marginTop: 'var(--krds-space-3)', fontSize: 'var(--narae-caption)', color: 'var(--color-risk-text)', fontWeight: 'var(--krds-weight-medium)' }}>
+      {children}
+    </div>
+  )
+}
+
+const formInput = {
+  height: 'var(--krds-control-small)', padding: '0 var(--krds-space-6)',
+  borderRadius: 'var(--krds-radius-medium)', border: '1px solid var(--color-border-basic,#e5e7eb)',
+  background: 'var(--color-background-white)', color: 'var(--color-text-basic)', fontSize: 'var(--krds-body-small)',
+}
+const formError = { border: '1.5px solid var(--color-risk-border)', background: 'var(--color-risk-bg)' }
