@@ -1,5 +1,15 @@
 # specs 변경이력
 
+## 2026-07-07 — REF-23 「결재→BI→보고서 흐름」 Phase 0~4 구현 완료
+
+- **Phase 0** mock 보강(MOCK-01~05): APPROVAL_LINE 확장 6키(15행) · REJECTED 코드+`APPROVAL_TOKEN` · `aiSummary.js` · `biMetrics.js`(B1~B9·biSnapshot) · 결재 알림 2건. 시연 케이스: 지연=T-001-02·반려=T-001-05·미상신=T-001-04·완료=T-001-01.
+- **Phase 1** WF-02 INT-11~14: `ApprovalTimeline`·`AiSummaryBanner` 신설, 상신 전이(`useApprovalStore`), 기한 초과 risk·CTA, [BI로 원인 분석] 컨텍스트 이동.
+- **Phase 2** CM-03 INT-13~15: 업무/조직 결재 칩·롤업(`ApprovalBadge`), BI Drawer 결재 미니 요약, [결재 상세 보기]→WF-02, 반려 사유 노출. 상신 시 홈 칩 동기 갱신.
+- **Phase 3** RB-01 INT-03~05: B1~B9 위젯(`src/pages/bi/widgets/`) + AI 요약 배너 + biContext, B3→WF-02 drill, [보고서 작성]→RB-03.
+- **Phase 4** RB-03 INT-04~05: 결재·BI 반영 초안 8섹션(`ReportDraft`, WF-02 보고서 탭 공용) + 역링크 2종, 필수 항목(기간·대상) 발송 차단. INT-02 완료 토스트 검증.
+- **§9 DoD**: E2E 시연 12단계 통과(홈→WF-02→RB-01→RB-03→발송 HITL·역링크 포함, 캡처 e2e-01~08) · 신규 파일 hex 0건 · `/verify-interaction-spec` WF-02/CM-03/RB-01/RB-03 신규 INT 전부 DONE.
+- **[CONFIRM] 잔존(지시서 §8 가정값 채택·유지)**: 지연 기준값·SLA 임계 90/70·기간별 시드·B3 외 drill·첨부 구성·재상신 전이·평가 탭 mock.
+
 ## 2026-07-06 — REF-23 전환: specs v0.3 4종 + 구현작업지시서 등록
 
 - `20260706_구현작업지시서_결재BI보고서흐름_v0.1.md`(REF-23)와 specs v0.3 4종(SCR-CM-03/WF-02/RB-01/RB-03 전체 명세) 등록 — **결재→BI→보고서 흐름이 현 구현 대상**(사용자 결정, 2026-07-06).
