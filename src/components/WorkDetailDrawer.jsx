@@ -1,7 +1,7 @@
 // SCR-WF-02 — 업무 상세 (우측 Drawer). 간트/캘린더/테이블/홈에서 업무 클릭 진입.
 // 상단 업무개요(담당자·참여자·댓글·규정연계) + 탭: 워크플로우/규정/평가/리스크/댓글/보고서 (피드백)
 // 워크플로우=진행단계+결재선 타임라인(INT-WF02-11)+AI 요약 배너 · 결재 상신 버튼 · WF02-03/04/05/07/11
-// [CONFIRM] 평가·보고서 탭은 mock (기획확인 대상)
+// 보고서 탭=결재·BI 초안 공용(INT-RB03-04) · [CONFIRM] 평가 탭은 mock (기획확인 대상)
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Drawer from '@/components/Drawer'
@@ -10,6 +10,7 @@ import Badge, { StatusBadge, RiskBadge } from '@/components/Badge'
 import { EmptyState } from '@/components/StateViews'
 import AiSummaryBanner from '@/components/AiSummaryBanner'
 import ApprovalTimeline from '@/components/ApprovalTimeline'
+import ReportDraft from '@/components/ReportDraft'
 import { useUiStore } from '@/store/useUiStore'
 import { useApprovalStore, effectiveLinesOf } from '@/store/useApprovalStore'
 import { taskApprovalStatus, lineDelayDays } from '@/lib/approval'
@@ -19,7 +20,7 @@ import { stepsOf } from '@/mock/steps'
 import { regulationsOfStep } from '@/mock/regulations'
 import { goalsForTask } from '@/mock/goals'
 import { subTasksOf } from '@/mock/subTasks'
-import { TASK_STATUS, PROCESS_STEP, RISK_GRADE, PRIORITY_LEVEL, SECURITY_LEVEL, RISK_TOKEN } from '@/lib/codes'
+import { PROCESS_STEP, RISK_GRADE, PRIORITY_LEVEL, SECURITY_LEVEL, RISK_TOKEN } from '@/lib/codes'
 
 // 상태색상정책: 단계 상태 완료·진행=초록, 대기=회색(라벨 텍스트로 구분 — 색 단독 금지 원칙)
 const STEP_COLOR = { COMPLETED: 'var(--color-ok-base)', IN_PROGRESS: 'var(--color-ok-base)', PENDING: 'var(--color-neutral-border)' }
@@ -267,19 +268,14 @@ function Comments() {
   )
 }
 
-// 보고서 탭 — 업무 진행 보고서 초안 (mock)
+// 보고서 탭 — 결재·BI 반영 초안 공용 로직 적용 (INT-RB03-04 · REF-23 Phase 4)
 function Report({ task }) {
   return (
     <div>
-      <p style={{ margin: '0 0 var(--krds-space-6)', fontSize: 'var(--krds-body-small)', color: 'var(--color-text-assistive,#9ca3af)' }}>업무 진행 보고서 초안 (mock · 기획 확정 전 예시)</p>
-      <div style={{ ...riskBox, background: 'var(--color-background-alternative,#f8f9fa)' }}>
-        <h4 style={{ margin: '0 0 var(--krds-space-5)' }}>{task.taskNm} 진행 보고</h4>
-        <ul style={{ margin: 0, paddingLeft: 'var(--krds-space-8)', lineHeight: 1.8 }}>
-          <li>현재 진척률: {task.progress}% ({TASK_STATUS[task.status]})</li>
-          <li>담당자: {task.assigneeNm} · 기간: {task.startAt} ~ {task.endAt}</li>
-          <li>주요 이슈 및 다음 단계 계획 (요약)</li>
-        </ul>
-      </div>
+      <p style={{ margin: '0 0 var(--krds-space-6)', fontSize: 'var(--krds-body-small)', color: 'var(--color-text-assistive,#9ca3af)' }}>
+        결재·BI 반영 초안 (mock 자동 생성 · 편집은 보고서 화면에서)
+      </p>
+      <ReportDraft taskId={task.taskId} compact />
     </div>
   )
 }
