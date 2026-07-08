@@ -1,5 +1,18 @@
 # specs 변경이력
 
+## 2026-07-08 — 기획문서 4종 v1.0 발행 (REF-23 구현 현행화)
+
+완성 화면 기준으로 정의서 3종을 v0.9→v1.0 갱신하고 목업데이터를 실 시드 코드에서 재추출. v0.9 원본은 보존.
+
+| 문서 | 파일 | 주요 변경 |
+|------|------|-----------|
+| 기능상세정의서 | `docs/20260708_기능상세정의서_v1.0.xlsx` | REF-23 기능 11건 신설(FN-WF02-17~19·FN-CM03-9~11·FN-RB01-3~5·FN-RB03-3~4) · FN-WF02-16 상태 전이 격상 · FN-WF02-15 ReportDraft 공용화 반영 |
+| 입출력데이터정의서 | `docs/20260708_화면별_입출력데이터정의서_v1.0.xlsx` | APPROVAL_LINE 6키 확장(§4.1 정확 일치) · AI_SUMMARY/BI_METRIC/BI_SNAPSHOT 엔터티 신설 · 공통코드 결재상태 REJECTED 신설(색 토큰 매핑) · 입력 6건·출력 9건 추가(실코드 키 일치: range.from/to·recipient·fieldErrors 등) |
+| 화면상세정의서 | `docs/20260708_화면상세정의서_v1.0.xlsx` | 인터랙션 12건 등재(WF02-11~14·CM03-22~24·RB01-03~05·RB03-04~05) · WF02-09 전이 격상·WF02-03 구현 확정 · 연결화면 drill 체인 갱신 · 개선요구 '결재 과정 포함' 반영완료 처리 |
+| 목업데이터 | `docs/20260708_목업데이터_v1.0.json` | `src/mock/*.js` 29개 export 자동 추출(esbuild) — aiSummaries·biMetrics·biSnapshot 신규 수록, approvalLines 15행 확장분, notifications 26건 등 |
+
+- [CONFIRM] 잔존(정의서에도 표기): 지연 판정 기준값 · SLA 임계 90/70 · B3 외 위젯 drill · 첨부 구성 · REJECTED→재상신 전이 · 초안 재생성 모달.
+
 ## 2026-07-07 — REF-23 「결재→BI→보고서 흐름」 Phase 0~4 구현 완료
 
 - **Phase 0** mock 보강(MOCK-01~05): APPROVAL_LINE 확장 6키(15행) · REJECTED 코드+`APPROVAL_TOKEN` · `aiSummary.js` · `biMetrics.js`(B1~B9·biSnapshot) · 결재 알림 2건. 시연 케이스: 지연=T-001-02·반려=T-001-05·미상신=T-001-04·완료=T-001-01.
