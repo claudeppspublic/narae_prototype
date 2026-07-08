@@ -65,7 +65,7 @@ export default function Layout() {
         {/* CM02-00 로고 */}
         <NavLink to="/" style={logo}>Narae AI</NavLink>
 
-        {/* CM02-01 GNB 4개 */}
+        {/* CM02-01 GNB 5개 (v1.1 REF-24 D9·D10) */}
         <nav style={{ display: 'flex', gap: 'var(--krds-space-8)', marginLeft: 'var(--krds-space-6)' }}>
           {gnbMenus.map((m) => (
             <NavLink key={m.key} to={m.to} style={{ ...gnbLink, ...(isActive(m.to) ? gnbActive : {}) }}>
@@ -93,7 +93,7 @@ export default function Layout() {
           />
 
           {/* CM02-03 알림 벨 → RB-02. 배지 색=미읽음 최고 심각도 롤업 */}
-          <button aria-label="알림" onClick={() => navigate('/bi/risk')} style={iconBtn}>
+          <button aria-label="알림" onClick={() => navigate('/monitoring/risk')} style={iconBtn}>
             <span aria-hidden>🔔</span>
             {unread > 0 && (
               <span style={{ ...badgeDot, background: BELL_TONE[unreadSeverity()].bg, color: BELL_TONE[unreadSeverity()].fg }}>

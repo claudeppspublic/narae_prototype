@@ -1,6 +1,6 @@
-// SCR-ID ↔ 경로 ↔ 컴포넌트 매핑 (기술스택정의서 §7, 화면상세정의서 1_메뉴구조도)
-// GNB 대메뉴 4개: 조직도(/org)·업무(/work)·규정(/reg)·BI(/bi)
-// 회의록=홈 도구 · 관리자/내 정보=별도 · 로그인=레이아웃 밖
+// SCR-ID ↔ 경로 ↔ 컴포넌트 매핑 (기술스택정의서 §7, 화면상세정의서 v1.1 1_메뉴구조도)
+// GNB 대메뉴 5개(v1.1 REF-24 D9·D10): 규정(/reg)·업무(/work)·DATA연계(/data-link)·AI(/ai)·모니터링(/monitoring)
+// 조직도=홈 조직 트리 진입(GNB 제외·화면 유지) · 회의록=홈 도구 · 관리자/내 정보=별도 · 로그인=레이아웃 밖
 import Login from '@/pages/common/Login'
 import OrgWorkBoard from '@/pages/home/OrgWorkBoard'
 import OrgList from '@/pages/org/OrgList'
@@ -22,11 +22,12 @@ import MyPage from '@/pages/settings/MyPage'
 import NotificationSettings from '@/pages/settings/NotificationSettings'
 import SecuritySettings from '@/pages/settings/SecuritySettings'
 import SystemInfo from '@/pages/settings/SystemInfo'
+import DataLink from '@/pages/dl/DataLink'
 import RolePermission from '@/pages/admin/RolePermission'
 import JobTags from '@/pages/admin/JobTags'
 import CommonCodes from '@/pages/admin/CommonCodes'
 
-// gnb: 'org' | 'work' | 'reg' | 'bi' | 'home' | 'me' | 'admin' | null(로그인)
+// gnb: 'reg' | 'work' | 'datalink' | 'ai' | 'monitoring' | 'org'(GNB 제외) | 'home' | 'me' | 'admin' | null(로그인)
 // index:true → 부모 경로(/)에 매핑되는 화면
 export const routeMeta = [
   { scrId: 'SCR-CM-03', index: true, path: '/', element: OrgWorkBoard, gnb: 'home', title: '홈 — 조직·업무 보드' },
@@ -41,10 +42,11 @@ export const routeMeta = [
   { scrId: 'SCR-DO-01', path: '/meeting', element: Meeting, gnb: 'home', title: '회의록' },
   { scrId: 'SCR-AI-01', path: '/reg/table', element: RegulationTable, gnb: 'reg', title: '규정 테이블' },
   { scrId: 'SCR-AI-02', path: '/reg/upload', element: RegulationUpload, gnb: 'reg', title: '규정 등록' },
-  { scrId: 'SCR-AI-03', path: '/reg/qna', element: QnaAssistant, gnb: 'reg', title: 'QnA (AI 어시스턴트)' },
-  { scrId: 'SCR-RB-01', path: '/bi/dashboard', element: DeptDashboard, gnb: 'bi', title: '부서 대시보드(BI)' },
-  { scrId: 'SCR-RB-02', path: '/bi/risk', element: RiskAlerts, gnb: 'bi', title: '리스크 알림' },
-  { scrId: 'SCR-RB-03', path: '/bi/report', element: Report, gnb: 'bi', title: '보고서' },
+  { scrId: 'SCR-AI-03', path: '/ai/qna', element: QnaAssistant, gnb: 'ai', title: 'QnA (AI 어시스턴트)' }, // v1.1 D10: 'AI' 대메뉴 독립
+  { scrId: 'SCR-DL-01', path: '/data-link', element: DataLink, gnb: 'datalink', title: 'DATA연계' }, // v1.1 D10 신규 placeholder
+  { scrId: 'SCR-RB-01', path: '/monitoring/dashboard', element: DeptDashboard, gnb: 'monitoring', title: '부서 대시보드(BI)' }, // v1.1 D9: /bi→/monitoring
+  { scrId: 'SCR-RB-02', path: '/monitoring/risk', element: RiskAlerts, gnb: 'monitoring', title: '리스크 알림' },
+  { scrId: 'SCR-RB-03', path: '/monitoring/report', element: Report, gnb: 'monitoring', title: '보고서' },
   { scrId: 'SCR-ST-01', path: '/me', element: MyPage, gnb: 'me', title: '마이페이지' },
   { scrId: 'SCR-ST-02', path: '/me/notifications', element: NotificationSettings, gnb: 'me', title: '알림 설정' },
   { scrId: 'SCR-ST-03', path: '/me/security', element: SecuritySettings, gnb: 'me', title: '보안 설정' },
@@ -59,10 +61,11 @@ export const publicRoutes = [
   { scrId: 'SCR-CM-01', path: '/login', element: Login, title: '로그인' },
 ]
 
-// GNB 대메뉴 4개 (화면상세정의서 1_메뉴구조도)
+// GNB 대메뉴 5개 (화면상세정의서 v1.1 1_메뉴구조도 — REF-24 D9·D10)
 export const gnbMenus = [
-  { key: 'org', label: '조직도', to: '/org/list' },
-  { key: 'work', label: '업무', to: '/work/table' },
   { key: 'reg', label: '규정', to: '/reg/table' },
-  { key: 'bi', label: 'BI', to: '/bi/dashboard' },
+  { key: 'work', label: '업무', to: '/work/table' },
+  { key: 'datalink', label: 'DATA연계', to: '/data-link' },
+  { key: 'ai', label: 'AI', to: '/ai/qna' },
+  { key: 'monitoring', label: '모니터링', to: '/monitoring/dashboard' },
 ]

@@ -13,9 +13,9 @@ export const ADMIN_ITEMS = [
   { to: '/admin/codes', label: '공통코드' },
 ]
 export const BI_ITEMS = [
-  { to: '/bi/dashboard', label: '부서 대시보드' },
-  { to: '/bi/risk', label: '리스크 알림' },
-  { to: '/bi/report', label: '보고서' },
+  { to: '/monitoring/dashboard', label: '부서 대시보드' },
+  { to: '/monitoring/risk', label: '리스크 알림' },
+  { to: '/monitoring/report', label: '보고서' },
 ]
 
 export default function SideNav({ items, title }) {

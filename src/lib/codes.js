@@ -96,13 +96,29 @@ export const HOME_TOOL = {
   RISK_EVAL: '리스크평가',
 }
 
-// 홈 상단 카테고리 탭 (결정 07-01) — [CONFIRM] 탭↔업무 매핑은 mock 기준(기획확인 대상)
+// 업무 카테고리 7종 — v1.1(REF-24 D8): 좌측 컬럼, 교육·기타 신설. [CONFIRM] 카테고리↔업무 매핑은 mock 기준
 export const HOME_CATEGORY = {
   HR: '인사',
   FINANCE: '자금',
   ADMIN: '관리',
   TECH: '기술',
   INFO: '정보',
+  EDU: '교육',
+  ETC: '기타',
+}
+
+// 홈 간트 기간 스코프 — v1.1(REF-24 D8): 조회 기간에 따라 차트 유기적 변동
+export const GANTT_SCOPE = {
+  WEEKLY: '주간',
+  MONTHLY: '월간',
+  YEARLY: '연간',
+}
+
+// WF-02 프로세스 맵 뷰 — v1.1(REF-24 D11)
+export const PROCESS_VIEW = {
+  DAY: '일',
+  WEEK: '주',
+  MONTH: '월',
 }
 
 // 업무 구분

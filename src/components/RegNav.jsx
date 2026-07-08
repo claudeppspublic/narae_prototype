@@ -1,10 +1,9 @@
-// RegNav — 규정 영역 좌측 LNB (규정 테이블/규정 등록/QnA).
+// RegNav — 규정 영역 좌측 LNB (규정 테이블/규정 등록). QnA는 v1.1(D10) 'AI' 대메뉴로 독립.
 import { NavLink } from 'react-router-dom'
 
 const items = [
   { to: '/reg/table', label: '규정 테이블' },
   { to: '/reg/upload', label: '규정 등록' },
-  { to: '/reg/qna', label: 'QnA' },
 ]
 
 export default function RegNav() {

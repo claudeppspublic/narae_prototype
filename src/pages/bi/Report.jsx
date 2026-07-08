@@ -60,7 +60,7 @@ export default function Report() {
 
   return (
     <div style={{ display: 'flex', height: 'calc(100vh - var(--krds-control-xlarge))' }}>
-      <SideNav items={BI_ITEMS} title="BI · 리스크" />
+      <SideNav items={BI_ITEMS} title="모니터링" />
       <div style={{ flex: 1, overflowY: 'auto', padding: 'var(--krds-space-10)' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--krds-space-9)', flexWrap: 'wrap', gap: 'var(--krds-space-6)' }}>
         <h1 style={{ fontSize: 'var(--krds-heading-medium)', fontWeight: 'var(--krds-weight-bold)', margin: 0 }}>보고서</h1>
@@ -76,7 +76,7 @@ export default function Report() {
             </div>
             <ReportDraft taskId={ctxTaskId}
               onApprovalLink={(tid) => setDrawerTaskId(tid)}
-              onBiLink={() => navigate(ctxTaskId ? `/bi/dashboard?taskId=${ctxTaskId}` : '/bi/dashboard')} />
+              onBiLink={() => navigate(ctxTaskId ? `/monitoring/dashboard?taskId=${ctxTaskId}` : '/monitoring/dashboard')} />
           </>
         ) : (
           <>

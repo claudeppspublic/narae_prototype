@@ -1,7 +1,8 @@
 // TASK 시드 — 업무(간트 바 = 개별 업무). 화면설계서 간트/캘린더 실측 업무명.
 // 스키마: taskId, projectId, taskNm, status, assigneeId, assigneeNm, startAt, endAt,
 //         progress, riskGrade, processStepId, taskType, priorityLevel, securityLevel,
-//         financeYn, mgmtStatus, category(홈 상단탭 — [CONFIRM] 기획확인 대상)
+//         financeYn, mgmtStatus, category(7종 — v1.1 D8)
+//         + v1.1(REF-24): costBudget, durationDays, linkedFormIds (하단 파생 시드)
 // parentTaskId(하위업무 계층)는 스키마 미정의 → WF-02 착수 시 [확인필요].
 export const tasks = [
   { taskId: 'T-001-01', projectId: 'WF-001', taskNm: '예산 편성지침 분석', status: 'COMPLETED', assigneeId: 'U2026-026', assigneeNm: '정가은', startAt: '2026-01-05', endAt: '2026-01-20', progress: 100, riskGrade: 'OK', processStepId: 'S-001-01', taskType: 'REGULAR', priorityLevel: 'NORMAL', securityLevel: 'L1', financeYn: true, mgmtStatus: '사용', category: 'FINANCE' },
@@ -103,6 +104,19 @@ export const tasks = [
   { taskId: 'T-028-02', projectId: 'WF-028', taskNm: '관계기관 협의', status: 'COMPLETED', assigneeId: 'U2026-145', assigneeNm: '송지호', startAt: '2026-02-01', endAt: '2026-05-31', progress: 100, riskGrade: 'OK', processStepId: null, taskType: 'REGULAR', priorityLevel: 'NORMAL', securityLevel: 'L2', financeYn: true, mgmtStatus: '사용', category: 'FINANCE' },
   { taskId: 'T-028-03', projectId: 'WF-028', taskNm: '추진계획 수립', status: 'IN_PROGRESS', assigneeId: 'U2026-144', assigneeNm: '성가은', startAt: '2026-02-01', endAt: '2026-05-31', progress: 30, riskGrade: 'WARN', processStepId: null, taskType: 'ADHOC', priorityLevel: 'LOW', securityLevel: 'L1', financeYn: true, mgmtStatus: '사용', category: 'FINANCE' },
 ]
+
+// v1.1(REF-24 §6) TASK 확장 — costBudget·durationDays·linkedFormIds (결정적 파생 시드)
+// [CONFIRM: 원가 산정 기준] 3,000,000~50,000,000원 그럴싸 범위 · [CONFIRM: 소요시간=계획기간 파생 채택]
+// [CONFIRM: 업무-양식 연결 규칙] taskId 해시→FM-001~006 1건 매핑
+const hash = (s) => [...s].reduce((a, c) => (a * 31 + c.charCodeAt(0)) % 997, 7)
+// v1.1 D8: 교육(EDU)/기타(ETC) 카테고리 시연 시드 — [CONFIRM: 재분류 기준] 과제 단위 임시 재분류
+const CATEGORY_OVERRIDE = { 'WF-022': 'EDU', 'WF-025': 'ETC', 'WF-026': 'ETC' }
+for (const t of tasks) {
+  t.durationDays = Math.round((new Date(t.endAt) - new Date(t.startAt)) / 86400000) + 1
+  t.costBudget = (3 + (hash(t.taskId) % 48)) * 1_000_000
+  t.linkedFormIds = [`FM-00${(hash(t.taskId) % 6) + 1}`]
+  if (CATEGORY_OVERRIDE[t.projectId]) t.category = CATEGORY_OVERRIDE[t.projectId]
+}
 
 export const findTask = (id) => tasks.find((t) => t.taskId === id)
 export const tasksOf = (projectId) => tasks.filter((t) => t.projectId === projectId)
