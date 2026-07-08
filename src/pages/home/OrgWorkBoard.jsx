@@ -1,399 +1,428 @@
-// SCR-CM-03 — 홈 · 조직·업무 보드 (컬럼 드릴다운)
-// docs/org-work-board-v1-tools.jsx 예시 디자인 채택(도구 영역 제외).
-// 흐름: 조직 depth 드릴 → 소속 근무자 → 업무 스택 → 상세 체인 → (BI 버튼) 목표관리 BI Drawer
-// CM03-14 카테고리(상단 탭) 필터 · CM03-17 상단 탭 · 우측 고정 BI 요약
-// [CONFIRM] BI 지표·산출식·탭↔업무 매핑은 기획확인 대상(mock). 도구별 Drawer는 최종 진입 시 확정.
+// SCR-CM-03 — 홈 · 조직 간트 보드 (v1.1 REF-24 D8 전면 개편 — 노드 캔버스/컬럼 드릴다운 폐지)
+// 좌 LNB=조직 트리(CM03-25)+업무 카테고리 7종(CM03-17) · 중앙=담당자별 간트(주간/월간/연간 CM03-18 ·
+// 업무명 바·정기 뱃지·상태색·연관 점선·타부서 저오퍼시티 CM03-27 · 결재 칩 CM03-22) ·
+// 우측=목표 BI 패널(CM03-28)+DATA 패널(선택 업무의 규정/양식/결재 현황 CM03-26)
+// 바 클릭=선택→DATA 패널 · 더블클릭/DATA 패널 [업무 상세]=WF-02 팝업(CM03-19) — [CONFIRM: 클릭/더블클릭 구분]
+// [CONFIRM: 하위 부서 포함 범위] 선택 부서+하위 전체 인원 포함 채택 · [CONFIRM: 결재 칩 표시 위치] 간트 바 칩 채택(트리 롤업 보류)
+// [CONFIRM: 기간별 시드] 시연 기준일 2026-03-02(시드 기간 내) 채택
 import { useState, useMemo } from 'react'
-import BiDrawer from '@/components/BiDrawer'
+import { useNavigate } from 'react-router-dom'
+import OrgTree from '@/components/OrgTree'
 import WorkDetailDrawer from '@/components/WorkDetailDrawer'
+import ApprovalMini from '@/components/ApprovalMini'
+import AiSummaryBanner from '@/components/AiSummaryBanner'
 import { EmptyState } from '@/components/StateViews'
-import { RiskBadge, ApprovalBadge } from '@/components/Badge'
-import { HOME_CATEGORY, ORG_LEVEL, PROCESS_STEP, APPROVAL_ROLE } from '@/lib/codes'
-import { rootOrgs, childrenOf, findOrg } from '@/mock/orgUnits'
+import { SegToggle } from '@/components/Tabs'
+import { findOrg, childrenOf } from '@/mock/orgUnits'
 import { usersOf, findUser } from '@/mock/users'
-import { tasksByAssignee } from '@/mock/tasks'
+import { tasksByAssignee, findTask } from '@/mock/tasks'
+import { taskRelations } from '@/mock/taskRelations'
 import { stepsOf } from '@/mock/steps'
+import { regulationsOfStep } from '@/mock/regulations'
+import { formTemplates } from '@/mock/formTemplates'
 import { goals } from '@/mock/goals'
+import { biWidget } from '@/mock/biMetrics'
 import { useApprovalStore, effectiveLinesOf } from '@/store/useApprovalStore'
-import { approvalToneOf, taskApprovalStatus, worstTone } from '@/lib/approval'
+import { taskApprovalStatus } from '@/lib/approval'
+import { HOME_CATEGORY, GANTT_SCOPE, APPROVAL_STATUS, APPROVAL_TOKEN, RISK_TOKEN, RISK_GRADE } from '@/lib/codes'
+import {
+  BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,
+  LineChart, Line, PieChart, Pie, Cell,
+} from 'recharts'
 
-const LEVEL_LABEL = { [ORG_LEVEL.OFFICE]: '실', [ORG_LEVEL.BUREAU]: '관', [ORG_LEVEL.DIVISION]: '과' }
-const CATEGORY_ENTRIES = Object.entries(HOME_CATEGORY) // [KEY, 라벨]
+const DAY = 86400000
+// 시연 기준일 — 시드 일정(2026-01~05) 내 앵커 [CONFIRM: 기간별 시드]
+const ANCHOR = new Date('2026-03-02')
+const SCOPE_WINDOW = {
+  WEEKLY: { start: ANCHOR, days: 7, tickUnit: 1, fmt: (d) => `${d.getMonth() + 1}/${d.getDate()}` },
+  MONTHLY: { start: new Date('2026-03-01'), days: 31, tickUnit: 7, fmt: (d) => `${d.getMonth() + 1}/${d.getDate()}` },
+  YEARLY: { start: new Date('2026-01-01'), days: 365, tickUnit: 30.4, fmt: (d) => `${d.getMonth() + 1}월` },
+}
+const ROW_H = 34
+const GUTTER_W = 200 // 간트 좌측 담당자/업무 거터 폭(px) — 점선 오버레이 기준
+const CHART_TICK = { fontSize: 12 }
+const DONUT_COLORS = ['var(--color-risk-base)', 'var(--narae-accent)', 'var(--color-neutral-border)', 'var(--color-warn-base)']
 
-// INT-CM03-13 조직 롤업 칩: 하위 조직·인원의 결재선 있는 업무 tone 중 최악(빨강>노랑>초록>회색)
-function orgApprovalTone(orgUnitId, submitted) {
-  const tones = []
+// [CONFIRM: 하위 부서 포함 범위] 선택 부서 직속+하위 전체 인원 수집(시연 상한 10명)
+function membersOf(orgUnitId, cap = 10) {
+  const out = []
   const walk = (id) => {
-    usersOf(id).forEach((u) => tasksByAssignee(u.empNo).forEach((t) => {
-      const lines = effectiveLinesOf(t.taskId, submitted)
-      if (lines.length) tones.push(approvalToneOf(lines))
-    }))
+    if (out.length >= cap) return
+    usersOf(id).forEach((u) => out.length < cap && out.push(u))
     childrenOf(id).forEach((c) => walk(c.orgUnitId))
   }
   walk(orgUnitId)
-  return tones.length ? worstTone(tones) : 'neutral'
+  return out
 }
 
 export default function OrgWorkBoard() {
-  const [path, setPath] = useState([]) // orgUnitId 경로
-  const [employeeId, setEmployeeId] = useState(null)
-  const [categoryKey, setCategoryKey] = useState('ADMIN')
-  const [taskId, setTaskId] = useState(null)
-  const [biNode, setBiNode] = useState(null) // 오버레이 BI Drawer 대상
-  const [drawerTaskId, setDrawerTaskId] = useState(null) // 업무 상세(WF-02) Drawer
-  const submitted = useApprovalStore((s) => s.submitted) // 상신 오버레이 — 칩 동기 갱신(INT-WF02-12 ②)
+  const navigate = useNavigate()
+  const [orgUnitId, setOrgUnitId] = useState(null) // CM03-25 조직 트리 부서 선택
+  const [categoryKey, setCategoryKey] = useState('ADMIN') // CM03-17 카테고리 7종
+  const [scope, setScope] = useState('MONTHLY') // CM03-18 주간/월간/연간
+  const [selectedTaskId, setSelectedTaskId] = useState(null) // CM03-26 간트 바 선택 → DATA 패널
+  const [popupTaskId, setPopupTaskId] = useState(null) // CM03-19 상세 진입 → WF-02 팝업
+  const submitted = useApprovalStore((s) => s.submitted) // 상신 오버레이 — 칩 동기(INT-WF02-12 ②)
 
-  // 현재 조직 컨텍스트
-  const currentOrgId = path.length ? path[path.length - 1] : null
-  const childOrgs = currentOrgId ? childrenOf(currentOrgId) : rootOrgs()
-  const employees = currentOrgId && childOrgs.length === 0 ? usersOf(currentOrgId) : null
-  const emp = employeeId ? findUser(employeeId) : null
+  const org = orgUnitId ? findOrg(orgUnitId) : null
+  const members = useMemo(() => (orgUnitId ? membersOf(orgUnitId) : []), [orgUnitId])
 
-  const tasks = useMemo(() => {
-    if (!emp) return []
-    return tasksByAssignee(emp.empNo).filter((t) => t.category === categoryKey)
-  }, [emp, categoryKey])
-  const task = tasks.find((t) => t.taskId === taskId) || null
-  const detailSteps = task ? stepsOf(task.projectId) : []
-  const approvals = task ? effectiveLinesOf(task.taskId, submitted) : []
+  // 담당자별 간트 행(assigneeGanttRows) + 타부서 연관(crossDeptTasks — 선택 부서 밖 포함, CM03-27)
+  const { rows, deps } = useMemo(() => {
+    const own = members.flatMap((u) =>
+      tasksByAssignee(u.empNo).filter((t) => t.category === categoryKey).map((t) => ({ t, crossDept: false })))
+    const ownIds = new Set(own.map((r) => r.t.taskId))
+    const cross = []
+    taskRelations.forEach((r) => {
+      const pairs = [[r.fromTaskId, r.toTaskId], [r.toTaskId, r.fromTaskId]]
+      pairs.forEach(([a, b]) => {
+        if (ownIds.has(a) && !ownIds.has(b) && !cross.some((c) => c.t.taskId === b)) {
+          const other = findTask(b)
+          if (other) cross.push({ t: other, crossDept: true })
+        }
+      })
+    })
+    const all = [...own, ...cross]
+    const idx = new Map(all.map((r, i) => [r.t.taskId, i]))
+    const deps = taskRelations
+      .filter((r) => idx.has(r.fromTaskId) && idx.has(r.toTaskId))
+      .map((r) => ({ from: idx.get(r.fromTaskId), to: idx.get(r.toTaskId), type: r.relationType }))
+    return { rows: all, deps }
+  }, [members, categoryKey])
 
-  const resetDown = () => { setEmployeeId(null); setTaskId(null) }
-  const drill = (id) => { setPath((p) => [...p, id]); resetDown() }
-  const collapseTo = (i) => { setPath((p) => p.slice(0, i)); resetDown() }
-
-  const openBi = (nodeType, refId, label) => setBiNode({ nodeType, refId, label })
+  const selectedTask = selectedTaskId ? findTask(selectedTaskId) : null
 
   return (
-    <div style={{ height: 'calc(100vh - var(--krds-control-xlarge))', display: 'flex', flexDirection: 'column' }}>
-      {/* 상단 바: 제목 + 카테고리 탭 */}
-      <div style={topBar}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--krds-space-6)' }}>
-          <h1 style={{ fontWeight: 'var(--krds-weight-bold)', color: 'var(--color-text-basic)', margin: 0, fontSize: 'var(--krds-body-medium)' }}>조직·업무 보드</h1>
-          <div style={{ display: 'flex', gap: 'var(--krds-space-2)' }}>
-            {CATEGORY_ENTRIES.map(([key, label]) => (
-              <button key={key} onClick={() => { setCategoryKey(key); setTaskId(null) }}
-                style={{ ...tab, ...(categoryKey === key ? tabActive : {}) }}>
-                {label}
-              </button>
-            ))}
-          </div>
+    <div style={{ height: 'calc(100vh - var(--krds-control-xlarge))', display: 'flex', minHeight: 0 }}>
+      {/* ── 좌 LNB: 조직 트리 + 카테고리 (D8: 조직도 화면은 여기서 진입 — D9) */}
+      <aside style={lnb}>
+        <div style={lnbHeader}>
+          <span>조직 / 부서</span>
+          <button onClick={() => navigate('/org/list')} title="조직도 화면으로 이동(D9)" style={lnbLink}>조직도 →</button>
         </div>
-      </div>
-
-      {/* 본문: 가로 스크롤 컬럼 + 우측 고정 BI */}
-      <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
-        <div style={{ flex: 1, display: 'flex', overflowX: 'auto', minWidth: 0 }}>
-          {/* 접힌 스파인 (뒤로 가기) */}
-          {path.map((id, i) => (
-            <button key={id} onClick={() => collapseTo(i)} title="이 단계로 돌아가기" style={spine}>
-              <span style={{ writingMode: 'vertical-rl', fontSize: 'var(--krds-body-small)', color: 'var(--color-text-assistive,#6b7280)' }}>
-                {findOrg(id)?.orgUnitNm}
-              </span>
+        <div data-testid="cm03-25" style={{ flex: 1, overflowY: 'auto', padding: 'var(--krds-space-4)' }}>
+          <OrgTree selectedId={orgUnitId} onSelect={(id) => { setOrgUnitId(id); setSelectedTaskId(null) }} />
+        </div>
+        <div style={lnbHeader}>업무</div>
+        <div style={{ padding: 'var(--krds-space-4)', display: 'flex', flexDirection: 'column', gap: 2 }}>
+          {Object.entries(HOME_CATEGORY).map(([key, label]) => (
+            <button key={key} data-testid="cm03-17"
+              onClick={() => { setCategoryKey(key); setSelectedTaskId(null) }}
+              style={{ ...catBtn, ...(categoryKey === key ? catBtnOn : {}) }}>
+              {label}
             </button>
           ))}
+        </div>
+      </aside>
 
-          {/* 조직 컬럼 */}
-          {childOrgs.length > 0 && (
-            <Column icon="🏢" title={`조직 (${path.length + 1}depth)`} hint="행=하위 전개 · 📊=BI">
-              {childOrgs.map((o) => {
-                // INT-CM03-13 롤업 칩 — neutral(정보 없음)이면 생략
-                const rollup = orgApprovalTone(o.orgUnitId, submitted)
-                return (
-                  <Row key={o.orgUnitId} onClick={() => drill(o.orgUnitId)}
-                    meta={`${o.empCount}명`} drillLabel="하위 조직 전개"
-                    chip={rollup !== 'neutral' && <RollupChip tone={rollup} />}
-                    onBi={() => openBi('ORG', o.orgUnitId, o.orgUnitNm)}>
-                    <span style={{ fontSize: 'var(--narae-caption)', padding: '0 4px', borderRadius: 3, background: 'var(--narae-accent)', color: '#fff', marginRight: 6 }}>{LEVEL_LABEL[o.level]}</span>
-                    {o.orgUnitNm}
-                  </Row>
-                )
-              })}
-            </Column>
-          )}
+      {/* ── 중앙: 담당자별 간트 */}
+      <main style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
+        <div style={topBar}>
+          <h1 style={{ margin: 0, fontSize: 'var(--krds-body-medium)', fontWeight: 'var(--krds-weight-bold)' }}>
+            {org ? `${org.orgUnitNm} · ${HOME_CATEGORY[categoryKey]} 업무 간트` : '조직 간트 보드'}
+          </h1>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--krds-space-7)', marginLeft: 'auto' }}>
+            <Legend />
+            {/* CM03-18 기간 토글 — 조회 기간에 따라 차트 유기적 변동 */}
+            <span data-testid="cm03-18">
+              <SegToggle size="sm" value={scope} onChange={setScope}
+                items={Object.entries(GANTT_SCOPE).map(([key, label]) => ({ key, label }))} />
+            </span>
+          </div>
+        </div>
 
-          {/* 근무자 컬럼 */}
-          {employees && (
-            <Column icon="👥" title="소속 근무자" hint="행=업무 보기 · 📊=BI">
-              {employees.length === 0
-                ? <ColEmpty text="소속 인원 없음" />
-                : employees.map((e) => (
-                  <Row key={e.empNo} onClick={() => { setEmployeeId(e.empNo); setTaskId(null) }}
-                    active={employeeId === e.empNo} meta={e.position} drillLabel="담당 업무 보기"
-                    onBi={() => openBi('WORKER', e.empNo, e.empNm)}>
-                    👤 {e.empNm}
-                  </Row>
-                ))}
-            </Column>
-          )}
-
-          {/* 업무 스택 */}
-          {emp && (
-            <div style={{ ...colBase, width: 250 }}>
-              <ColHeader icon="📋" title={`${emp.empNm} · ${HOME_CATEGORY[categoryKey]}`} />
-              <div style={{ overflowY: 'auto', padding: 'var(--krds-space-4)', display: 'flex', flexDirection: 'column', gap: 'var(--krds-space-4)' }}>
-                {tasks.length === 0
-                  ? <ColEmpty text={`'${HOME_CATEGORY[categoryKey]}' 업무 없음`} />
-                  : tasks.map((t) => {
-                    const on = taskId === t.taskId
-                    // INT-CM03-13 업무 노드 결재 칩 — 결재선 있는 업무만 (지연/반려=risk tone 오버라이드)
-                    const lines = effectiveLinesOf(t.taskId, submitted)
-                    return (
-                      <button key={t.taskId} onClick={() => setTaskId(t.taskId)} data-testid="cm03-task-node"
-                        style={{ ...taskCard, ...(on ? taskCardOn : {}) }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 6 }}>
-                          <span style={{ fontWeight: 'var(--krds-weight-medium)', textAlign: 'left' }}>{t.taskNm}</span>
-                          <RiskBadge grade={t.riskGrade} />
-                        </div>
-                        <div style={{ marginTop: 4, display: 'flex', alignItems: 'center', gap: 6, fontSize: 'var(--narae-caption)', color: 'var(--color-text-assistive,#6b7280)' }}>
-                          <span>{t.taskType === 'REGULAR' ? '정기' : '수시'} · 진척 {t.progress}%</span>
-                          {lines.length > 0 && (
-                            <ApprovalBadge status={taskApprovalStatus(lines)} tone={approvalToneOf(lines)} />
-                          )}
-                        </div>
-                      </button>
-                    )
-                  })}
-              </div>
+        <div style={{ flex: 1, overflowY: 'auto', padding: 'var(--krds-space-8)' }}>
+          <AiSummaryBanner screen="cm03" contextType="org" contextId={null} style={{ marginBottom: 'var(--krds-space-7)' }} />
+          {!org ? (
+            /* CM03-21 초기 EmptyState (v1.1 문구) */
+            <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '14vh' }} data-testid="cm03-21">
+              <EmptyState icon="🏢" title="부서를 선택해 조직 간트를 시작하세요"
+                description="좌측 조직 트리에서 부서를 선택하면 담당자별 업무 간트가 표시됩니다. 간트 바 클릭=업무 선택(DATA 패널) · 더블클릭=업무 상세." />
             </div>
+          ) : rows.length === 0 ? (
+            <EmptyState icon="📋" title={`'${HOME_CATEGORY[categoryKey]}' 업무가 없습니다`}
+              description="다른 카테고리를 선택하거나 상위 부서를 선택해 보세요." />
+          ) : (
+            <Gantt rows={rows} deps={deps} scope={scope} submitted={submitted}
+              selectedTaskId={selectedTaskId}
+              onSelect={(id) => setSelectedTaskId(id)}
+              onDetail={(id) => setPopupTaskId(id)} />
           )}
+        </div>
+      </main>
 
-          {/* 워크플로우 (업무 진행 단계 + 결재 과정) — 클릭 시 업무 상세 Drawer */}
-          {task && (
-            <div style={{ ...colBase, flex: 1, minWidth: 420, background: 'var(--color-background-alternative, #f8f9fa)' }}>
-              <ColHeader icon="↳" title={`${task.taskNm} · 워크플로우`}
-                right={<button onClick={() => openBi('TASK', task.taskId, task.taskNm)} style={biMini}>목표관리 BI</button>} />
-              <div style={{ overflowY: 'auto', padding: 'var(--krds-space-8)' }}>
-                <p style={{ margin: '0 0 var(--krds-space-6)', fontSize: 'var(--krds-body-small)', color: 'var(--color-text-assistive,#9ca3af)' }}>
-                  단계를 클릭하면 업무 상세가 열립니다.
-                </p>
-                {/* 진행 단계 */}
-                <div style={flowLabel}>진행 단계</div>
-                <div style={flowRow}>
-                  {detailSteps.length === 0 ? <ColEmpty text="단계 정보 없음" /> : detailSteps.map((d, i) => (
-                    <div key={d.stepId} style={{ display: 'flex', alignItems: 'center' }}>
-                      {i > 0 && <div style={arrow}>→</div>}
-                      <button onClick={() => setDrawerTaskId(task.taskId)} style={{ ...flowCard, borderColor: STEP_COLOR[d.status] }}>
-                        <div style={{ fontSize: 'var(--krds-body-small)', fontWeight: 'var(--krds-weight-bold)' }}>{PROCESS_STEP[d.name]}</div>
-                        <div style={{ marginTop: 4, fontSize: 'var(--narae-caption)', color: 'var(--color-text-assistive,#6b7280)' }}>
-                          {{ PENDING: '대기', IN_PROGRESS: '진행', COMPLETED: '완료' }[d.status]} · {d.ownerNm}
-                        </div>
-                      </button>
-                    </div>
-                  ))}
-                </div>
-                {/* 결재 과정 — INT-CM03-13: 워크플로우 카드에 결재상태 칩 */}
-                <div style={{ ...flowLabel, marginTop: 'var(--krds-space-9)', display: 'flex', alignItems: 'center', gap: 8 }}>
-                  결재 과정
-                  {approvals.length > 0 && (
-                    <ApprovalBadge status={taskApprovalStatus(approvals)} tone={approvalToneOf(approvals)} />
-                  )}
-                </div>
-                {approvals.length === 0 ? (
-                  <ColEmpty text="결재선 미설정" />
+      {/* ── 우: 목표 패널 (CM03-28) + DATA 패널 (CM03-26) */}
+      <aside style={rightPane}>
+        <GoalPanel org={org} />
+        <DataPanel task={selectedTask} submitted={submitted} onDetail={(id) => setPopupTaskId(id)} />
+      </aside>
+
+      {/* CM03-19 업무 상세 — WF-02 팝업(v1.1 Drawer→팝업) */}
+      <WorkDetailDrawer taskId={popupTaskId} open={!!popupTaskId} onClose={() => setPopupTaskId(null)} />
+    </div>
+  )
+}
+
+/* ── 간트 (커스텀) — CM03-26 바 클릭 선택 · CM03-27 연관 점선/상태색/정기 뱃지/타부서 저오퍼시티 */
+function Gantt({ rows, deps, scope, submitted, selectedTaskId, onSelect, onDetail }) {
+  const win = SCOPE_WINDOW[scope]
+  const start = +win.start
+  const span = win.days * DAY
+  const pos = (t) => {
+    const s = Math.max(+new Date(t.startAt), start)
+    const e = Math.min(+new Date(t.endAt), start + span)
+    if (e <= start || s >= start + span) return null // 조회 기간 밖
+    return { left: ((s - start) / span) * 100, width: Math.max(((e - s) / span) * 100, 1.5) }
+  }
+  const ticks = Array.from({ length: Math.floor(win.days / win.tickUnit) + 1 },
+    (_, i) => new Date(start + i * win.tickUnit * DAY))
+
+  let prevAssignee = null
+  return (
+    <div style={{ border: '1px solid var(--color-border-basic,#e5e7eb)', borderRadius: 'var(--krds-radius-medium)', overflow: 'hidden' }}>
+      {/* 축 */}
+      <div style={{ display: 'flex', borderBottom: '1px solid var(--color-border-basic,#e5e7eb)', background: 'var(--color-background-alternative,#f8f9fa)' }}>
+        <div style={{ ...gutter, fontWeight: 'var(--krds-weight-bold)' }}>담당자 / 업무</div>
+        <div style={{ flex: 1, position: 'relative', height: 30 }}>
+          {ticks.map((d, i) => (
+            <span key={i} style={{ position: 'absolute', left: `${(i * win.tickUnit / win.days) * 100}%`, top: 6, fontSize: 'var(--narae-caption)', color: 'var(--color-text-assistive,#9ca3af)' }}>
+              {win.fmt(d)}
+            </span>
+          ))}
+        </div>
+      </div>
+      {/* 행 + 연관 점선 오버레이 */}
+      <div style={{ position: 'relative' }}>
+        {rows.map(({ t, crossDept }, i) => {
+          const p = pos(t)
+          const lines = effectiveLinesOf(t.taskId, submitted)
+          const aStatus = lines.length ? taskApprovalStatus(lines) : null
+          const showAssignee = t.assigneeNm !== prevAssignee || crossDept
+          prevAssignee = crossDept ? null : t.assigneeNm
+          return (
+            <div key={t.taskId} style={{ display: 'flex', height: ROW_H, borderBottom: '1px solid var(--color-border-basic,#f1f3f5)', opacity: crossDept ? 0.5 : 1 }}>
+              <div style={gutter}>
+                <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  {showAssignee ? `👤 ${t.assigneeNm}` : ''}{crossDept && <em style={crossTag}> 타부서</em>}
+                </span>
+              </div>
+              <div style={{ flex: 1, position: 'relative' }}>
+                {p ? (
+                  <button data-testid="cm03-26" title={`${t.taskNm} · ${t.startAt}~${t.endAt} · ${RISK_GRADE[t.riskGrade]}${crossDept ? ' · 타부서 연관' : ''}`}
+                    onClick={() => onSelect(t.taskId)}
+                    onDoubleClick={() => onDetail(t.taskId)} /* CM03-19 [CONFIRM: 클릭/더블클릭 구분] */
+                    style={{
+                      position: 'absolute', left: `${p.left}%`, width: `${p.width}%`, top: 5, height: ROW_H - 12,
+                      borderRadius: 4, border: selectedTaskId === t.taskId ? '2px solid var(--color-text-basic)' : 'none',
+                      background: RISK_TOKEN[t.riskGrade], cursor: 'pointer',
+                      display: 'flex', alignItems: 'center', gap: 4, paddingLeft: 6, overflow: 'hidden',
+                    }}>
+                    {/* 간트 바=업무명 명시 · 정기 뱃지 · 결재 칩(CM03-22 이관) */}
+                    <span style={barText}>{t.taskNm}</span>
+                    {t.taskType === 'REGULAR' && <span style={regularBadge}>정기</span>}
+                    {aStatus && (
+                      <span style={{ ...apprChip, borderColor: APPROVAL_TOKEN[aStatus] }}>{APPROVAL_STATUS[aStatus]}</span>
+                    )}
+                  </button>
                 ) : (
-                  <div style={flowRow}>
-                    {approvals.map((a, i) => (
-                      <div key={a.lineId} style={{ display: 'flex', alignItems: 'center' }}>
-                        {i > 0 && <div style={arrow}>→</div>}
-                        <button onClick={() => setDrawerTaskId(task.taskId)} style={{ ...flowCard, borderColor: 'var(--narae-accent)' }}>
-                          <div style={{ fontSize: 'var(--narae-caption)', color: 'var(--narae-accent)', fontWeight: 'var(--krds-weight-bold)' }}>{APPROVAL_ROLE[a.role] ?? a.role}</div>
-                          <div style={{ fontWeight: 'var(--krds-weight-medium)' }}>{a.approverNm}</div>
-                          <div style={{ fontSize: 'var(--narae-caption)', color: 'var(--color-text-assistive,#6b7280)' }}>{a.title}</div>
-                        </button>
-                      </div>
-                    ))}
-                  </div>
+                  <span style={{ position: 'absolute', left: 6, top: 8, fontSize: 'var(--narae-caption)', color: 'var(--color-text-assistive,#c1c7cd)' }}>
+                    조회 기간 밖 ({t.startAt}~{t.endAt})
+                  </span>
                 )}
               </div>
             </div>
-          )}
-
-          {!employees && (
-            <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <EmptyState
-                icon="🏢"
-                title="조직을 클릭해 탐색을 시작하세요"
-                description="하위 조직 → 근무자 → 담당 업무 → 워크플로우 순서로 펼쳐집니다. 📊 버튼은 해당 단위의 목표관리 BI를 엽니다."
-              />
-            </div>
-          )}
-        </div>
-
-        {/* 우측 고정 BI 요약 */}
-        <aside style={biSummary}>
-          <ColHeader icon="📊" title="목표관리 BI" />
-          <div style={{ padding: 'var(--krds-space-7)', display: 'flex', flexDirection: 'column', gap: 'var(--krds-space-6)', fontSize: 'var(--krds-body-small)' }}>
-            <SummaryRow k="대상" v={emp ? emp.empNm : (currentOrgId ? findOrg(currentOrgId)?.orgUnitNm : '전사')} />
-            <SummaryRow k="카테고리" v={HOME_CATEGORY[categoryKey]} />
-            <div style={{ fontSize: 'var(--narae-caption)', color: 'var(--color-text-assistive,#6b7280)', paddingTop: 4 }}>목표 달성률 (예시)</div>
-            {goals.slice(0, 3).map((g) => {
-              const kr = g.keyResults[0]
-              return (
-                <div key={g.goalId}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'var(--narae-caption)', color: 'var(--color-text-basic)' }}>
-                    <span style={{ maxWidth: 130, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{g.objective}</span>
-                    <span>{kr?.progress ?? 0}%</span>
-                  </div>
-                  <div style={{ height: 6, background: 'var(--color-border-basic,#e2e8f0)', borderRadius: 4, marginTop: 3 }}>
-                    <div style={{ width: `${kr?.progress ?? 0}%`, height: 6, background: 'var(--narae-accent)', borderRadius: 4 }} />
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-        </aside>
+          )
+        })}
+        {/* CM03-27 업무간 연관성 점선 (from 선행 → to 후행) — 타임라인 영역(거터 제외)만 덮는 오버레이, x=% 좌표 */}
+        <svg aria-hidden style={{ position: 'absolute', top: 0, left: GUTTER_W, right: 0, height: '100%', pointerEvents: 'none' }}>
+          {deps.map((d, i) => {
+            const fromP = pos(rows[d.from].t); const toP = pos(rows[d.to].t)
+            if (!fromP || !toP) return null
+            return (
+              <line key={i}
+                x1={`${Math.min(fromP.left + fromP.width, 100)}%`} y1={d.from * ROW_H + ROW_H / 2}
+                x2={`${toP.left}%`} y2={d.to * ROW_H + ROW_H / 2}
+                stroke="var(--color-neutral-border)" strokeWidth="1.5" strokeDasharray="4 3" />
+            )
+          })}
+        </svg>
       </div>
-
-      {/* 오버레이 목표관리 BI Drawer (조직/실무자/업무 단위) — INT-CM03-14: [결재 상세 보기]→WF-02 */}
-      <BiDrawer open={!!biNode} node={biNode} onClose={() => setBiNode(null)}
-        onApprovalDetail={(tid) => { setBiNode(null); setDrawerTaskId(tid) }} />
-      {/* 업무 상세(WF-02) Drawer — 워크플로우 단계 클릭 시 */}
-      <WorkDetailDrawer taskId={drawerTaskId} open={!!drawerTaskId} onClose={() => setDrawerTaskId(null)} />
     </div>
   )
 }
 
-// 상태색상정책: 단계 상태 완료·진행=초록, 대기=회색(라벨 텍스트로 구분)
-const STEP_COLOR = { COMPLETED: 'var(--color-ok-base)', IN_PROGRESS: 'var(--color-ok-base)', PENDING: 'var(--color-neutral-border)' }
-
-/* 부속 */
-function Column({ icon, title, children, hint }) {
+function Legend() {
   return (
-    <div style={{ ...colBase, width: 250 }}>
-      <ColHeader icon={icon} title={title} />
-      {hint && <div style={colHint}>{hint}</div>}
-      <div style={{ overflowY: 'auto', padding: 'var(--krds-space-3)' }}>{children}</div>
+    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--krds-space-5)', fontSize: 'var(--narae-caption)', color: 'var(--color-text-assistive,#6b7280)' }}>
+      {[['정상', 'OK'], ['경고', 'WARN'], ['위험', 'RISK']].map(([label, k]) => (
+        <span key={k} style={{ display: 'inline-flex', alignItems: 'center', gap: 3 }}>
+          <i style={{ width: 10, height: 10, borderRadius: 3, background: RISK_TOKEN[k] }} aria-hidden />{label}
+        </span>
+      ))}
+      <span style={{ display: 'inline-flex', alignItems: 'center', gap: 3 }}>
+        <i style={{ width: 10, height: 10, borderRadius: 3, background: 'var(--color-neutral-border)', opacity: 0.5 }} aria-hidden />타부서(연관)
+      </span>
+      <span style={{ borderTop: '2px dashed var(--color-neutral-border)', width: 18 }} aria-hidden /> 연관
     </div>
-  )
-}
-function ColHeader({ icon, title, right }) {
-  return (
-    <div style={colHeader}>
-      <span aria-hidden>{icon}</span>
-      <span style={{ fontSize: 'var(--krds-body-small)', fontWeight: 'var(--krds-weight-medium)', color: 'var(--color-text-basic)' }}>{title}</span>
-      {right && <span style={{ marginLeft: 'auto' }}>{right}</span>}
-    </div>
-  )
-}
-// Row: [하위 전개 영역(클릭)] + [BI 버튼(상시)] 을 명확히 분리. chip=결재 롤업 칩(INT-CM03-13)
-function Row({ children, onClick, active, meta, onBi, drillLabel, chip }) {
-  return (
-    <div style={{ ...rowWrap, ...(active ? rowActive : {}) }}>
-      <button onClick={onClick} style={rowMain} title={drillLabel ? `클릭: ${drillLabel}` : undefined}>
-        <span style={{ flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{children}</span>
-        {chip}
-        {meta && <span style={rowMeta}>{meta}</span>}
-        {drillLabel && <span style={chev} aria-hidden>›</span>}
-      </button>
-      {onBi && (
-        <button onClick={(e) => { e.stopPropagation(); onBi() }} title="목표관리 BI 열기" style={rowBiBtn}>
-          📊 BI
-        </button>
-      )}
-    </div>
-  )
-}
-// 조직 롤업 칩 — 색+라벨 병기(색 단독 금지). 하위 결재 상태 최악값 표시.
-function RollupChip({ tone }) {
-  const t = {
-    risk: { bg: 'var(--color-risk-bg)', fg: 'var(--color-risk-text)', bd: 'var(--color-risk-border)', label: '결재!' },
-    warn: { bg: 'var(--color-warn-bg)', fg: 'var(--color-warn-text)', bd: 'var(--color-warn-border)', label: '결재' },
-    ok: { bg: 'var(--color-ok-bg)', fg: 'var(--color-ok-text)', bd: 'var(--color-ok-border)', label: '결재' },
-  }[tone]
-  if (!t) return null
-  return (
-    <span title="하위 조직 결재 상태(최악값)" style={{
-      flexShrink: 0, padding: '0 6px', borderRadius: 'var(--krds-radius-pill)',
-      fontSize: 'var(--narae-caption)', fontWeight: 'var(--krds-weight-bold)',
-      background: t.bg, color: t.fg, border: `1px solid ${t.bd}`,
-    }}>
-      {t.label}
-    </span>
   )
 }
 
-function SummaryRow({ k, v }) {
+/* ── CM03-28 목표 패널 — 조직 목표 + BI 그래프 다수(하단 영역 맞춤) */
+function GoalPanel({ org }) {
+  const trend = biWidget('B6'); const donut = biWidget('B7'); const sla = biWidget('B5')
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-      <span style={{ color: 'var(--color-text-assistive,#6b7280)' }}>{k}</span>
-      <span style={{ fontWeight: 'var(--krds-weight-medium)' }}>{v}</span>
+    <section style={panel}>
+      <div style={panelHeader}>🎯 목표 {org ? `· ${org.orgUnitNm}` : '· 전사'}</div>
+      <div style={{ padding: 'var(--krds-space-6)', display: 'flex', flexDirection: 'column', gap: 'var(--krds-space-7)', overflowY: 'auto' }}>
+        {/* 조직 목표 달성률 */}
+        {goals.slice(0, 3).map((g) => {
+          const kr = g.keyResults[0]
+          return (
+            <div key={g.goalId}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'var(--narae-caption)' }}>
+                <span style={{ maxWidth: 150, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{g.objective}</span>
+                <span>{kr?.progress ?? 0}%</span>
+              </div>
+              <div style={{ height: 6, background: 'var(--color-border-basic,#e2e8f0)', borderRadius: 4, marginTop: 3 }}>
+                <div style={{ width: `${kr?.progress ?? 0}%`, height: 6, background: 'var(--narae-accent)', borderRadius: 4 }} />
+              </div>
+            </div>
+          )
+        })}
+        {/* BI 그래프 다수 — B6 추세/B7 도넛/B5 부서 바 (RB-01 시드 재사용·시연용) */}
+        {trend && (
+          <ChartBlock title={trend.title}>
+            <ResponsiveContainer width="100%" height={90}>
+              <LineChart data={trend.series}>
+                <XAxis dataKey="week" tick={CHART_TICK} interval={2} /><Tooltip />
+                <Line type="monotone" dataKey="value" stroke="var(--narae-accent)" strokeWidth={2} dot={false} />
+              </LineChart>
+            </ResponsiveContainer>
+          </ChartBlock>
+        )}
+        {donut && (
+          <ChartBlock title={donut.title}>
+            <ResponsiveContainer width="100%" height={110}>
+              <PieChart>
+                <Pie data={donut.series} dataKey="value" nameKey="cause" innerRadius={26} outerRadius={44}>
+                  {donut.series.map((_, i) => <Cell key={i} fill={DONUT_COLORS[i % DONUT_COLORS.length]} />)}
+                </Pie>
+                <Tooltip />
+              </PieChart>
+            </ResponsiveContainer>
+          </ChartBlock>
+        )}
+        {sla && (
+          <ChartBlock title={sla.title}>
+            <ResponsiveContainer width="100%" height={Math.max(80, sla.series.length * 24)}>
+              <BarChart data={sla.series} layout="vertical" margin={{ left: 8 }}>
+                <XAxis type="number" domain={[0, 100]} tick={CHART_TICK} /><YAxis type="category" dataKey="dept" tick={CHART_TICK} width={70} /><Tooltip />
+                <Bar dataKey="value" fill="var(--narae-accent)" radius={[0, 4, 4, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </ChartBlock>
+        )}
+      </div>
+    </section>
+  )
+}
+
+function ChartBlock({ title, children }) {
+  return (
+    <div data-testid="cm03-28">
+      <div style={{ fontSize: 'var(--narae-caption)', fontWeight: 'var(--krds-weight-bold)', color: 'var(--color-text-assistive,#6b7280)', marginBottom: 4 }}>{title}</div>
+      {children}
     </div>
   )
 }
-function ColEmpty({ text }) {
-  return <div style={{ padding: 'var(--krds-space-8)', textAlign: 'center', fontSize: 'var(--krds-body-small)', color: 'var(--color-text-assistive,#9ca3af)' }}>{text}</div>
+
+/* ── DATA 패널 — 선택 업무의 규정/양식/결재 현황 (CM03-26 · 결재 미니 이관 CM03-22~24) */
+function DataPanel({ task, submitted, onDetail }) {
+  const steps = task ? stepsOf(task.projectId) : []
+  const regs = steps.flatMap((s) => regulationsOfStep(s.stepId)).slice(0, 4)
+  const forms = task ? formTemplates.filter((f) => (task.linkedFormIds ?? []).includes(f.templateId)) : []
+  const lines = task ? effectiveLinesOf(task.taskId, submitted) : []
+  return (
+    <section style={{ ...panel, borderTop: '1px solid var(--color-border-basic,#e5e7eb)' }}>
+      <div style={panelHeader}>🗂 DATA {task ? `· ${task.taskNm}` : ''}</div>
+      <div style={{ padding: 'var(--krds-space-6)', display: 'flex', flexDirection: 'column', gap: 'var(--krds-space-6)', overflowY: 'auto' }}>
+        {!task ? (
+          <p style={{ margin: 0, fontSize: 'var(--krds-body-small)', color: 'var(--color-text-assistive,#9ca3af)' }}>
+            간트에서 업무 바를 클릭하면 등록된 규정 · 양식 · 결재 현황이 표시됩니다.
+          </p>
+        ) : (
+          <>
+            <DataList title={`규정 (${regs.length})`} empty="연계 규정 없음"
+              items={regs.map((r) => ({ id: r.regulationId, icon: '📄', name: r.name }))} />
+            <DataList title={`양식 (${forms.length})`} empty="연결 양식 없음"
+              items={forms.map((f) => ({ id: f.templateId, icon: '📑', name: f.name }))} />
+            {lines.length > 0
+              ? <ApprovalMini lines={lines} taskId={task.taskId} onDetail={onDetail} />
+              : <DataList title="결재 현황" empty="결재선 미설정" items={[]} />}
+            <button onClick={() => onDetail(task.taskId)} data-testid="cm03-19" style={detailFull}>업무 상세 열기</button>
+          </>
+        )}
+      </div>
+    </section>
+  )
 }
 
-/* 스타일 */
+function DataList({ title, items, empty }) {
+  return (
+    <div>
+      <div style={{ fontSize: 'var(--narae-caption)', fontWeight: 'var(--krds-weight-bold)', color: 'var(--color-text-assistive,#6b7280)', marginBottom: 4 }}>{title}</div>
+      {items.length === 0
+        ? <div style={{ fontSize: 'var(--narae-caption)', color: 'var(--color-text-assistive,#c1c7cd)' }}>{empty}</div>
+        : items.map((it) => (
+          <div key={it.id} style={{ display: 'flex', gap: 6, alignItems: 'center', fontSize: 'var(--krds-body-small)', padding: '3px 0', overflow: 'hidden' }}>
+            <span aria-hidden>{it.icon}</span>
+            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{it.name}</span>
+          </div>
+        ))}
+    </div>
+  )
+}
+
+/* ── 스타일 */
+const lnb = { width: 'clamp(220px, 20vw, 300px)', flexShrink: 0, borderRight: '1px solid var(--color-border-basic,#e5e7eb)', display: 'flex', flexDirection: 'column', minHeight: 0 }
+const lnbHeader = {
+  display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0,
+  padding: 'var(--krds-space-5) var(--krds-space-7)', fontSize: 'var(--krds-body-small)', fontWeight: 'var(--krds-weight-bold)',
+  color: 'var(--color-text-basic)', borderBottom: '1px solid var(--color-border-basic,#e5e7eb)', background: 'var(--color-background-alternative,#f8f9fa)',
+}
+const lnbLink = { border: 'none', background: 'transparent', color: 'var(--narae-accent)', cursor: 'pointer', fontSize: 'var(--narae-caption)', fontWeight: 'var(--krds-weight-bold)' }
+const catBtn = {
+  textAlign: 'left', padding: 'var(--krds-space-4) var(--krds-space-7)', border: 'none', background: 'transparent',
+  borderRadius: 'var(--krds-radius-small)', cursor: 'pointer', fontSize: 'var(--krds-body-small)', color: 'var(--color-text-basic)',
+}
+const catBtnOn = { background: 'var(--narae-accent)', color: '#fff', fontWeight: 'var(--krds-weight-bold)' }
 const topBar = {
-  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-  padding: 'var(--krds-space-5) var(--krds-space-9)', borderBottom: '1px solid var(--color-border-basic, #e5e7eb)',
+  display: 'flex', alignItems: 'center', gap: 'var(--krds-space-6)', flexShrink: 0,
+  padding: 'var(--krds-space-5) var(--krds-space-8)', borderBottom: '1px solid var(--color-border-basic,#e5e7eb)',
 }
-const tab = {
-  height: 'var(--krds-control-xsmall)', padding: '0 var(--krds-space-7)', cursor: 'pointer', border: 'none',
-  background: 'transparent', borderRadius: 'var(--krds-radius-medium)', fontSize: 'var(--krds-body-small)',
-  fontWeight: 'var(--krds-weight-medium)', color: 'var(--color-text-assistive,#64748b)',
+const gutter = {
+  width: GUTTER_W, flexShrink: 0, display: 'flex', alignItems: 'center',
+  padding: '0 var(--krds-space-6)', fontSize: 'var(--krds-body-small)', color: 'var(--color-text-basic)',
+  borderRight: '1px solid var(--color-border-basic,#f1f3f5)',
 }
-const tabActive = { background: 'var(--narae-accent)', color: '#fff' }
-const spine = {
-  flexShrink: 0, width: 34, display: 'flex', alignItems: 'center', justifyContent: 'center',
-  borderRight: '1px solid var(--color-border-basic, #e5e7eb)', background: 'var(--color-background-alternative, #f8f9fa)',
-  cursor: 'pointer',
+const crossTag = { fontStyle: 'normal', fontSize: 'var(--narae-caption)', color: 'var(--color-neutral-text)' }
+const barText = { fontSize: 'var(--narae-caption)', color: '#fff', fontWeight: 'var(--krds-weight-bold)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }
+const regularBadge = {
+  flexShrink: 0, padding: '0 4px', borderRadius: 3, fontSize: 'var(--narae-caption)',
+  background: 'color-mix(in srgb, #fff 88%, transparent)', color: 'var(--color-text-basic)', fontWeight: 'var(--krds-weight-bold)',
 }
-const colBase = {
-  flexShrink: 0, borderRight: '1px solid var(--color-border-basic, #e5e7eb)',
-  display: 'flex', flexDirection: 'column', minHeight: 0,
+const apprChip = {
+  flexShrink: 0, padding: '0 4px', borderRadius: 'var(--krds-radius-pill)', fontSize: 'var(--narae-caption)',
+  background: 'var(--color-background-white)', color: 'var(--color-text-basic)', border: '1.5px solid', fontWeight: 'var(--krds-weight-bold)',
 }
-const colHeader = {
-  display: 'flex', alignItems: 'center', gap: 'var(--krds-space-4)', height: 40,
-  padding: '0 var(--krds-space-7)', borderBottom: '1px solid var(--color-border-basic, #e5e7eb)',
-  background: 'var(--color-background-white)', flexShrink: 0,
+const rightPane = { width: 'clamp(280px, 26vw, 420px)', flexShrink: 0, borderLeft: '1px solid var(--color-border-basic,#e5e7eb)', display: 'flex', flexDirection: 'column', minHeight: 0 }
+const panel = { flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }
+const panelHeader = {
+  flexShrink: 0, padding: 'var(--krds-space-5) var(--krds-space-7)', fontSize: 'var(--krds-body-small)', fontWeight: 'var(--krds-weight-bold)',
+  borderBottom: '1px solid var(--color-border-basic,#e5e7eb)', background: 'var(--color-background-alternative,#f8f9fa)',
 }
-// Row: 하위 전개(rowMain) + BI 버튼(rowBiBtn) 분리
-const rowWrap = {
-  display: 'flex', alignItems: 'center', gap: 'var(--krds-space-3)',
-  borderRadius: 'var(--krds-radius-small)', marginBottom: 2,
-}
-const rowActive = { background: 'color-mix(in srgb, var(--narae-accent) 12%, transparent)' }
-const rowMain = {
-  flex: 1, minWidth: 0, display: 'flex', alignItems: 'center', gap: 'var(--krds-space-3)',
-  padding: 'var(--krds-space-5) var(--krds-space-6)', border: 'none', background: 'transparent',
-  borderRadius: 'var(--krds-radius-small)', cursor: 'pointer', textAlign: 'left',
-  fontSize: 'var(--krds-body-medium)', color: 'var(--color-text-basic)',
-}
-const rowMeta = { flexShrink: 0, fontSize: 'var(--narae-caption)', color: 'var(--color-text-assistive,#6b7280)' }
-const rowBiBtn = {
-  flexShrink: 0, padding: '3px var(--krds-space-5)', borderRadius: 'var(--krds-radius-pill)',
+const detailFull = {
+  height: 'var(--krds-control-xsmall)', borderRadius: 'var(--krds-radius-medium)', cursor: 'pointer',
   border: '1px solid var(--narae-accent)', background: 'color-mix(in srgb, var(--narae-accent) 8%, transparent)',
-  color: 'var(--narae-accent)', fontSize: 'var(--narae-caption)', fontWeight: 'var(--krds-weight-bold)', cursor: 'pointer', whiteSpace: 'nowrap',
-}
-const chev = { flexShrink: 0, color: 'var(--narae-accent)', fontWeight: 'var(--krds-weight-bold)' }
-const colHint = {
-  padding: 'var(--krds-space-3) var(--krds-space-6)', fontSize: 'var(--narae-caption)', color: 'var(--color-text-assistive,#9ca3af)',
-  borderBottom: '1px solid var(--color-border-basic,#f1f3f5)', background: 'var(--color-background-alternative,#fafbfc)',
-}
-const taskCard = {
-  width: '100%', padding: 'var(--krds-space-6)', borderRadius: 'var(--krds-radius-medium)',
-  border: '1px solid var(--color-border-basic, #e2e8f0)', background: 'var(--color-background-white)',
-  cursor: 'pointer',
-}
-const taskCardOn = { borderColor: 'var(--narae-accent)', background: 'color-mix(in srgb, var(--narae-accent) 8%, transparent)' }
-// 워크플로우(단계/결재) 플로우 스타일
-const flowLabel = { fontSize: 'var(--krds-body-small)', fontWeight: 'var(--krds-weight-bold)', color: 'var(--color-text-assistive,#6b7280)', marginBottom: 'var(--krds-space-5)' }
-const flowRow = { display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 'var(--krds-space-2)' }
-const arrow = { padding: '0 var(--krds-space-4)', color: 'var(--color-text-assistive,#cbd5e1)' }
-const flowCard = {
-  flexShrink: 0, minWidth: 120, padding: 'var(--krds-space-6)', borderRadius: 'var(--krds-radius-medium)',
-  border: '1.5px solid var(--color-border-basic, #e2e8f0)', background: 'var(--color-background-white)',
-  cursor: 'pointer', textAlign: 'left',
-}
-// 우측 고정 BI — 기존 대비 2배(반응형): clamp
-const biSummary = {
-  flexShrink: 0, width: 'clamp(240px, 26vw, 440px)', borderLeft: '1px solid var(--color-border-basic, #e5e7eb)',
-  background: 'var(--color-background-alternative, #f8f9fa)', display: 'flex', flexDirection: 'column', overflowY: 'auto',
-}
-const biMini = {
-  padding: '2px 8px', borderRadius: 'var(--krds-radius-pill)', border: '1px solid var(--narae-accent)',
-  background: 'var(--color-background-white)', color: 'var(--narae-accent)', fontSize: 'var(--narae-caption)',
-  fontWeight: 'var(--krds-weight-bold)', cursor: 'pointer',
+  color: 'var(--narae-accent)', fontSize: 'var(--krds-body-small)', fontWeight: 'var(--krds-weight-bold)',
 }
