@@ -1,0 +1,7312 @@
+{
+  "_meta": {
+    "title": "나래 AI 프로토타입 목업데이터",
+    "version": "v1.1",
+    "date": "2026-07-08",
+    "source": "src/mock/*.js 실 시드 코드에서 자동 추출 (코드 = 진실원천)",
+    "prev": "20260708_목업데이터_v1.0.json (git 이력)",
+    "delta_v1.0_to_v1.1": [
+      "TASK 3필드 확장(REF-24 §6): costBudget(원가)·durationDays(소요시간, 계획기간 파생)·linkedFormIds(FM-* 1건 매핑) — 산정 기준·연결 규칙 [CONFIRM]",
+      "TASK.category 7종(EDU 교육/ETC 기타 신설) — WF-022→EDU, WF-025/026→ETC 임시 재분류 [CONFIRM: 재분류 기준]",
+      "canvas 계열(canvasNodes/Edges/toolAttachments/toolPalette/homeTabs)은 v1.1 홈 간트 개편(D8)으로 화면 사용 중단 — 시드는 이력 보존"
+    ],
+    "entityFiles": {
+      "orgUnits": "src/mock/orgUnits.js",
+      "users": "src/mock/users.js",
+      "CURRENT_USER": "src/mock/users.js",
+      "projects": "src/mock/projects.js",
+      "tasks": "src/mock/tasks.js",
+      "subTasksByTask": "src/mock/subTasks.js",
+      "milestonesByTask": "src/mock/subTasks.js",
+      "taskRelations": "src/mock/taskRelations.js",
+      "steps": "src/mock/steps.js",
+      "procedureSteps": "src/mock/procedureSteps.js",
+      "approvalLines": "src/mock/approvalLines.js",
+      "formTemplates": "src/mock/formTemplates.js",
+      "taskTemplates": "src/mock/taskTemplates.js",
+      "goals": "src/mock/goals.js",
+      "meetings": "src/mock/meetings.js",
+      "regulations": "src/mock/regulations.js",
+      "riskItems": "src/mock/riskItems.js",
+      "notifications": "src/mock/notifications.js",
+      "docAssets": "src/mock/docAssets.js",
+      "aiSummaries": "src/mock/aiSummary.js",
+      "biMetrics": "src/mock/biMetrics.js",
+      "biSnapshot": "src/mock/biMetrics.js",
+      "canvasNodes": "src/mock/canvas.js",
+      "canvasEdges": "src/mock/canvas.js",
+      "ROOT_NODE": "src/mock/canvas.js",
+      "homeTabs": "src/mock/canvas.js",
+      "toolAttachments": "src/mock/canvas.js",
+      "toolPalette": "src/mock/canvas.js",
+      "AI_MODELS": "src/mock/ai.js"
+    }
+  },
+  "orgUnits": [
+    {
+      "orgUnitId": "MOI-DPI",
+      "orgUnitNm": "기획조정실",
+      "level": "실",
+      "parentId": null,
+      "empCount": 57
+    },
+    {
+      "orgUnitId": "MOI-DPI-01",
+      "orgUnitNm": "정책기획관",
+      "level": "관",
+      "parentId": "MOI-DPI",
+      "empCount": 28
+    },
+    {
+      "orgUnitId": "MOI-DPI-02",
+      "orgUnitNm": "기획재정담당관",
+      "level": "과",
+      "parentId": "MOI-DPI-01",
+      "empCount": 7
+    },
+    {
+      "orgUnitId": "MOI-DPI-03",
+      "orgUnitNm": "미래전략담당관",
+      "level": "과",
+      "parentId": "MOI-DPI-01",
+      "empCount": 6
+    },
+    {
+      "orgUnitId": "MOI-DPI-04",
+      "orgUnitNm": "성과관리담당관",
+      "level": "과",
+      "parentId": "MOI-DPI-01",
+      "empCount": 7
+    },
+    {
+      "orgUnitId": "MOI-DPI-05",
+      "orgUnitNm": "법무담당관",
+      "level": "과",
+      "parentId": "MOI-DPI-01",
+      "empCount": 7
+    },
+    {
+      "orgUnitId": "MOI-DPI-06",
+      "orgUnitNm": "국제행정협력관",
+      "level": "관",
+      "parentId": "MOI-DPI",
+      "empCount": 14
+    },
+    {
+      "orgUnitId": "MOI-DPI-07",
+      "orgUnitNm": "국제협력담당관",
+      "level": "과",
+      "parentId": "MOI-DPI-06",
+      "empCount": 6
+    },
+    {
+      "orgUnitId": "MOI-DPI-08",
+      "orgUnitNm": "행정한류담당관",
+      "level": "과",
+      "parentId": "MOI-DPI-06",
+      "empCount": 7
+    },
+    {
+      "orgUnitId": "MOI-DPI-09",
+      "orgUnitNm": "비상안전기획관",
+      "level": "관",
+      "parentId": "MOI-DPI",
+      "empCount": 8
+    },
+    {
+      "orgUnitId": "MOI-DPI-10",
+      "orgUnitNm": "비상안전기획팀",
+      "level": "과",
+      "parentId": "MOI-DPI-09",
+      "empCount": 7
+    },
+    {
+      "orgUnitId": "MOI-DPI-11",
+      "orgUnitNm": "데이터정보화담당관",
+      "level": "과",
+      "parentId": "MOI-DPI",
+      "empCount": 6
+    },
+    {
+      "orgUnitId": "MOI-PIO",
+      "orgUnitNm": "참여혁신조직실",
+      "level": "실",
+      "parentId": null,
+      "empCount": 31
+    },
+    {
+      "orgUnitId": "MOI-PIO-01",
+      "orgUnitNm": "참여혁신국",
+      "level": "관",
+      "parentId": "MOI-PIO",
+      "empCount": 11
+    },
+    {
+      "orgUnitId": "MOI-PIO-02",
+      "orgUnitNm": "혁신기획과",
+      "level": "과",
+      "parentId": "MOI-PIO-01",
+      "empCount": 2
+    },
+    {
+      "orgUnitId": "MOI-PIO-03",
+      "orgUnitNm": "국민참여정책과",
+      "level": "과",
+      "parentId": "MOI-PIO-01",
+      "empCount": 1
+    },
+    {
+      "orgUnitId": "MOI-PIO-04",
+      "orgUnitNm": "행정제도과",
+      "level": "과",
+      "parentId": "MOI-PIO-01",
+      "empCount": 2
+    },
+    {
+      "orgUnitId": "MOI-PIO-05",
+      "orgUnitNm": "민원제도과",
+      "level": "과",
+      "parentId": "MOI-PIO-01",
+      "empCount": 3
+    },
+    {
+      "orgUnitId": "MOI-PIO-06",
+      "orgUnitNm": "정보공개제도과",
+      "level": "과",
+      "parentId": "MOI-PIO-01",
+      "empCount": 2
+    },
+    {
+      "orgUnitId": "MOI-PIO-07",
+      "orgUnitNm": "조직국",
+      "level": "관",
+      "parentId": "MOI-PIO",
+      "empCount": 19
+    },
+    {
+      "orgUnitId": "MOI-PIO-08",
+      "orgUnitNm": "조직기획과",
+      "level": "과",
+      "parentId": "MOI-PIO-07",
+      "empCount": 3
+    },
+    {
+      "orgUnitId": "MOI-PIO-09",
+      "orgUnitNm": "조직진단과",
+      "level": "과",
+      "parentId": "MOI-PIO-07",
+      "empCount": 3
+    },
+    {
+      "orgUnitId": "MOI-PIO-10",
+      "orgUnitNm": "경제조직과",
+      "level": "과",
+      "parentId": "MOI-PIO-07",
+      "empCount": 3
+    },
+    {
+      "orgUnitId": "MOI-PIO-11",
+      "orgUnitNm": "사회조직과",
+      "level": "과",
+      "parentId": "MOI-PIO-07",
+      "empCount": 3
+    },
+    {
+      "orgUnitId": "MOI-PIO-12",
+      "orgUnitNm": "안전조직과",
+      "level": "과",
+      "parentId": "MOI-PIO-07",
+      "empCount": 3
+    },
+    {
+      "orgUnitId": "MOI-PIO-13",
+      "orgUnitNm": "법사조직과",
+      "level": "과",
+      "parentId": "MOI-PIO-07",
+      "empCount": 3
+    },
+    {
+      "orgUnitId": "MOI-AIG",
+      "orgUnitNm": "인공지능정부실",
+      "level": "실",
+      "parentId": null,
+      "empCount": 26
+    },
+    {
+      "orgUnitId": "MOI-AIG-01",
+      "orgUnitNm": "인공지능정부정책국",
+      "level": "관",
+      "parentId": "MOI-AIG",
+      "empCount": 9
+    },
+    {
+      "orgUnitId": "MOI-AIG-02",
+      "orgUnitNm": "인공지능정부정책과",
+      "level": "과",
+      "parentId": "MOI-AIG-01",
+      "empCount": 1
+    },
+    {
+      "orgUnitId": "MOI-AIG-03",
+      "orgUnitNm": "공공인공지능혁신과",
+      "level": "과",
+      "parentId": "MOI-AIG-01",
+      "empCount": 1
+    },
+    {
+      "orgUnitId": "MOI-AIG-04",
+      "orgUnitNm": "공공데이터정책과",
+      "level": "과",
+      "parentId": "MOI-AIG-01",
+      "empCount": 3
+    },
+    {
+      "orgUnitId": "MOI-AIG-05",
+      "orgUnitNm": "공공데이터분석관리과",
+      "level": "과",
+      "parentId": "MOI-AIG-01",
+      "empCount": 2
+    },
+    {
+      "orgUnitId": "MOI-AIG-06",
+      "orgUnitNm": "인공지능정부협력과",
+      "level": "과",
+      "parentId": "MOI-AIG-01",
+      "empCount": 1
+    },
+    {
+      "orgUnitId": "MOI-AIG-07",
+      "orgUnitNm": "인공지능정부서비스국",
+      "level": "관",
+      "parentId": "MOI-AIG",
+      "empCount": 9
+    },
+    {
+      "orgUnitId": "MOI-AIG-08",
+      "orgUnitNm": "공공서비스혁신과",
+      "level": "과",
+      "parentId": "MOI-AIG-07",
+      "empCount": 2
+    },
+    {
+      "orgUnitId": "MOI-AIG-09",
+      "orgUnitNm": "행정정보공유과",
+      "level": "과",
+      "parentId": "MOI-AIG-07",
+      "empCount": 3
+    },
+    {
+      "orgUnitId": "MOI-AIG-10",
+      "orgUnitNm": "국민맞춤서비스과",
+      "level": "과",
+      "parentId": "MOI-AIG-07",
+      "empCount": 2
+    },
+    {
+      "orgUnitId": "MOI-AIG-11",
+      "orgUnitNm": "통합포털정책과",
+      "level": "과",
+      "parentId": "MOI-AIG-07",
+      "empCount": 1
+    },
+    {
+      "orgUnitId": "MOI-AIG-12",
+      "orgUnitNm": "인공지능정부기반국",
+      "level": "관",
+      "parentId": "MOI-AIG",
+      "empCount": 7
+    },
+    {
+      "orgUnitId": "MOI-AIG-13",
+      "orgUnitNm": "디지털보안정책과",
+      "level": "과",
+      "parentId": "MOI-AIG-12",
+      "empCount": 1
+    },
+    {
+      "orgUnitId": "MOI-AIG-14",
+      "orgUnitNm": "디지털인프라혁신과",
+      "level": "과",
+      "parentId": "MOI-AIG-12",
+      "empCount": 1
+    },
+    {
+      "orgUnitId": "MOI-AIG-15",
+      "orgUnitNm": "지역디지털협력과",
+      "level": "과",
+      "parentId": "MOI-AIG-12",
+      "empCount": 2
+    },
+    {
+      "orgUnitId": "MOI-AIG-16",
+      "orgUnitNm": "정보자원관리혁신과",
+      "level": "과",
+      "parentId": "MOI-AIG-12",
+      "empCount": 2
+    },
+    {
+      "orgUnitId": "MOI-LAI",
+      "orgUnitNm": "자치혁신실",
+      "level": "실",
+      "parentId": null,
+      "empCount": 17
+    },
+    {
+      "orgUnitId": "MOI-LAI-01",
+      "orgUnitNm": "지방행정국",
+      "level": "관",
+      "parentId": "MOI-LAI",
+      "empCount": 6
+    },
+    {
+      "orgUnitId": "MOI-LAI-02",
+      "orgUnitNm": "자치행정과",
+      "level": "과",
+      "parentId": "MOI-LAI-01",
+      "empCount": 1
+    },
+    {
+      "orgUnitId": "MOI-LAI-03",
+      "orgUnitNm": "자치새마을협력과",
+      "level": "과",
+      "parentId": "MOI-LAI-01",
+      "empCount": 3
+    },
+    {
+      "orgUnitId": "MOI-LAI-04",
+      "orgUnitNm": "주민자치과",
+      "level": "과",
+      "parentId": "MOI-LAI-01",
+      "empCount": 1
+    },
+    {
+      "orgUnitId": "MOI-LAI-05",
+      "orgUnitNm": "자치분권국",
+      "level": "관",
+      "parentId": "MOI-LAI",
+      "empCount": 6
+    },
+    {
+      "orgUnitId": "MOI-LAI-06",
+      "orgUnitNm": "자치분권제도과",
+      "level": "과",
+      "parentId": "MOI-LAI-05",
+      "empCount": 2
+    },
+    {
+      "orgUnitId": "MOI-LAI-07",
+      "orgUnitNm": "지방인사제도과",
+      "level": "과",
+      "parentId": "MOI-LAI-05",
+      "empCount": 3
+    },
+    {
+      "orgUnitId": "MOI-LAI-08",
+      "orgUnitNm": "균형발전지원국",
+      "level": "관",
+      "parentId": "MOI-LAI",
+      "empCount": 4
+    },
+    {
+      "orgUnitId": "MOI-LAI-09",
+      "orgUnitNm": "균형발전기획과",
+      "level": "과",
+      "parentId": "MOI-LAI-08",
+      "empCount": 1
+    },
+    {
+      "orgUnitId": "MOI-LAI-10",
+      "orgUnitNm": "지역활력지원과",
+      "level": "과",
+      "parentId": "MOI-LAI-08",
+      "empCount": 2
+    },
+    {
+      "orgUnitId": "MOI-LFE",
+      "orgUnitNm": "지방재정경제실",
+      "level": "실",
+      "parentId": null,
+      "empCount": 15
+    },
+    {
+      "orgUnitId": "MOI-LFE-01",
+      "orgUnitNm": "지방재정정책관",
+      "level": "관",
+      "parentId": "MOI-LFE",
+      "empCount": 4
+    },
+    {
+      "orgUnitId": "MOI-LFE-02",
+      "orgUnitNm": "재정정책과",
+      "level": "과",
+      "parentId": "MOI-LFE-01",
+      "empCount": 2
+    },
+    {
+      "orgUnitId": "MOI-LFE-03",
+      "orgUnitNm": "재정협력과",
+      "level": "과",
+      "parentId": "MOI-LFE-01",
+      "empCount": 1
+    },
+    {
+      "orgUnitId": "MOI-LFE-04",
+      "orgUnitNm": "지방세제정책관",
+      "level": "관",
+      "parentId": "MOI-LFE",
+      "empCount": 4
+    },
+    {
+      "orgUnitId": "MOI-LFE-05",
+      "orgUnitNm": "지방세정책과",
+      "level": "과",
+      "parentId": "MOI-LFE-04",
+      "empCount": 2
+    },
+    {
+      "orgUnitId": "MOI-LFE-06",
+      "orgUnitNm": "부동산세제과",
+      "level": "과",
+      "parentId": "MOI-LFE-04",
+      "empCount": 1
+    },
+    {
+      "orgUnitId": "MOI-LFE-07",
+      "orgUnitNm": "지역경제지원국",
+      "level": "관",
+      "parentId": "MOI-LFE",
+      "empCount": 6
+    },
+    {
+      "orgUnitId": "MOI-LFE-08",
+      "orgUnitNm": "지역경제과",
+      "level": "과",
+      "parentId": "MOI-LFE-07",
+      "empCount": 2
+    },
+    {
+      "orgUnitId": "MOI-LFE-09",
+      "orgUnitNm": "공기업정책과",
+      "level": "과",
+      "parentId": "MOI-LFE-07",
+      "empCount": 3
+    },
+    {
+      "orgUnitId": "MOI-DSM",
+      "orgUnitNm": "재난안전관리본부",
+      "level": "실",
+      "parentId": null,
+      "empCount": 27
+    },
+    {
+      "orgUnitId": "MOI-DSM-01",
+      "orgUnitNm": "안전예방정책관",
+      "level": "관",
+      "parentId": "MOI-DSM",
+      "empCount": 5
+    },
+    {
+      "orgUnitId": "MOI-DSM-02",
+      "orgUnitNm": "안전기획과",
+      "level": "과",
+      "parentId": "MOI-DSM-01",
+      "empCount": 1
+    },
+    {
+      "orgUnitId": "MOI-DSM-03",
+      "orgUnitNm": "예방정책과",
+      "level": "과",
+      "parentId": "MOI-DSM-01",
+      "empCount": 3
+    },
+    {
+      "orgUnitId": "MOI-DSM-04",
+      "orgUnitNm": "자연재난관리관",
+      "level": "관",
+      "parentId": "MOI-DSM",
+      "empCount": 4
+    },
+    {
+      "orgUnitId": "MOI-DSM-05",
+      "orgUnitNm": "풍수해대응과",
+      "level": "과",
+      "parentId": "MOI-DSM-04",
+      "empCount": 1
+    },
+    {
+      "orgUnitId": "MOI-DSM-06",
+      "orgUnitNm": "지진방재과",
+      "level": "과",
+      "parentId": "MOI-DSM-04",
+      "empCount": 2
+    },
+    {
+      "orgUnitId": "MOI-DSM-07",
+      "orgUnitNm": "사회재난관리관",
+      "level": "관",
+      "parentId": "MOI-DSM",
+      "empCount": 6
+    },
+    {
+      "orgUnitId": "MOI-DSM-08",
+      "orgUnitNm": "사회재난대응과",
+      "level": "과",
+      "parentId": "MOI-DSM-07",
+      "empCount": 2
+    },
+    {
+      "orgUnitId": "MOI-DSM-09",
+      "orgUnitNm": "재난협력정책과",
+      "level": "과",
+      "parentId": "MOI-DSM-07",
+      "empCount": 3
+    },
+    {
+      "orgUnitId": "MOI-DSM-10",
+      "orgUnitNm": "재난복구지원국",
+      "level": "관",
+      "parentId": "MOI-DSM",
+      "empCount": 6
+    },
+    {
+      "orgUnitId": "MOI-DSM-11",
+      "orgUnitNm": "복구지원과",
+      "level": "과",
+      "parentId": "MOI-DSM-10",
+      "empCount": 3
+    },
+    {
+      "orgUnitId": "MOI-DSM-12",
+      "orgUnitNm": "재난보험과",
+      "level": "과",
+      "parentId": "MOI-DSM-10",
+      "empCount": 2
+    },
+    {
+      "orgUnitId": "MOI-DSM-13",
+      "orgUnitNm": "비상대비정책국",
+      "level": "관",
+      "parentId": "MOI-DSM",
+      "empCount": 5
+    },
+    {
+      "orgUnitId": "MOI-DSM-14",
+      "orgUnitNm": "비상대비정책과",
+      "level": "과",
+      "parentId": "MOI-DSM-13",
+      "empCount": 1
+    },
+    {
+      "orgUnitId": "MOI-DSM-15",
+      "orgUnitNm": "민방위과",
+      "level": "과",
+      "parentId": "MOI-DSM-13",
+      "empCount": 3
+    }
+  ],
+  "users": [
+    {
+      "empNo": "U2026-001",
+      "empNm": "박현서",
+      "orgUnitId": "MOI-DPI",
+      "position": "실장",
+      "roleId": "ROLE_DIR",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-002",
+      "empNm": "황소율",
+      "orgUnitId": "MOI-PIO",
+      "position": "실장",
+      "roleId": "ROLE_DIR",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-003",
+      "empNm": "노지민",
+      "orgUnitId": "MOI-AIG",
+      "position": "실장",
+      "roleId": "ROLE_DIR",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-004",
+      "empNm": "신윤서",
+      "orgUnitId": "MOI-LAI",
+      "position": "실장",
+      "roleId": "ROLE_DIR",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-005",
+      "empNm": "하지훈",
+      "orgUnitId": "MOI-LFE",
+      "position": "실장",
+      "roleId": "ROLE_DIR",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-006",
+      "empNm": "윤주원",
+      "orgUnitId": "MOI-DSM",
+      "position": "실장",
+      "roleId": "ROLE_DIR",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-007",
+      "empNm": "윤현우",
+      "orgUnitId": "MOI-DPI-01",
+      "position": "정책관",
+      "roleId": "ROLE_DIR",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-008",
+      "empNm": "곽지호",
+      "orgUnitId": "MOI-DPI-06",
+      "position": "정책관",
+      "roleId": "ROLE_DIR",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-009",
+      "empNm": "노가은",
+      "orgUnitId": "MOI-DPI-09",
+      "position": "정책관",
+      "roleId": "ROLE_DIR",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-010",
+      "empNm": "임예은",
+      "orgUnitId": "MOI-PIO-01",
+      "position": "국장",
+      "roleId": "ROLE_DIR",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-011",
+      "empNm": "홍수빈",
+      "orgUnitId": "MOI-PIO-07",
+      "position": "국장",
+      "roleId": "ROLE_DIR",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-012",
+      "empNm": "장민재",
+      "orgUnitId": "MOI-AIG-01",
+      "position": "국장",
+      "roleId": "ROLE_DIR",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-013",
+      "empNm": "곽민준",
+      "orgUnitId": "MOI-AIG-07",
+      "position": "국장",
+      "roleId": "ROLE_DIR",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-014",
+      "empNm": "전서준",
+      "orgUnitId": "MOI-AIG-12",
+      "position": "국장",
+      "roleId": "ROLE_DIR",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-015",
+      "empNm": "황서연",
+      "orgUnitId": "MOI-LAI-01",
+      "position": "국장",
+      "roleId": "ROLE_DIR",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-016",
+      "empNm": "신서준",
+      "orgUnitId": "MOI-LAI-05",
+      "position": "국장",
+      "roleId": "ROLE_DIR",
+      "employmentStatus": "ON_LEAVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-017",
+      "empNm": "이서연",
+      "orgUnitId": "MOI-LAI-08",
+      "position": "국장",
+      "roleId": "ROLE_DIR",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-018",
+      "empNm": "오소율",
+      "orgUnitId": "MOI-LFE-01",
+      "position": "정책관",
+      "roleId": "ROLE_DIR",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-019",
+      "empNm": "강우진",
+      "orgUnitId": "MOI-LFE-04",
+      "position": "정책관",
+      "roleId": "ROLE_DIR",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-020",
+      "empNm": "배도윤",
+      "orgUnitId": "MOI-LFE-07",
+      "position": "국장",
+      "roleId": "ROLE_DIR",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-021",
+      "empNm": "심시우",
+      "orgUnitId": "MOI-DSM-01",
+      "position": "정책관",
+      "roleId": "ROLE_DIR",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-022",
+      "empNm": "양주원",
+      "orgUnitId": "MOI-DSM-04",
+      "position": "정책관",
+      "roleId": "ROLE_DIR",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-023",
+      "empNm": "서현서",
+      "orgUnitId": "MOI-DSM-07",
+      "position": "정책관",
+      "roleId": "ROLE_DIR",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-024",
+      "empNm": "이주원",
+      "orgUnitId": "MOI-DSM-10",
+      "position": "국장",
+      "roleId": "ROLE_DIR",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-025",
+      "empNm": "김지호",
+      "orgUnitId": "MOI-DSM-13",
+      "position": "국장",
+      "roleId": "ROLE_DIR",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-026",
+      "empNm": "정가은",
+      "orgUnitId": "MOI-DPI-02",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": [
+        "예산",
+        "중기재정",
+        "국회"
+      ]
+    },
+    {
+      "empNo": "U2026-027",
+      "empNm": "손승현",
+      "orgUnitId": "MOI-DPI-02",
+      "position": "팀장",
+      "roleId": "ROLE_TML",
+      "employmentStatus": "ACTIVE",
+      "jobTags": [
+        "예산",
+        "중기재정",
+        "국회"
+      ]
+    },
+    {
+      "empNo": "U2026-028",
+      "empNm": "황도경",
+      "orgUnitId": "MOI-DPI-02",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-029",
+      "empNm": "구한결",
+      "orgUnitId": "MOI-DPI-02",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-030",
+      "empNm": "손하준",
+      "orgUnitId": "MOI-DPI-02",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-031",
+      "empNm": "노현우",
+      "orgUnitId": "MOI-DPI-02",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-032",
+      "empNm": "곽하준",
+      "orgUnitId": "MOI-DPI-02",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-033",
+      "empNm": "곽서윤",
+      "orgUnitId": "MOI-DPI-03",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": [
+        "미래전략",
+        "청년정책"
+      ]
+    },
+    {
+      "empNo": "U2026-034",
+      "empNm": "강다은",
+      "orgUnitId": "MOI-DPI-03",
+      "position": "팀장",
+      "roleId": "ROLE_TML",
+      "employmentStatus": "ACTIVE",
+      "jobTags": [
+        "미래전략",
+        "청년정책"
+      ]
+    },
+    {
+      "empNo": "U2026-035",
+      "empNm": "조민준",
+      "orgUnitId": "MOI-DPI-03",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-036",
+      "empNm": "황지우",
+      "orgUnitId": "MOI-DPI-03",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-037",
+      "empNm": "장하준",
+      "orgUnitId": "MOI-DPI-03",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-038",
+      "empNm": "홍정우",
+      "orgUnitId": "MOI-DPI-03",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-039",
+      "empNm": "하현우",
+      "orgUnitId": "MOI-DPI-04",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": [
+        "성과관리",
+        "정부업무평가"
+      ]
+    },
+    {
+      "empNo": "U2026-040",
+      "empNm": "구서연",
+      "orgUnitId": "MOI-DPI-04",
+      "position": "팀장",
+      "roleId": "ROLE_TML",
+      "employmentStatus": "ACTIVE",
+      "jobTags": [
+        "성과관리",
+        "정부업무평가"
+      ]
+    },
+    {
+      "empNo": "U2026-041",
+      "empNm": "정소율",
+      "orgUnitId": "MOI-DPI-04",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "RESIGNED",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-042",
+      "empNm": "배지아",
+      "orgUnitId": "MOI-DPI-04",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-043",
+      "empNm": "전다은",
+      "orgUnitId": "MOI-DPI-04",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-044",
+      "empNm": "유서연",
+      "orgUnitId": "MOI-DPI-04",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-045",
+      "empNm": "홍가은",
+      "orgUnitId": "MOI-DPI-04",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-046",
+      "empNm": "곽윤서",
+      "orgUnitId": "MOI-DPI-05",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": [
+        "법령",
+        "규제개혁"
+      ]
+    },
+    {
+      "empNo": "U2026-047",
+      "empNm": "안지호",
+      "orgUnitId": "MOI-DPI-05",
+      "position": "팀장",
+      "roleId": "ROLE_TML",
+      "employmentStatus": "ACTIVE",
+      "jobTags": [
+        "법령",
+        "규제개혁"
+      ]
+    },
+    {
+      "empNo": "U2026-048",
+      "empNm": "신수빈",
+      "orgUnitId": "MOI-DPI-05",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-049",
+      "empNm": "전수아",
+      "orgUnitId": "MOI-DPI-05",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-050",
+      "empNm": "정태윤",
+      "orgUnitId": "MOI-DPI-05",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-051",
+      "empNm": "최예은",
+      "orgUnitId": "MOI-DPI-05",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-052",
+      "empNm": "최승현",
+      "orgUnitId": "MOI-DPI-05",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-053",
+      "empNm": "박유진",
+      "orgUnitId": "MOI-DPI-07",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": [
+        "국제행정협력"
+      ]
+    },
+    {
+      "empNo": "U2026-054",
+      "empNm": "안하윤",
+      "orgUnitId": "MOI-DPI-07",
+      "position": "팀장",
+      "roleId": "ROLE_TML",
+      "employmentStatus": "ACTIVE",
+      "jobTags": [
+        "국제행정협력"
+      ]
+    },
+    {
+      "empNo": "U2026-055",
+      "empNm": "차준서",
+      "orgUnitId": "MOI-DPI-07",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-056",
+      "empNm": "윤수아",
+      "orgUnitId": "MOI-DPI-07",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-057",
+      "empNm": "양민재",
+      "orgUnitId": "MOI-DPI-07",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-058",
+      "empNm": "유주원",
+      "orgUnitId": "MOI-DPI-07",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-059",
+      "empNm": "박정우",
+      "orgUnitId": "MOI-DPI-08",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": [
+        "행정한류"
+      ]
+    },
+    {
+      "empNo": "U2026-060",
+      "empNm": "배승현",
+      "orgUnitId": "MOI-DPI-08",
+      "position": "팀장",
+      "roleId": "ROLE_TML",
+      "employmentStatus": "ACTIVE",
+      "jobTags": [
+        "행정한류"
+      ]
+    },
+    {
+      "empNo": "U2026-061",
+      "empNm": "차지훈",
+      "orgUnitId": "MOI-DPI-08",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-062",
+      "empNm": "서지아",
+      "orgUnitId": "MOI-DPI-08",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-063",
+      "empNm": "한민재",
+      "orgUnitId": "MOI-DPI-08",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-064",
+      "empNm": "전민준",
+      "orgUnitId": "MOI-DPI-08",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-065",
+      "empNm": "고도경",
+      "orgUnitId": "MOI-DPI-08",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-066",
+      "empNm": "장하윤",
+      "orgUnitId": "MOI-DPI-10",
+      "position": "팀장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-067",
+      "empNm": "임지아",
+      "orgUnitId": "MOI-DPI-10",
+      "position": "팀장",
+      "roleId": "ROLE_TML",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-068",
+      "empNm": "양우진",
+      "orgUnitId": "MOI-DPI-10",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-069",
+      "empNm": "곽준서",
+      "orgUnitId": "MOI-DPI-10",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-070",
+      "empNm": "주우진",
+      "orgUnitId": "MOI-DPI-10",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-071",
+      "empNm": "안도윤",
+      "orgUnitId": "MOI-DPI-10",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-072",
+      "empNm": "김도윤",
+      "orgUnitId": "MOI-DPI-10",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-073",
+      "empNm": "황재영",
+      "orgUnitId": "MOI-DPI-11",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": [
+        "정보화",
+        "정보보호",
+        "시스템운영"
+      ]
+    },
+    {
+      "empNo": "U2026-074",
+      "empNm": "심재영",
+      "orgUnitId": "MOI-DPI-11",
+      "position": "팀장",
+      "roleId": "ROLE_TML",
+      "employmentStatus": "ACTIVE",
+      "jobTags": [
+        "정보화",
+        "정보보호",
+        "시스템운영"
+      ]
+    },
+    {
+      "empNo": "U2026-075",
+      "empNm": "오재영",
+      "orgUnitId": "MOI-DPI-11",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-076",
+      "empNm": "김도경",
+      "orgUnitId": "MOI-DPI-11",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-077",
+      "empNm": "홍지아",
+      "orgUnitId": "MOI-DPI-11",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-078",
+      "empNm": "황도윤",
+      "orgUnitId": "MOI-PIO-02",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": [
+        "정부혁신"
+      ]
+    },
+    {
+      "empNo": "U2026-079",
+      "empNm": "홍채원",
+      "orgUnitId": "MOI-PIO-02",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-080",
+      "empNm": "허유진",
+      "orgUnitId": "MOI-PIO-03",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-081",
+      "empNm": "신우진",
+      "orgUnitId": "MOI-PIO-04",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-082",
+      "empNm": "유서윤",
+      "orgUnitId": "MOI-PIO-04",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-083",
+      "empNm": "백시윤",
+      "orgUnitId": "MOI-PIO-05",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-084",
+      "empNm": "오준서",
+      "orgUnitId": "MOI-PIO-05",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-085",
+      "empNm": "유도경",
+      "orgUnitId": "MOI-PIO-05",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-086",
+      "empNm": "송유진",
+      "orgUnitId": "MOI-PIO-06",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-087",
+      "empNm": "하준서",
+      "orgUnitId": "MOI-PIO-06",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-088",
+      "empNm": "문도경",
+      "orgUnitId": "MOI-PIO-08",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": [
+        "정부조직",
+        "정원"
+      ]
+    },
+    {
+      "empNo": "U2026-089",
+      "empNm": "최도경",
+      "orgUnitId": "MOI-PIO-08",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-090",
+      "empNm": "고다은",
+      "orgUnitId": "MOI-PIO-08",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-091",
+      "empNm": "전지훈",
+      "orgUnitId": "MOI-PIO-09",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": [
+        "조직진단",
+        "정원감사"
+      ]
+    },
+    {
+      "empNo": "U2026-092",
+      "empNm": "하다은",
+      "orgUnitId": "MOI-PIO-09",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-093",
+      "empNm": "오지훈",
+      "orgUnitId": "MOI-PIO-09",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-094",
+      "empNm": "문우진",
+      "orgUnitId": "MOI-PIO-10",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-095",
+      "empNm": "신재영",
+      "orgUnitId": "MOI-PIO-10",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-096",
+      "empNm": "안현서",
+      "orgUnitId": "MOI-PIO-10",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-097",
+      "empNm": "이태윤",
+      "orgUnitId": "MOI-PIO-11",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-098",
+      "empNm": "강소율",
+      "orgUnitId": "MOI-PIO-11",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-099",
+      "empNm": "문지아",
+      "orgUnitId": "MOI-PIO-11",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-100",
+      "empNm": "문수빈",
+      "orgUnitId": "MOI-PIO-12",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-101",
+      "empNm": "고서윤",
+      "orgUnitId": "MOI-PIO-12",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-102",
+      "empNm": "허서윤",
+      "orgUnitId": "MOI-PIO-12",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-103",
+      "empNm": "조지호",
+      "orgUnitId": "MOI-PIO-13",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-104",
+      "empNm": "서승현",
+      "orgUnitId": "MOI-PIO-13",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-105",
+      "empNm": "문하준",
+      "orgUnitId": "MOI-PIO-13",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-106",
+      "empNm": "임한결",
+      "orgUnitId": "MOI-AIG-02",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": [
+        "AI행정",
+        "정책기획"
+      ]
+    },
+    {
+      "empNo": "U2026-107",
+      "empNm": "홍서윤",
+      "orgUnitId": "MOI-AIG-03",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-108",
+      "empNm": "문민재",
+      "orgUnitId": "MOI-AIG-04",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": [
+        "공공데이터",
+        "개방"
+      ]
+    },
+    {
+      "empNo": "U2026-109",
+      "empNm": "오현서",
+      "orgUnitId": "MOI-AIG-04",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-110",
+      "empNm": "노서연",
+      "orgUnitId": "MOI-AIG-04",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-111",
+      "empNm": "남우진",
+      "orgUnitId": "MOI-AIG-05",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-112",
+      "empNm": "곽수아",
+      "orgUnitId": "MOI-AIG-05",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-113",
+      "empNm": "노수아",
+      "orgUnitId": "MOI-AIG-06",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-114",
+      "empNm": "윤정우",
+      "orgUnitId": "MOI-AIG-08",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": [
+        "공공서비스"
+      ]
+    },
+    {
+      "empNo": "U2026-115",
+      "empNm": "백현서",
+      "orgUnitId": "MOI-AIG-08",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-116",
+      "empNm": "오서윤",
+      "orgUnitId": "MOI-AIG-09",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-117",
+      "empNm": "손시윤",
+      "orgUnitId": "MOI-AIG-09",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-118",
+      "empNm": "남준서",
+      "orgUnitId": "MOI-AIG-09",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-119",
+      "empNm": "차채원",
+      "orgUnitId": "MOI-AIG-10",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-120",
+      "empNm": "권예은",
+      "orgUnitId": "MOI-AIG-10",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-121",
+      "empNm": "허가은",
+      "orgUnitId": "MOI-AIG-11",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-122",
+      "empNm": "오수빈",
+      "orgUnitId": "MOI-AIG-13",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-123",
+      "empNm": "김지우",
+      "orgUnitId": "MOI-AIG-14",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-124",
+      "empNm": "노수빈",
+      "orgUnitId": "MOI-AIG-15",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-125",
+      "empNm": "양정우",
+      "orgUnitId": "MOI-AIG-15",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-126",
+      "empNm": "전은우",
+      "orgUnitId": "MOI-AIG-16",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-127",
+      "empNm": "조하준",
+      "orgUnitId": "MOI-AIG-16",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-128",
+      "empNm": "한서윤",
+      "orgUnitId": "MOI-LAI-02",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": [
+        "지방자치",
+        "제도"
+      ]
+    },
+    {
+      "empNo": "U2026-129",
+      "empNm": "손도윤",
+      "orgUnitId": "MOI-LAI-03",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-130",
+      "empNm": "윤예은",
+      "orgUnitId": "MOI-LAI-03",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-131",
+      "empNm": "강건우",
+      "orgUnitId": "MOI-LAI-03",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-132",
+      "empNm": "신지민",
+      "orgUnitId": "MOI-LAI-04",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-133",
+      "empNm": "정주원",
+      "orgUnitId": "MOI-LAI-06",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-134",
+      "empNm": "남다은",
+      "orgUnitId": "MOI-LAI-06",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-135",
+      "empNm": "우지호",
+      "orgUnitId": "MOI-LAI-07",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-136",
+      "empNm": "안하준",
+      "orgUnitId": "MOI-LAI-07",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-137",
+      "empNm": "양수빈",
+      "orgUnitId": "MOI-LAI-07",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-138",
+      "empNm": "임현서",
+      "orgUnitId": "MOI-LAI-09",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-139",
+      "empNm": "김지훈",
+      "orgUnitId": "MOI-LAI-10",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-140",
+      "empNm": "서도윤",
+      "orgUnitId": "MOI-LAI-10",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-141",
+      "empNm": "배시윤",
+      "orgUnitId": "MOI-LFE-02",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": [
+        "지방재정"
+      ]
+    },
+    {
+      "empNo": "U2026-142",
+      "empNm": "정수아",
+      "orgUnitId": "MOI-LFE-02",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-143",
+      "empNm": "구유진",
+      "orgUnitId": "MOI-LFE-03",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-144",
+      "empNm": "성가은",
+      "orgUnitId": "MOI-LFE-05",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-145",
+      "empNm": "송지호",
+      "orgUnitId": "MOI-LFE-05",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-146",
+      "empNm": "유건우",
+      "orgUnitId": "MOI-LFE-06",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-147",
+      "empNm": "정우진",
+      "orgUnitId": "MOI-LFE-08",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-148",
+      "empNm": "노유진",
+      "orgUnitId": "MOI-LFE-08",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-149",
+      "empNm": "구다은",
+      "orgUnitId": "MOI-LFE-09",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-150",
+      "empNm": "황서윤",
+      "orgUnitId": "MOI-LFE-09",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-151",
+      "empNm": "허은우",
+      "orgUnitId": "MOI-LFE-09",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-152",
+      "empNm": "고예준",
+      "orgUnitId": "MOI-DSM-02",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": [
+        "재난안전",
+        "예방"
+      ]
+    },
+    {
+      "empNo": "U2026-153",
+      "empNm": "구가은",
+      "orgUnitId": "MOI-DSM-03",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-154",
+      "empNm": "구서현",
+      "orgUnitId": "MOI-DSM-03",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-155",
+      "empNm": "홍시윤",
+      "orgUnitId": "MOI-DSM-03",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-156",
+      "empNm": "홍우진",
+      "orgUnitId": "MOI-DSM-05",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-157",
+      "empNm": "허예은",
+      "orgUnitId": "MOI-DSM-06",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-158",
+      "empNm": "임도경",
+      "orgUnitId": "MOI-DSM-06",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-159",
+      "empNm": "강은우",
+      "orgUnitId": "MOI-DSM-08",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-160",
+      "empNm": "고재영",
+      "orgUnitId": "MOI-DSM-08",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-161",
+      "empNm": "장유진",
+      "orgUnitId": "MOI-DSM-09",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-162",
+      "empNm": "고지아",
+      "orgUnitId": "MOI-DSM-09",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-163",
+      "empNm": "성지민",
+      "orgUnitId": "MOI-DSM-09",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-164",
+      "empNm": "주지호",
+      "orgUnitId": "MOI-DSM-11",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-165",
+      "empNm": "홍서연",
+      "orgUnitId": "MOI-DSM-11",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-166",
+      "empNm": "안승현",
+      "orgUnitId": "MOI-DSM-11",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-167",
+      "empNm": "백민재",
+      "orgUnitId": "MOI-DSM-12",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-168",
+      "empNm": "남민준",
+      "orgUnitId": "MOI-DSM-12",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-169",
+      "empNm": "주준서",
+      "orgUnitId": "MOI-DSM-14",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-170",
+      "empNm": "성우진",
+      "orgUnitId": "MOI-DSM-15",
+      "position": "과장",
+      "roleId": "ROLE_CHF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-171",
+      "empNm": "곽소율",
+      "orgUnitId": "MOI-DSM-15",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-172",
+      "empNm": "권지아",
+      "orgUnitId": "MOI-DSM-15",
+      "position": "주무관",
+      "roleId": "ROLE_STF",
+      "employmentStatus": "ACTIVE",
+      "jobTags": []
+    },
+    {
+      "empNo": "U2026-173",
+      "empNm": "백은우",
+      "orgUnitId": "MOI-DPI-11",
+      "position": "정보화팀장",
+      "roleId": "ROLE_ADMIN",
+      "employmentStatus": "ACTIVE",
+      "jobTags": [
+        "시스템관리"
+      ]
+    }
+  ],
+  "CURRENT_USER": "U2026-027",
+  "projects": [
+    {
+      "projectId": "WF-001",
+      "projectNm": "2026년도 예산요구서 작성·제출",
+      "status": "IN_PROGRESS",
+      "orgUnitId": "MOI-DPI-02",
+      "ownerUserId": "U2026-026",
+      "ownerUserNm": "정가은",
+      "startAt": "2026-01-05",
+      "endAt": "2026-06-30",
+      "progress": 39,
+      "projectType": "GENERAL",
+      "planDocId": "DOC-PLAN-001"
+    },
+    {
+      "projectId": "WF-002",
+      "projectNm": "2026 예산편성지침 시달 대응",
+      "status": "IN_PROGRESS",
+      "orgUnitId": "MOI-DPI-02",
+      "ownerUserId": "U2026-026",
+      "ownerUserNm": "정가은",
+      "startAt": "2026-01-05",
+      "endAt": "2026-06-30",
+      "progress": 62,
+      "projectType": "GENERAL",
+      "planDocId": "DOC-PLAN-002"
+    },
+    {
+      "projectId": "WF-003",
+      "projectNm": "중기재정운용계획 수립",
+      "status": "COMPLETED",
+      "orgUnitId": "MOI-DPI-02",
+      "ownerUserId": "U2026-026",
+      "ownerUserNm": "정가은",
+      "startAt": "2026-01-05",
+      "endAt": "2026-06-30",
+      "progress": 100,
+      "projectType": "DEPT_REGULAR",
+      "planDocId": null
+    },
+    {
+      "projectId": "WF-004",
+      "projectNm": "부내 미래전략 수립·총괄",
+      "status": "ON_HOLD",
+      "orgUnitId": "MOI-DPI-03",
+      "ownerUserId": "U2026-033",
+      "ownerUserNm": "곽서윤",
+      "startAt": "2026-01-05",
+      "endAt": "2026-06-30",
+      "progress": 26,
+      "projectType": "GENERAL",
+      "planDocId": "DOC-PLAN-004"
+    },
+    {
+      "projectId": "WF-005",
+      "projectNm": "청년정책 추진계획",
+      "status": "DELAYED",
+      "orgUnitId": "MOI-DPI-03",
+      "ownerUserId": "U2026-033",
+      "ownerUserNm": "곽서윤",
+      "startAt": "2026-01-05",
+      "endAt": "2026-06-30",
+      "progress": 24,
+      "projectType": "GENERAL",
+      "planDocId": "DOC-PLAN-005"
+    },
+    {
+      "projectId": "WF-006",
+      "projectNm": "2026 성과관리 시행계획 수립",
+      "status": "PENDING",
+      "orgUnitId": "MOI-DPI-04",
+      "ownerUserId": "U2026-039",
+      "ownerUserNm": "하현우",
+      "startAt": "2026-01-05",
+      "endAt": "2026-06-30",
+      "progress": 0,
+      "projectType": "GENERAL",
+      "planDocId": "DOC-PLAN-006"
+    },
+    {
+      "projectId": "WF-007",
+      "projectNm": "정부업무평가 자체평가 대응",
+      "status": "IN_PROGRESS",
+      "orgUnitId": "MOI-DPI-04",
+      "ownerUserId": "U2026-039",
+      "ownerUserNm": "하현우",
+      "startAt": "2026-01-05",
+      "endAt": "2026-06-30",
+      "progress": 49,
+      "projectType": "DEPT_REGULAR",
+      "planDocId": null
+    },
+    {
+      "projectId": "WF-008",
+      "projectNm": "소관 법령 제·개정 관리",
+      "status": "IN_PROGRESS",
+      "orgUnitId": "MOI-DPI-05",
+      "ownerUserId": "U2026-046",
+      "ownerUserNm": "곽윤서",
+      "startAt": "2026-01-05",
+      "endAt": "2026-06-30",
+      "progress": 55,
+      "projectType": "GENERAL",
+      "planDocId": "DOC-PLAN-008"
+    },
+    {
+      "projectId": "WF-009",
+      "projectNm": "규제개혁 과제 관리",
+      "status": "IN_PROGRESS",
+      "orgUnitId": "MOI-DPI-05",
+      "ownerUserId": "U2026-046",
+      "ownerUserNm": "곽윤서",
+      "startAt": "2026-01-05",
+      "endAt": "2026-06-30",
+      "progress": 54,
+      "projectType": "GENERAL",
+      "planDocId": "DOC-PLAN-009"
+    },
+    {
+      "projectId": "WF-010",
+      "projectNm": "행정정보시스템 운영·고도화",
+      "status": "COMPLETED",
+      "orgUnitId": "MOI-DPI-11",
+      "ownerUserId": "U2026-073",
+      "ownerUserNm": "황재영",
+      "startAt": "2026-01-05",
+      "endAt": "2026-06-30",
+      "progress": 100,
+      "projectType": "DEPT_REGULAR",
+      "planDocId": null
+    },
+    {
+      "projectId": "WF-011",
+      "projectNm": "부내 정보보호 강화",
+      "status": "ON_HOLD",
+      "orgUnitId": "MOI-DPI-11",
+      "ownerUserId": "U2026-073",
+      "ownerUserNm": "황재영",
+      "startAt": "2026-01-05",
+      "endAt": "2026-06-30",
+      "progress": 24,
+      "projectType": "GENERAL",
+      "planDocId": "DOC-PLAN-011"
+    },
+    {
+      "projectId": "WF-012",
+      "projectNm": "국제행정 협력사업 추진",
+      "status": "DELAYED",
+      "orgUnitId": "MOI-DPI-07",
+      "ownerUserId": "U2026-053",
+      "ownerUserNm": "박유진",
+      "startAt": "2026-01-05",
+      "endAt": "2026-06-30",
+      "progress": 28,
+      "projectType": "GENERAL",
+      "planDocId": "DOC-PLAN-012"
+    },
+    {
+      "projectId": "WF-013",
+      "projectNm": "정부조직·정원 진단",
+      "status": "PENDING",
+      "orgUnitId": "MOI-PIO-08",
+      "ownerUserId": "U2026-088",
+      "ownerUserNm": "문도경",
+      "startAt": "2026-01-05",
+      "endAt": "2026-06-30",
+      "progress": 0,
+      "projectType": "GENERAL",
+      "planDocId": "DOC-PLAN-013"
+    },
+    {
+      "projectId": "WF-014",
+      "projectNm": "정부혁신 종합계획 추진",
+      "status": "IN_PROGRESS",
+      "orgUnitId": "MOI-PIO-02",
+      "ownerUserId": "U2026-078",
+      "ownerUserNm": "황도윤",
+      "startAt": "2026-01-05",
+      "endAt": "2026-06-30",
+      "progress": 68,
+      "projectType": "GENERAL",
+      "planDocId": "DOC-PLAN-014"
+    },
+    {
+      "projectId": "WF-015",
+      "projectNm": "AI 행정서비스 확대",
+      "status": "IN_PROGRESS",
+      "orgUnitId": "MOI-AIG-02",
+      "ownerUserId": "U2026-106",
+      "ownerUserNm": "임한결",
+      "startAt": "2026-01-05",
+      "endAt": "2026-06-30",
+      "progress": 28,
+      "projectType": "GENERAL",
+      "planDocId": "DOC-PLAN-015"
+    },
+    {
+      "projectId": "WF-016",
+      "projectNm": "공공데이터 개방 확대",
+      "status": "IN_PROGRESS",
+      "orgUnitId": "MOI-AIG-04",
+      "ownerUserId": "U2026-108",
+      "ownerUserNm": "문민재",
+      "startAt": "2026-01-05",
+      "endAt": "2026-06-30",
+      "progress": 35,
+      "projectType": "GENERAL",
+      "planDocId": "DOC-PLAN-016"
+    },
+    {
+      "projectId": "WF-017",
+      "projectNm": "디지털 공공서비스 혁신",
+      "status": "COMPLETED",
+      "orgUnitId": "MOI-AIG-08",
+      "ownerUserId": "U2026-114",
+      "ownerUserNm": "윤정우",
+      "startAt": "2026-01-05",
+      "endAt": "2026-06-30",
+      "progress": 100,
+      "projectType": "GENERAL",
+      "planDocId": "DOC-PLAN-017"
+    },
+    {
+      "projectId": "WF-018",
+      "projectNm": "지방자치 제도 개선",
+      "status": "ON_HOLD",
+      "orgUnitId": "MOI-LAI-02",
+      "ownerUserId": "U2026-128",
+      "ownerUserNm": "한서윤",
+      "startAt": "2026-01-05",
+      "endAt": "2026-06-30",
+      "progress": 25,
+      "projectType": "GENERAL",
+      "planDocId": "DOC-PLAN-018"
+    },
+    {
+      "projectId": "WF-019",
+      "projectNm": "지방재정 건전성 관리",
+      "status": "DELAYED",
+      "orgUnitId": "MOI-LFE-02",
+      "ownerUserId": "U2026-141",
+      "ownerUserNm": "배시윤",
+      "startAt": "2026-01-05",
+      "endAt": "2026-06-30",
+      "progress": 38,
+      "projectType": "GENERAL",
+      "planDocId": "DOC-PLAN-019"
+    },
+    {
+      "projectId": "WF-020",
+      "projectNm": "재난안전 예방대책 수립",
+      "status": "PENDING",
+      "orgUnitId": "MOI-DSM-02",
+      "ownerUserId": "U2026-152",
+      "ownerUserNm": "고예준",
+      "startAt": "2026-01-05",
+      "endAt": "2026-06-30",
+      "progress": 0,
+      "projectType": "GENERAL",
+      "planDocId": "DOC-PLAN-020"
+    },
+    {
+      "projectId": "WF-021",
+      "projectNm": "풍수해 대응체계 정비",
+      "status": "IN_PROGRESS",
+      "orgUnitId": "MOI-DSM-05",
+      "ownerUserId": "U2026-156",
+      "ownerUserNm": "홍우진",
+      "startAt": "2026-01-05",
+      "endAt": "2026-06-30",
+      "progress": 16,
+      "projectType": "DEPT_REGULAR",
+      "planDocId": null
+    },
+    {
+      "projectId": "WF-022",
+      "projectNm": "국정감사 대응",
+      "status": "IN_PROGRESS",
+      "orgUnitId": "MOI-DPI-02",
+      "ownerUserId": "U2026-026",
+      "ownerUserNm": "정가은",
+      "startAt": "2026-01-05",
+      "endAt": "2026-06-30",
+      "progress": 51,
+      "projectType": "GENERAL",
+      "planDocId": "DOC-PLAN-022"
+    },
+    {
+      "projectId": "WF-023",
+      "projectNm": "정기 통계·정원표 발간",
+      "status": "IN_PROGRESS",
+      "orgUnitId": "MOI-PIO-09",
+      "ownerUserId": "U2026-091",
+      "ownerUserNm": "전지훈",
+      "startAt": "2026-01-05",
+      "endAt": "2026-06-30",
+      "progress": 63,
+      "projectType": "DEPT_REGULAR",
+      "planDocId": null
+    },
+    {
+      "projectId": "WF-024",
+      "projectNm": "공공데이터 분석기반 구축",
+      "status": "COMPLETED",
+      "orgUnitId": "MOI-AIG-05",
+      "ownerUserId": "U2026-111",
+      "ownerUserNm": "남우진",
+      "startAt": "2026-01-05",
+      "endAt": "2026-06-30",
+      "progress": 100,
+      "projectType": "GENERAL",
+      "planDocId": "DOC-PLAN-024"
+    },
+    {
+      "projectId": "WF-025",
+      "projectNm": "국민참여 플랫폼 운영",
+      "status": "ON_HOLD",
+      "orgUnitId": "MOI-PIO-03",
+      "ownerUserId": "U2026-080",
+      "ownerUserNm": "허유진",
+      "startAt": "2026-01-05",
+      "endAt": "2026-06-30",
+      "progress": 45,
+      "projectType": "DEPT_REGULAR",
+      "planDocId": null
+    },
+    {
+      "projectId": "WF-026",
+      "projectNm": "행정한류 수출 확대",
+      "status": "DELAYED",
+      "orgUnitId": "MOI-DPI-08",
+      "ownerUserId": "U2026-059",
+      "ownerUserNm": "박정우",
+      "startAt": "2026-01-05",
+      "endAt": "2026-06-30",
+      "progress": 15,
+      "projectType": "GENERAL",
+      "planDocId": "DOC-PLAN-026"
+    },
+    {
+      "projectId": "WF-027",
+      "projectNm": "통합포털 개편",
+      "status": "PENDING",
+      "orgUnitId": "MOI-AIG-11",
+      "ownerUserId": "U2026-121",
+      "ownerUserNm": "허가은",
+      "startAt": "2026-01-05",
+      "endAt": "2026-06-30",
+      "progress": 0,
+      "projectType": "GENERAL",
+      "planDocId": "DOC-PLAN-027"
+    },
+    {
+      "projectId": "WF-028",
+      "projectNm": "지방세 제도 개선",
+      "status": "IN_PROGRESS",
+      "orgUnitId": "MOI-LFE-05",
+      "ownerUserId": "U2026-144",
+      "ownerUserNm": "성가은",
+      "startAt": "2026-01-05",
+      "endAt": "2026-06-30",
+      "progress": 31,
+      "projectType": "GENERAL",
+      "planDocId": "DOC-PLAN-028"
+    }
+  ],
+  "tasks": [
+    {
+      "taskId": "T-001-01",
+      "projectId": "WF-001",
+      "taskNm": "예산 편성지침 분석",
+      "status": "COMPLETED",
+      "assigneeId": "U2026-026",
+      "assigneeNm": "정가은",
+      "startAt": "2026-01-05",
+      "endAt": "2026-01-20",
+      "progress": 100,
+      "riskGrade": "OK",
+      "processStepId": "S-001-01",
+      "taskType": "REGULAR",
+      "priorityLevel": "NORMAL",
+      "securityLevel": "L1",
+      "financeYn": true,
+      "mgmtStatus": "사용",
+      "category": "FINANCE",
+      "durationDays": 16,
+      "costBudget": 50000000,
+      "linkedFormIds": [
+        "FM-006"
+      ]
+    },
+    {
+      "taskId": "T-001-02",
+      "projectId": "WF-001",
+      "taskNm": "부서별 예산요구 취합",
+      "status": "IN_PROGRESS",
+      "assigneeId": "U2026-027",
+      "assigneeNm": "손승현",
+      "startAt": "2026-01-21",
+      "endAt": "2026-02-28",
+      "progress": 34,
+      "riskGrade": "WARN",
+      "processStepId": "S-001-02",
+      "taskType": "REGULAR",
+      "priorityLevel": "HIGH",
+      "securityLevel": "L2",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "FINANCE",
+      "durationDays": 39,
+      "costBudget": 3000000,
+      "linkedFormIds": [
+        "FM-001"
+      ]
+    },
+    {
+      "taskId": "T-001-03",
+      "projectId": "WF-001",
+      "taskNm": "재정위험 관리체계 검토",
+      "status": "DELAYED",
+      "assigneeId": "U2026-028",
+      "assigneeNm": "황도경",
+      "startAt": "2026-02-10",
+      "endAt": "2026-03-15",
+      "progress": 20,
+      "riskGrade": "RISK",
+      "processStepId": "S-001-02",
+      "taskType": "ADHOC",
+      "priorityLevel": "URGENT",
+      "securityLevel": "L2",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "FINANCE",
+      "durationDays": 34,
+      "costBudget": 4000000,
+      "linkedFormIds": [
+        "FM-002"
+      ]
+    },
+    {
+      "taskId": "T-001-04",
+      "projectId": "WF-001",
+      "taskNm": "예산요구서 초안 작성",
+      "status": "PENDING",
+      "assigneeId": "U2026-029",
+      "assigneeNm": "구한결",
+      "startAt": "2026-03-16",
+      "endAt": "2026-04-30",
+      "progress": 0,
+      "riskGrade": "OK",
+      "processStepId": "S-001-03",
+      "taskType": "REGULAR",
+      "priorityLevel": "NORMAL",
+      "securityLevel": "L1",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "FINANCE",
+      "durationDays": 46,
+      "costBudget": 5000000,
+      "linkedFormIds": [
+        "FM-003"
+      ]
+    },
+    {
+      "taskId": "T-001-05",
+      "projectId": "WF-001",
+      "taskNm": "국회 예산심의 대응자료",
+      "status": "ON_HOLD",
+      "assigneeId": "U2026-030",
+      "assigneeNm": "손하준",
+      "startAt": "2026-03-01",
+      "endAt": "2026-05-31",
+      "progress": 30,
+      "riskGrade": "WARN",
+      "processStepId": "S-001-03",
+      "taskType": "ADHOC",
+      "priorityLevel": "HIGH",
+      "securityLevel": "L3",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "FINANCE",
+      "durationDays": 92,
+      "costBudget": 6000000,
+      "linkedFormIds": [
+        "FM-004"
+      ]
+    },
+    {
+      "taskId": "T-002-01",
+      "projectId": "WF-002",
+      "taskNm": "현황 조사·분석",
+      "status": "COMPLETED",
+      "assigneeId": "U2026-028",
+      "assigneeNm": "황도경",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 100,
+      "riskGrade": "OK",
+      "processStepId": "S-002-03",
+      "taskType": "REGULAR",
+      "priorityLevel": "URGENT",
+      "securityLevel": "L2",
+      "financeYn": true,
+      "mgmtStatus": "사용",
+      "category": "FINANCE",
+      "durationDays": 120,
+      "costBudget": 27000000,
+      "linkedFormIds": [
+        "FM-001"
+      ]
+    },
+    {
+      "taskId": "T-002-02",
+      "projectId": "WF-002",
+      "taskNm": "시범 운영",
+      "status": "DELAYED",
+      "assigneeId": "U2026-031",
+      "assigneeNm": "노현우",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 25,
+      "riskGrade": "RISK",
+      "processStepId": "S-002-02",
+      "taskType": "REGULAR",
+      "priorityLevel": "NORMAL",
+      "securityLevel": "L1",
+      "financeYn": true,
+      "mgmtStatus": "사용",
+      "category": "FINANCE",
+      "durationDays": 120,
+      "costBudget": 28000000,
+      "linkedFormIds": [
+        "FM-002"
+      ]
+    },
+    {
+      "taskId": "T-002-03",
+      "projectId": "WF-002",
+      "taskNm": "관계기관 협의",
+      "status": "IN_PROGRESS",
+      "assigneeId": "U2026-027",
+      "assigneeNm": "손승현",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 23,
+      "riskGrade": "OK",
+      "processStepId": "S-002-01",
+      "taskType": "REGULAR",
+      "priorityLevel": "NORMAL",
+      "securityLevel": "L1",
+      "financeYn": true,
+      "mgmtStatus": "사용",
+      "category": "FINANCE",
+      "durationDays": 120,
+      "costBudget": 29000000,
+      "linkedFormIds": [
+        "FM-003"
+      ]
+    },
+    {
+      "taskId": "T-002-04",
+      "projectId": "WF-002",
+      "taskNm": "추진계획 수립",
+      "status": "COMPLETED",
+      "assigneeId": "U2026-026",
+      "assigneeNm": "정가은",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 100,
+      "riskGrade": "WARN",
+      "processStepId": "S-002-01",
+      "taskType": "REGULAR",
+      "priorityLevel": "URGENT",
+      "securityLevel": "L2",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "FINANCE",
+      "durationDays": 120,
+      "costBudget": 30000000,
+      "linkedFormIds": [
+        "FM-004"
+      ]
+    },
+    {
+      "taskId": "T-003-01",
+      "projectId": "WF-003",
+      "taskNm": "관계기관 협의",
+      "status": "IN_PROGRESS",
+      "assigneeId": "U2026-026",
+      "assigneeNm": "정가은",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 10,
+      "riskGrade": "WARN",
+      "processStepId": "S-003-01",
+      "taskType": "REGULAR",
+      "priorityLevel": "NORMAL",
+      "securityLevel": "L2",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "FINANCE",
+      "durationDays": 120,
+      "costBudget": 4000000,
+      "linkedFormIds": [
+        "FM-002"
+      ]
+    },
+    {
+      "taskId": "T-003-02",
+      "projectId": "WF-003",
+      "taskNm": "중간 점검",
+      "status": "COMPLETED",
+      "assigneeId": "U2026-030",
+      "assigneeNm": "손하준",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 100,
+      "riskGrade": "WARN",
+      "processStepId": "S-003-01",
+      "taskType": "ADHOC",
+      "priorityLevel": "LOW",
+      "securityLevel": "L1",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "FINANCE",
+      "durationDays": 120,
+      "costBudget": 5000000,
+      "linkedFormIds": [
+        "FM-003"
+      ]
+    },
+    {
+      "taskId": "T-003-03",
+      "projectId": "WF-003",
+      "taskNm": "관계기관 협의",
+      "status": "IN_PROGRESS",
+      "assigneeId": "U2026-029",
+      "assigneeNm": "구한결",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 32,
+      "riskGrade": "WARN",
+      "processStepId": "S-003-02",
+      "taskType": "ADHOC",
+      "priorityLevel": "HIGH",
+      "securityLevel": "L2",
+      "financeYn": true,
+      "mgmtStatus": "사용",
+      "category": "FINANCE",
+      "durationDays": 120,
+      "costBudget": 6000000,
+      "linkedFormIds": [
+        "FM-004"
+      ]
+    },
+    {
+      "taskId": "T-003-04",
+      "projectId": "WF-003",
+      "taskNm": "결과 보고",
+      "status": "DELAYED",
+      "assigneeId": "U2026-031",
+      "assigneeNm": "노현우",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 24,
+      "riskGrade": "RISK",
+      "processStepId": "S-003-03",
+      "taskType": "REGULAR",
+      "priorityLevel": "HIGH",
+      "securityLevel": "L2",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "FINANCE",
+      "durationDays": 120,
+      "costBudget": 7000000,
+      "linkedFormIds": [
+        "FM-005"
+      ]
+    },
+    {
+      "taskId": "T-003-05",
+      "projectId": "WF-003",
+      "taskNm": "결과 보고",
+      "status": "IN_PROGRESS",
+      "assigneeId": "U2026-027",
+      "assigneeNm": "손승현",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 12,
+      "riskGrade": "WARN",
+      "processStepId": "S-003-03",
+      "taskType": "ADHOC",
+      "priorityLevel": "HIGH",
+      "securityLevel": "L3",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "FINANCE",
+      "durationDays": 120,
+      "costBudget": 8000000,
+      "linkedFormIds": [
+        "FM-006"
+      ]
+    },
+    {
+      "taskId": "T-004-01",
+      "projectId": "WF-004",
+      "taskNm": "시범 운영",
+      "status": "COMPLETED",
+      "assigneeId": "U2026-035",
+      "assigneeNm": "조민준",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 100,
+      "riskGrade": "WARN",
+      "processStepId": "S-004-03",
+      "taskType": "ADHOC",
+      "priorityLevel": "HIGH",
+      "securityLevel": "L1",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "ADMIN",
+      "durationDays": 120,
+      "costBudget": 29000000,
+      "linkedFormIds": [
+        "FM-003"
+      ]
+    },
+    {
+      "taskId": "T-004-02",
+      "projectId": "WF-004",
+      "taskNm": "시범 운영",
+      "status": "PENDING",
+      "assigneeId": "U2026-035",
+      "assigneeNm": "조민준",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 0,
+      "riskGrade": "RISK",
+      "processStepId": "S-004-03",
+      "taskType": "ADHOC",
+      "priorityLevel": "LOW",
+      "securityLevel": "L2",
+      "financeYn": true,
+      "mgmtStatus": "사용",
+      "category": "ADMIN",
+      "durationDays": 120,
+      "costBudget": 30000000,
+      "linkedFormIds": [
+        "FM-004"
+      ]
+    },
+    {
+      "taskId": "T-004-03",
+      "projectId": "WF-004",
+      "taskNm": "후속 개선",
+      "status": "DELAYED",
+      "assigneeId": "U2026-038",
+      "assigneeNm": "홍정우",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 35,
+      "riskGrade": "RISK",
+      "processStepId": "S-004-01",
+      "taskType": "REGULAR",
+      "priorityLevel": "URGENT",
+      "securityLevel": "L1",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "ADMIN",
+      "durationDays": 120,
+      "costBudget": 31000000,
+      "linkedFormIds": [
+        "FM-005"
+      ]
+    },
+    {
+      "taskId": "T-004-04",
+      "projectId": "WF-004",
+      "taskNm": "추진계획 수립",
+      "status": "PENDING",
+      "assigneeId": "U2026-037",
+      "assigneeNm": "장하준",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 0,
+      "riskGrade": "WARN",
+      "processStepId": "S-004-01",
+      "taskType": "ADHOC",
+      "priorityLevel": "HIGH",
+      "securityLevel": "L2",
+      "financeYn": true,
+      "mgmtStatus": "사용",
+      "category": "ADMIN",
+      "durationDays": 120,
+      "costBudget": 32000000,
+      "linkedFormIds": [
+        "FM-006"
+      ]
+    },
+    {
+      "taskId": "T-005-01",
+      "projectId": "WF-005",
+      "taskNm": "관계기관 협의",
+      "status": "IN_PROGRESS",
+      "assigneeId": "U2026-036",
+      "assigneeNm": "황지우",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 77,
+      "riskGrade": "OK",
+      "processStepId": "S-005-03",
+      "taskType": "ADHOC",
+      "priorityLevel": "NORMAL",
+      "securityLevel": "L3",
+      "financeYn": true,
+      "mgmtStatus": "사용",
+      "category": "ADMIN",
+      "durationDays": 120,
+      "costBudget": 6000000,
+      "linkedFormIds": [
+        "FM-004"
+      ]
+    },
+    {
+      "taskId": "T-005-02",
+      "projectId": "WF-005",
+      "taskNm": "추진계획 수립",
+      "status": "ON_HOLD",
+      "assigneeId": "U2026-035",
+      "assigneeNm": "조민준",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 21,
+      "riskGrade": "OK",
+      "processStepId": "S-005-02",
+      "taskType": "ADHOC",
+      "priorityLevel": "URGENT",
+      "securityLevel": "L3",
+      "financeYn": true,
+      "mgmtStatus": "사용",
+      "category": "ADMIN",
+      "durationDays": 120,
+      "costBudget": 7000000,
+      "linkedFormIds": [
+        "FM-005"
+      ]
+    },
+    {
+      "taskId": "T-005-03",
+      "projectId": "WF-005",
+      "taskNm": "세부지침 마련",
+      "status": "ON_HOLD",
+      "assigneeId": "U2026-037",
+      "assigneeNm": "장하준",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 60,
+      "riskGrade": "OK",
+      "processStepId": "S-005-03",
+      "taskType": "REGULAR",
+      "priorityLevel": "URGENT",
+      "securityLevel": "L3",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "ADMIN",
+      "durationDays": 120,
+      "costBudget": 8000000,
+      "linkedFormIds": [
+        "FM-006"
+      ]
+    },
+    {
+      "taskId": "T-005-04",
+      "projectId": "WF-005",
+      "taskNm": "결과 보고",
+      "status": "IN_PROGRESS",
+      "assigneeId": "U2026-035",
+      "assigneeNm": "조민준",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 73,
+      "riskGrade": "OK",
+      "processStepId": "S-005-01",
+      "taskType": "REGULAR",
+      "priorityLevel": "NORMAL",
+      "securityLevel": "L1",
+      "financeYn": true,
+      "mgmtStatus": "사용",
+      "category": "ADMIN",
+      "durationDays": 120,
+      "costBudget": 9000000,
+      "linkedFormIds": [
+        "FM-001"
+      ]
+    },
+    {
+      "taskId": "T-005-05",
+      "projectId": "WF-005",
+      "taskNm": "추진계획 수립",
+      "status": "IN_PROGRESS",
+      "assigneeId": "U2026-038",
+      "assigneeNm": "홍정우",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 13,
+      "riskGrade": "OK",
+      "processStepId": "S-005-03",
+      "taskType": "ADHOC",
+      "priorityLevel": "LOW",
+      "securityLevel": "L3",
+      "financeYn": true,
+      "mgmtStatus": "사용",
+      "category": "ADMIN",
+      "durationDays": 120,
+      "costBudget": 10000000,
+      "linkedFormIds": [
+        "FM-002"
+      ]
+    },
+    {
+      "taskId": "T-005-06",
+      "projectId": "WF-005",
+      "taskNm": "세부지침 마련",
+      "status": "COMPLETED",
+      "assigneeId": "U2026-033",
+      "assigneeNm": "곽서윤",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 100,
+      "riskGrade": "OK",
+      "processStepId": "S-005-03",
+      "taskType": "REGULAR",
+      "priorityLevel": "LOW",
+      "securityLevel": "L1",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "ADMIN",
+      "durationDays": 120,
+      "costBudget": 11000000,
+      "linkedFormIds": [
+        "FM-003"
+      ]
+    },
+    {
+      "taskId": "T-006-01",
+      "projectId": "WF-006",
+      "taskNm": "추진계획 수립",
+      "status": "ON_HOLD",
+      "assigneeId": "U2026-039",
+      "assigneeNm": "하현우",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 42,
+      "riskGrade": "OK",
+      "processStepId": "S-006-03",
+      "taskType": "REGULAR",
+      "priorityLevel": "HIGH",
+      "securityLevel": "L3",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "ADMIN",
+      "durationDays": 120,
+      "costBudget": 31000000,
+      "linkedFormIds": [
+        "FM-005"
+      ]
+    },
+    {
+      "taskId": "T-006-02",
+      "projectId": "WF-006",
+      "taskNm": "관계기관 협의",
+      "status": "COMPLETED",
+      "assigneeId": "U2026-043",
+      "assigneeNm": "전다은",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 100,
+      "riskGrade": "OK",
+      "processStepId": "S-006-01",
+      "taskType": "REGULAR",
+      "priorityLevel": "LOW",
+      "securityLevel": "L2",
+      "financeYn": true,
+      "mgmtStatus": "사용",
+      "category": "ADMIN",
+      "durationDays": 120,
+      "costBudget": 32000000,
+      "linkedFormIds": [
+        "FM-006"
+      ]
+    },
+    {
+      "taskId": "T-006-03",
+      "projectId": "WF-006",
+      "taskNm": "후속 개선",
+      "status": "IN_PROGRESS",
+      "assigneeId": "U2026-041",
+      "assigneeNm": "정소율",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 74,
+      "riskGrade": "OK",
+      "processStepId": "S-006-03",
+      "taskType": "REGULAR",
+      "priorityLevel": "LOW",
+      "securityLevel": "L2",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "ADMIN",
+      "durationDays": 120,
+      "costBudget": 33000000,
+      "linkedFormIds": [
+        "FM-001"
+      ]
+    },
+    {
+      "taskId": "T-006-04",
+      "projectId": "WF-006",
+      "taskNm": "현황 조사·분석",
+      "status": "IN_PROGRESS",
+      "assigneeId": "U2026-041",
+      "assigneeNm": "정소율",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 31,
+      "riskGrade": "OK",
+      "processStepId": "S-006-01",
+      "taskType": "ADHOC",
+      "priorityLevel": "LOW",
+      "securityLevel": "L1",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "ADMIN",
+      "durationDays": 120,
+      "costBudget": 34000000,
+      "linkedFormIds": [
+        "FM-002"
+      ]
+    },
+    {
+      "taskId": "T-007-01",
+      "projectId": "WF-007",
+      "taskNm": "후속 개선",
+      "status": "DELAYED",
+      "assigneeId": "U2026-041",
+      "assigneeNm": "정소율",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 12,
+      "riskGrade": "RISK",
+      "processStepId": "S-007-02",
+      "taskType": "REGULAR",
+      "priorityLevel": "LOW",
+      "securityLevel": "L3",
+      "financeYn": true,
+      "mgmtStatus": "사용",
+      "category": "ADMIN",
+      "durationDays": 120,
+      "costBudget": 8000000,
+      "linkedFormIds": [
+        "FM-006"
+      ]
+    },
+    {
+      "taskId": "T-007-02",
+      "projectId": "WF-007",
+      "taskNm": "관계기관 협의",
+      "status": "IN_PROGRESS",
+      "assigneeId": "U2026-045",
+      "assigneeNm": "홍가은",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 48,
+      "riskGrade": "WARN",
+      "processStepId": "S-007-02",
+      "taskType": "REGULAR",
+      "priorityLevel": "URGENT",
+      "securityLevel": "L2",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "ADMIN",
+      "durationDays": 120,
+      "costBudget": 9000000,
+      "linkedFormIds": [
+        "FM-001"
+      ]
+    },
+    {
+      "taskId": "T-007-03",
+      "projectId": "WF-007",
+      "taskNm": "중간 점검",
+      "status": "IN_PROGRESS",
+      "assigneeId": "U2026-043",
+      "assigneeNm": "전다은",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 75,
+      "riskGrade": "OK",
+      "processStepId": "S-007-03",
+      "taskType": "ADHOC",
+      "priorityLevel": "NORMAL",
+      "securityLevel": "L3",
+      "financeYn": true,
+      "mgmtStatus": "사용",
+      "category": "ADMIN",
+      "durationDays": 120,
+      "costBudget": 10000000,
+      "linkedFormIds": [
+        "FM-002"
+      ]
+    },
+    {
+      "taskId": "T-007-04",
+      "projectId": "WF-007",
+      "taskNm": "중간 점검",
+      "status": "IN_PROGRESS",
+      "assigneeId": "U2026-045",
+      "assigneeNm": "홍가은",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 21,
+      "riskGrade": "OK",
+      "processStepId": "S-007-03",
+      "taskType": "REGULAR",
+      "priorityLevel": "HIGH",
+      "securityLevel": "L2",
+      "financeYn": true,
+      "mgmtStatus": "사용",
+      "category": "ADMIN",
+      "durationDays": 120,
+      "costBudget": 11000000,
+      "linkedFormIds": [
+        "FM-003"
+      ]
+    },
+    {
+      "taskId": "T-007-05",
+      "projectId": "WF-007",
+      "taskNm": "세부지침 마련",
+      "status": "COMPLETED",
+      "assigneeId": "U2026-045",
+      "assigneeNm": "홍가은",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 100,
+      "riskGrade": "RISK",
+      "processStepId": "S-007-01",
+      "taskType": "ADHOC",
+      "priorityLevel": "NORMAL",
+      "securityLevel": "L2",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "ADMIN",
+      "durationDays": 120,
+      "costBudget": 12000000,
+      "linkedFormIds": [
+        "FM-004"
+      ]
+    },
+    {
+      "taskId": "T-008-01",
+      "projectId": "WF-008",
+      "taskNm": "중간 점검",
+      "status": "COMPLETED",
+      "assigneeId": "U2026-046",
+      "assigneeNm": "곽윤서",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 100,
+      "riskGrade": "RISK",
+      "processStepId": "S-008-03",
+      "taskType": "REGULAR",
+      "priorityLevel": "URGENT",
+      "securityLevel": "L1",
+      "financeYn": true,
+      "mgmtStatus": "사용",
+      "category": "ADMIN",
+      "durationDays": 120,
+      "costBudget": 22000000,
+      "linkedFormIds": [
+        "FM-002"
+      ]
+    },
+    {
+      "taskId": "T-008-02",
+      "projectId": "WF-008",
+      "taskNm": "후속 개선",
+      "status": "IN_PROGRESS",
+      "assigneeId": "U2026-051",
+      "assigneeNm": "최예은",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 47,
+      "riskGrade": "WARN",
+      "processStepId": "S-008-01",
+      "taskType": "REGULAR",
+      "priorityLevel": "HIGH",
+      "securityLevel": "L3",
+      "financeYn": true,
+      "mgmtStatus": "사용",
+      "category": "ADMIN",
+      "durationDays": 120,
+      "costBudget": 23000000,
+      "linkedFormIds": [
+        "FM-003"
+      ]
+    },
+    {
+      "taskId": "T-008-03",
+      "projectId": "WF-008",
+      "taskNm": "세부지침 마련",
+      "status": "COMPLETED",
+      "assigneeId": "U2026-051",
+      "assigneeNm": "최예은",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 100,
+      "riskGrade": "WARN",
+      "processStepId": "S-008-02",
+      "taskType": "REGULAR",
+      "priorityLevel": "URGENT",
+      "securityLevel": "L3",
+      "financeYn": true,
+      "mgmtStatus": "사용",
+      "category": "ADMIN",
+      "durationDays": 120,
+      "costBudget": 24000000,
+      "linkedFormIds": [
+        "FM-004"
+      ]
+    },
+    {
+      "taskId": "T-009-01",
+      "projectId": "WF-009",
+      "taskNm": "시범 운영",
+      "status": "COMPLETED",
+      "assigneeId": "U2026-046",
+      "assigneeNm": "곽윤서",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 100,
+      "riskGrade": "OK",
+      "processStepId": "S-009-01",
+      "taskType": "REGULAR",
+      "priorityLevel": "HIGH",
+      "securityLevel": "L2",
+      "financeYn": true,
+      "mgmtStatus": "사용",
+      "category": "ADMIN",
+      "durationDays": 120,
+      "costBudget": 47000000,
+      "linkedFormIds": [
+        "FM-003"
+      ]
+    },
+    {
+      "taskId": "T-009-02",
+      "projectId": "WF-009",
+      "taskNm": "세부지침 마련",
+      "status": "IN_PROGRESS",
+      "assigneeId": "U2026-048",
+      "assigneeNm": "신수빈",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 56,
+      "riskGrade": "WARN",
+      "processStepId": "S-009-02",
+      "taskType": "REGULAR",
+      "priorityLevel": "HIGH",
+      "securityLevel": "L2",
+      "financeYn": true,
+      "mgmtStatus": "사용",
+      "category": "ADMIN",
+      "durationDays": 120,
+      "costBudget": 48000000,
+      "linkedFormIds": [
+        "FM-004"
+      ]
+    },
+    {
+      "taskId": "T-009-03",
+      "projectId": "WF-009",
+      "taskNm": "추진계획 수립",
+      "status": "ON_HOLD",
+      "assigneeId": "U2026-052",
+      "assigneeNm": "최승현",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 26,
+      "riskGrade": "RISK",
+      "processStepId": "S-009-01",
+      "taskType": "ADHOC",
+      "priorityLevel": "LOW",
+      "securityLevel": "L2",
+      "financeYn": true,
+      "mgmtStatus": "사용",
+      "category": "ADMIN",
+      "durationDays": 120,
+      "costBudget": 49000000,
+      "linkedFormIds": [
+        "FM-005"
+      ]
+    },
+    {
+      "taskId": "T-009-04",
+      "projectId": "WF-009",
+      "taskNm": "관계기관 협의",
+      "status": "IN_PROGRESS",
+      "assigneeId": "U2026-051",
+      "assigneeNm": "최예은",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 72,
+      "riskGrade": "OK",
+      "processStepId": "S-009-01",
+      "taskType": "REGULAR",
+      "priorityLevel": "HIGH",
+      "securityLevel": "L1",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "ADMIN",
+      "durationDays": 120,
+      "costBudget": 50000000,
+      "linkedFormIds": [
+        "FM-006"
+      ]
+    },
+    {
+      "taskId": "T-010-01",
+      "projectId": "WF-010",
+      "taskNm": "관계기관 협의",
+      "status": "IN_PROGRESS",
+      "assigneeId": "U2026-075",
+      "assigneeNm": "오재영",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 10,
+      "riskGrade": "WARN",
+      "processStepId": "S-010-01",
+      "taskType": "ADHOC",
+      "priorityLevel": "NORMAL",
+      "securityLevel": "L2",
+      "financeYn": true,
+      "mgmtStatus": "사용",
+      "category": "TECH",
+      "durationDays": 120,
+      "costBudget": 47000000,
+      "linkedFormIds": [
+        "FM-003"
+      ]
+    },
+    {
+      "taskId": "T-010-02",
+      "projectId": "WF-010",
+      "taskNm": "시범 운영",
+      "status": "IN_PROGRESS",
+      "assigneeId": "U2026-075",
+      "assigneeNm": "오재영",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 64,
+      "riskGrade": "WARN",
+      "processStepId": "S-010-01",
+      "taskType": "ADHOC",
+      "priorityLevel": "URGENT",
+      "securityLevel": "L3",
+      "financeYn": true,
+      "mgmtStatus": "사용",
+      "category": "TECH",
+      "durationDays": 120,
+      "costBudget": 48000000,
+      "linkedFormIds": [
+        "FM-004"
+      ]
+    },
+    {
+      "taskId": "T-010-03",
+      "projectId": "WF-010",
+      "taskNm": "후속 개선",
+      "status": "COMPLETED",
+      "assigneeId": "U2026-075",
+      "assigneeNm": "오재영",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 100,
+      "riskGrade": "OK",
+      "processStepId": "S-010-01",
+      "taskType": "ADHOC",
+      "priorityLevel": "HIGH",
+      "securityLevel": "L2",
+      "financeYn": true,
+      "mgmtStatus": "사용",
+      "category": "TECH",
+      "durationDays": 120,
+      "costBudget": 49000000,
+      "linkedFormIds": [
+        "FM-005"
+      ]
+    },
+    {
+      "taskId": "T-011-01",
+      "projectId": "WF-011",
+      "taskNm": "후속 개선",
+      "status": "IN_PROGRESS",
+      "assigneeId": "U2026-076",
+      "assigneeNm": "김도경",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 68,
+      "riskGrade": "OK",
+      "processStepId": null,
+      "taskType": "REGULAR",
+      "priorityLevel": "URGENT",
+      "securityLevel": "L2",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "TECH",
+      "durationDays": 120,
+      "costBudget": 24000000,
+      "linkedFormIds": [
+        "FM-004"
+      ]
+    },
+    {
+      "taskId": "T-011-02",
+      "projectId": "WF-011",
+      "taskNm": "결과 보고",
+      "status": "PENDING",
+      "assigneeId": "U2026-075",
+      "assigneeNm": "오재영",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 0,
+      "riskGrade": "OK",
+      "processStepId": null,
+      "taskType": "ADHOC",
+      "priorityLevel": "URGENT",
+      "securityLevel": "L2",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "TECH",
+      "durationDays": 120,
+      "costBudget": 25000000,
+      "linkedFormIds": [
+        "FM-005"
+      ]
+    },
+    {
+      "taskId": "T-011-03",
+      "projectId": "WF-011",
+      "taskNm": "관계기관 협의",
+      "status": "IN_PROGRESS",
+      "assigneeId": "U2026-073",
+      "assigneeNm": "황재영",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 10,
+      "riskGrade": "OK",
+      "processStepId": null,
+      "taskType": "REGULAR",
+      "priorityLevel": "NORMAL",
+      "securityLevel": "L1",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "TECH",
+      "durationDays": 120,
+      "costBudget": 26000000,
+      "linkedFormIds": [
+        "FM-006"
+      ]
+    },
+    {
+      "taskId": "T-012-01",
+      "projectId": "WF-012",
+      "taskNm": "시범 운영",
+      "status": "COMPLETED",
+      "assigneeId": "U2026-057",
+      "assigneeNm": "양민재",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 100,
+      "riskGrade": "OK",
+      "processStepId": null,
+      "taskType": "ADHOC",
+      "priorityLevel": "LOW",
+      "securityLevel": "L3",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "ADMIN",
+      "durationDays": 120,
+      "costBudget": 38000000,
+      "linkedFormIds": [
+        "FM-006"
+      ]
+    },
+    {
+      "taskId": "T-012-02",
+      "projectId": "WF-012",
+      "taskNm": "시범 운영",
+      "status": "IN_PROGRESS",
+      "assigneeId": "U2026-053",
+      "assigneeNm": "박유진",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 18,
+      "riskGrade": "OK",
+      "processStepId": null,
+      "taskType": "ADHOC",
+      "priorityLevel": "HIGH",
+      "securityLevel": "L2",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "ADMIN",
+      "durationDays": 120,
+      "costBudget": 39000000,
+      "linkedFormIds": [
+        "FM-001"
+      ]
+    },
+    {
+      "taskId": "T-012-03",
+      "projectId": "WF-012",
+      "taskNm": "후속 개선",
+      "status": "PENDING",
+      "assigneeId": "U2026-055",
+      "assigneeNm": "차준서",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 0,
+      "riskGrade": "WARN",
+      "processStepId": null,
+      "taskType": "REGULAR",
+      "priorityLevel": "NORMAL",
+      "securityLevel": "L3",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "ADMIN",
+      "durationDays": 120,
+      "costBudget": 40000000,
+      "linkedFormIds": [
+        "FM-002"
+      ]
+    },
+    {
+      "taskId": "T-012-04",
+      "projectId": "WF-012",
+      "taskNm": "세부지침 마련",
+      "status": "IN_PROGRESS",
+      "assigneeId": "U2026-057",
+      "assigneeNm": "양민재",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 36,
+      "riskGrade": "WARN",
+      "processStepId": null,
+      "taskType": "ADHOC",
+      "priorityLevel": "HIGH",
+      "securityLevel": "L1",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "ADMIN",
+      "durationDays": 120,
+      "costBudget": 41000000,
+      "linkedFormIds": [
+        "FM-003"
+      ]
+    },
+    {
+      "taskId": "T-012-05",
+      "projectId": "WF-012",
+      "taskNm": "결과 보고",
+      "status": "PENDING",
+      "assigneeId": "U2026-053",
+      "assigneeNm": "박유진",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 0,
+      "riskGrade": "OK",
+      "processStepId": null,
+      "taskType": "ADHOC",
+      "priorityLevel": "LOW",
+      "securityLevel": "L1",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "ADMIN",
+      "durationDays": 120,
+      "costBudget": 42000000,
+      "linkedFormIds": [
+        "FM-004"
+      ]
+    },
+    {
+      "taskId": "T-013-01",
+      "projectId": "WF-013",
+      "taskNm": "현황 조사·분석",
+      "status": "PENDING",
+      "assigneeId": "U2026-089",
+      "assigneeNm": "최도경",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 0,
+      "riskGrade": "OK",
+      "processStepId": null,
+      "taskType": "ADHOC",
+      "priorityLevel": "NORMAL",
+      "securityLevel": "L2",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "HR",
+      "durationDays": 120,
+      "costBudget": 15000000,
+      "linkedFormIds": [
+        "FM-001"
+      ]
+    },
+    {
+      "taskId": "T-013-02",
+      "projectId": "WF-013",
+      "taskNm": "현황 조사·분석",
+      "status": "IN_PROGRESS",
+      "assigneeId": "U2026-089",
+      "assigneeNm": "최도경",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 48,
+      "riskGrade": "OK",
+      "processStepId": null,
+      "taskType": "REGULAR",
+      "priorityLevel": "LOW",
+      "securityLevel": "L2",
+      "financeYn": true,
+      "mgmtStatus": "사용",
+      "category": "HR",
+      "durationDays": 120,
+      "costBudget": 16000000,
+      "linkedFormIds": [
+        "FM-002"
+      ]
+    },
+    {
+      "taskId": "T-014-01",
+      "projectId": "WF-014",
+      "taskNm": "후속 개선",
+      "status": "IN_PROGRESS",
+      "assigneeId": "U2026-079",
+      "assigneeNm": "홍채원",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 67,
+      "riskGrade": "RISK",
+      "processStepId": null,
+      "taskType": "ADHOC",
+      "priorityLevel": "LOW",
+      "securityLevel": "L3",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "ADMIN",
+      "durationDays": 120,
+      "costBudget": 40000000,
+      "linkedFormIds": [
+        "FM-002"
+      ]
+    },
+    {
+      "taskId": "T-014-02",
+      "projectId": "WF-014",
+      "taskNm": "후속 개선",
+      "status": "IN_PROGRESS",
+      "assigneeId": "U2026-078",
+      "assigneeNm": "황도윤",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 11,
+      "riskGrade": "RISK",
+      "processStepId": null,
+      "taskType": "ADHOC",
+      "priorityLevel": "NORMAL",
+      "securityLevel": "L1",
+      "financeYn": true,
+      "mgmtStatus": "사용",
+      "category": "ADMIN",
+      "durationDays": 120,
+      "costBudget": 41000000,
+      "linkedFormIds": [
+        "FM-003"
+      ]
+    },
+    {
+      "taskId": "T-014-03",
+      "projectId": "WF-014",
+      "taskNm": "추진계획 수립",
+      "status": "IN_PROGRESS",
+      "assigneeId": "U2026-078",
+      "assigneeNm": "황도윤",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 56,
+      "riskGrade": "OK",
+      "processStepId": null,
+      "taskType": "ADHOC",
+      "priorityLevel": "LOW",
+      "securityLevel": "L3",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "ADMIN",
+      "durationDays": 120,
+      "costBudget": 42000000,
+      "linkedFormIds": [
+        "FM-004"
+      ]
+    },
+    {
+      "taskId": "T-014-04",
+      "projectId": "WF-014",
+      "taskNm": "후속 개선",
+      "status": "IN_PROGRESS",
+      "assigneeId": "U2026-079",
+      "assigneeNm": "홍채원",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 14,
+      "riskGrade": "WARN",
+      "processStepId": null,
+      "taskType": "ADHOC",
+      "priorityLevel": "NORMAL",
+      "securityLevel": "L1",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "ADMIN",
+      "durationDays": 120,
+      "costBudget": 43000000,
+      "linkedFormIds": [
+        "FM-005"
+      ]
+    },
+    {
+      "taskId": "T-015-01",
+      "projectId": "WF-015",
+      "taskNm": "시범 운영",
+      "status": "IN_PROGRESS",
+      "assigneeId": "U2026-106",
+      "assigneeNm": "임한결",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 17,
+      "riskGrade": "OK",
+      "processStepId": null,
+      "taskType": "ADHOC",
+      "priorityLevel": "LOW",
+      "securityLevel": "L2",
+      "financeYn": true,
+      "mgmtStatus": "사용",
+      "category": "TECH",
+      "durationDays": 120,
+      "costBudget": 17000000,
+      "linkedFormIds": [
+        "FM-003"
+      ]
+    },
+    {
+      "taskId": "T-015-02",
+      "projectId": "WF-015",
+      "taskNm": "추진계획 수립",
+      "status": "IN_PROGRESS",
+      "assigneeId": "U2026-106",
+      "assigneeNm": "임한결",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 10,
+      "riskGrade": "WARN",
+      "processStepId": null,
+      "taskType": "ADHOC",
+      "priorityLevel": "HIGH",
+      "securityLevel": "L2",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "TECH",
+      "durationDays": 120,
+      "costBudget": 18000000,
+      "linkedFormIds": [
+        "FM-004"
+      ]
+    },
+    {
+      "taskId": "T-015-03",
+      "projectId": "WF-015",
+      "taskNm": "시범 운영",
+      "status": "IN_PROGRESS",
+      "assigneeId": "U2026-106",
+      "assigneeNm": "임한결",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 79,
+      "riskGrade": "OK",
+      "processStepId": null,
+      "taskType": "REGULAR",
+      "priorityLevel": "NORMAL",
+      "securityLevel": "L2",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "TECH",
+      "durationDays": 120,
+      "costBudget": 19000000,
+      "linkedFormIds": [
+        "FM-005"
+      ]
+    },
+    {
+      "taskId": "T-016-01",
+      "projectId": "WF-016",
+      "taskNm": "관계기관 협의",
+      "status": "COMPLETED",
+      "assigneeId": "U2026-110",
+      "assigneeNm": "노서연",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 100,
+      "riskGrade": "WARN",
+      "processStepId": null,
+      "taskType": "REGULAR",
+      "priorityLevel": "LOW",
+      "securityLevel": "L1",
+      "financeYn": true,
+      "mgmtStatus": "사용",
+      "category": "INFO",
+      "durationDays": 120,
+      "costBudget": 42000000,
+      "linkedFormIds": [
+        "FM-004"
+      ]
+    },
+    {
+      "taskId": "T-016-02",
+      "projectId": "WF-016",
+      "taskNm": "후속 개선",
+      "status": "COMPLETED",
+      "assigneeId": "U2026-109",
+      "assigneeNm": "오현서",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 100,
+      "riskGrade": "WARN",
+      "processStepId": null,
+      "taskType": "ADHOC",
+      "priorityLevel": "NORMAL",
+      "securityLevel": "L3",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "INFO",
+      "durationDays": 120,
+      "costBudget": 43000000,
+      "linkedFormIds": [
+        "FM-005"
+      ]
+    },
+    {
+      "taskId": "T-016-03",
+      "projectId": "WF-016",
+      "taskNm": "시범 운영",
+      "status": "DELAYED",
+      "assigneeId": "U2026-109",
+      "assigneeNm": "오현서",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 12,
+      "riskGrade": "RISK",
+      "processStepId": null,
+      "taskType": "REGULAR",
+      "priorityLevel": "LOW",
+      "securityLevel": "L3",
+      "financeYn": true,
+      "mgmtStatus": "사용",
+      "category": "INFO",
+      "durationDays": 120,
+      "costBudget": 44000000,
+      "linkedFormIds": [
+        "FM-006"
+      ]
+    },
+    {
+      "taskId": "T-016-04",
+      "projectId": "WF-016",
+      "taskNm": "현황 조사·분석",
+      "status": "PENDING",
+      "assigneeId": "U2026-110",
+      "assigneeNm": "노서연",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 0,
+      "riskGrade": "WARN",
+      "processStepId": null,
+      "taskType": "REGULAR",
+      "priorityLevel": "NORMAL",
+      "securityLevel": "L1",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "INFO",
+      "durationDays": 120,
+      "costBudget": 45000000,
+      "linkedFormIds": [
+        "FM-001"
+      ]
+    },
+    {
+      "taskId": "T-017-01",
+      "projectId": "WF-017",
+      "taskNm": "시범 운영",
+      "status": "ON_HOLD",
+      "assigneeId": "U2026-114",
+      "assigneeNm": "윤정우",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 56,
+      "riskGrade": "OK",
+      "processStepId": null,
+      "taskType": "REGULAR",
+      "priorityLevel": "HIGH",
+      "securityLevel": "L1",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "TECH",
+      "durationDays": 120,
+      "costBudget": 19000000,
+      "linkedFormIds": [
+        "FM-005"
+      ]
+    },
+    {
+      "taskId": "T-017-02",
+      "projectId": "WF-017",
+      "taskNm": "후속 개선",
+      "status": "COMPLETED",
+      "assigneeId": "U2026-115",
+      "assigneeNm": "백현서",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 100,
+      "riskGrade": "OK",
+      "processStepId": null,
+      "taskType": "ADHOC",
+      "priorityLevel": "HIGH",
+      "securityLevel": "L1",
+      "financeYn": true,
+      "mgmtStatus": "사용",
+      "category": "TECH",
+      "durationDays": 120,
+      "costBudget": 20000000,
+      "linkedFormIds": [
+        "FM-006"
+      ]
+    },
+    {
+      "taskId": "T-017-03",
+      "projectId": "WF-017",
+      "taskNm": "시범 운영",
+      "status": "IN_PROGRESS",
+      "assigneeId": "U2026-115",
+      "assigneeNm": "백현서",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 44,
+      "riskGrade": "WARN",
+      "processStepId": null,
+      "taskType": "ADHOC",
+      "priorityLevel": "NORMAL",
+      "securityLevel": "L2",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "TECH",
+      "durationDays": 120,
+      "costBudget": 21000000,
+      "linkedFormIds": [
+        "FM-001"
+      ]
+    },
+    {
+      "taskId": "T-018-01",
+      "projectId": "WF-018",
+      "taskNm": "결과 보고",
+      "status": "IN_PROGRESS",
+      "assigneeId": "U2026-128",
+      "assigneeNm": "한서윤",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 16,
+      "riskGrade": "WARN",
+      "processStepId": null,
+      "taskType": "REGULAR",
+      "priorityLevel": "LOW",
+      "securityLevel": "L1",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "ADMIN",
+      "durationDays": 120,
+      "costBudget": 44000000,
+      "linkedFormIds": [
+        "FM-006"
+      ]
+    },
+    {
+      "taskId": "T-018-02",
+      "projectId": "WF-018",
+      "taskNm": "추진계획 수립",
+      "status": "DELAYED",
+      "assigneeId": "U2026-128",
+      "assigneeNm": "한서윤",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 34,
+      "riskGrade": "RISK",
+      "processStepId": null,
+      "taskType": "ADHOC",
+      "priorityLevel": "URGENT",
+      "securityLevel": "L2",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "ADMIN",
+      "durationDays": 120,
+      "costBudget": 45000000,
+      "linkedFormIds": [
+        "FM-001"
+      ]
+    },
+    {
+      "taskId": "T-019-01",
+      "projectId": "WF-019",
+      "taskNm": "세부지침 마련",
+      "status": "COMPLETED",
+      "assigneeId": "U2026-142",
+      "assigneeNm": "정수아",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 100,
+      "riskGrade": "RISK",
+      "processStepId": null,
+      "taskType": "REGULAR",
+      "priorityLevel": "LOW",
+      "securityLevel": "L3",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "FINANCE",
+      "durationDays": 120,
+      "costBudget": 21000000,
+      "linkedFormIds": [
+        "FM-001"
+      ]
+    },
+    {
+      "taskId": "T-019-02",
+      "projectId": "WF-019",
+      "taskNm": "결과 보고",
+      "status": "DELAYED",
+      "assigneeId": "U2026-142",
+      "assigneeNm": "정수아",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 20,
+      "riskGrade": "RISK",
+      "processStepId": null,
+      "taskType": "ADHOC",
+      "priorityLevel": "LOW",
+      "securityLevel": "L1",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "FINANCE",
+      "durationDays": 120,
+      "costBudget": 22000000,
+      "linkedFormIds": [
+        "FM-002"
+      ]
+    },
+    {
+      "taskId": "T-019-03",
+      "projectId": "WF-019",
+      "taskNm": "현황 조사·분석",
+      "status": "PENDING",
+      "assigneeId": "U2026-141",
+      "assigneeNm": "배시윤",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 0,
+      "riskGrade": "WARN",
+      "processStepId": null,
+      "taskType": "ADHOC",
+      "priorityLevel": "URGENT",
+      "securityLevel": "L1",
+      "financeYn": true,
+      "mgmtStatus": "사용",
+      "category": "FINANCE",
+      "durationDays": 120,
+      "costBudget": 23000000,
+      "linkedFormIds": [
+        "FM-003"
+      ]
+    },
+    {
+      "taskId": "T-019-04",
+      "projectId": "WF-019",
+      "taskNm": "관계기관 협의",
+      "status": "ON_HOLD",
+      "assigneeId": "U2026-142",
+      "assigneeNm": "정수아",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 57,
+      "riskGrade": "OK",
+      "processStepId": null,
+      "taskType": "ADHOC",
+      "priorityLevel": "NORMAL",
+      "securityLevel": "L3",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "FINANCE",
+      "durationDays": 120,
+      "costBudget": 24000000,
+      "linkedFormIds": [
+        "FM-004"
+      ]
+    },
+    {
+      "taskId": "T-020-01",
+      "projectId": "WF-020",
+      "taskNm": "중간 점검",
+      "status": "ON_HOLD",
+      "assigneeId": "U2026-152",
+      "assigneeNm": "고예준",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 52,
+      "riskGrade": "OK",
+      "processStepId": null,
+      "taskType": "REGULAR",
+      "priorityLevel": "NORMAL",
+      "securityLevel": "L2",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "ADMIN",
+      "durationDays": 120,
+      "costBudget": 10000000,
+      "linkedFormIds": [
+        "FM-002"
+      ]
+    },
+    {
+      "taskId": "T-020-02",
+      "projectId": "WF-020",
+      "taskNm": "후속 개선",
+      "status": "DELAYED",
+      "assigneeId": "U2026-152",
+      "assigneeNm": "고예준",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 5,
+      "riskGrade": "RISK",
+      "processStepId": null,
+      "taskType": "ADHOC",
+      "priorityLevel": "HIGH",
+      "securityLevel": "L3",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "ADMIN",
+      "durationDays": 120,
+      "costBudget": 11000000,
+      "linkedFormIds": [
+        "FM-003"
+      ]
+    },
+    {
+      "taskId": "T-020-03",
+      "projectId": "WF-020",
+      "taskNm": "결과 보고",
+      "status": "IN_PROGRESS",
+      "assigneeId": "U2026-152",
+      "assigneeNm": "고예준",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 68,
+      "riskGrade": "OK",
+      "processStepId": null,
+      "taskType": "REGULAR",
+      "priorityLevel": "HIGH",
+      "securityLevel": "L2",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "ADMIN",
+      "durationDays": 120,
+      "costBudget": 12000000,
+      "linkedFormIds": [
+        "FM-004"
+      ]
+    },
+    {
+      "taskId": "T-021-01",
+      "projectId": "WF-021",
+      "taskNm": "현황 조사·분석",
+      "status": "PENDING",
+      "assigneeId": "U2026-156",
+      "assigneeNm": "홍우진",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 0,
+      "riskGrade": "WARN",
+      "processStepId": null,
+      "taskType": "ADHOC",
+      "priorityLevel": "LOW",
+      "securityLevel": "L1",
+      "financeYn": true,
+      "mgmtStatus": "사용",
+      "category": "ADMIN",
+      "durationDays": 120,
+      "costBudget": 35000000,
+      "linkedFormIds": [
+        "FM-003"
+      ]
+    },
+    {
+      "taskId": "T-021-02",
+      "projectId": "WF-021",
+      "taskNm": "관계기관 협의",
+      "status": "DELAYED",
+      "assigneeId": "U2026-156",
+      "assigneeNm": "홍우진",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 38,
+      "riskGrade": "RISK",
+      "processStepId": null,
+      "taskType": "REGULAR",
+      "priorityLevel": "NORMAL",
+      "securityLevel": "L1",
+      "financeYn": true,
+      "mgmtStatus": "사용",
+      "category": "ADMIN",
+      "durationDays": 120,
+      "costBudget": 36000000,
+      "linkedFormIds": [
+        "FM-004"
+      ]
+    },
+    {
+      "taskId": "T-021-03",
+      "projectId": "WF-021",
+      "taskNm": "결과 보고",
+      "status": "ON_HOLD",
+      "assigneeId": "U2026-156",
+      "assigneeNm": "홍우진",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 52,
+      "riskGrade": "OK",
+      "processStepId": null,
+      "taskType": "ADHOC",
+      "priorityLevel": "NORMAL",
+      "securityLevel": "L1",
+      "financeYn": true,
+      "mgmtStatus": "사용",
+      "category": "ADMIN",
+      "durationDays": 120,
+      "costBudget": 37000000,
+      "linkedFormIds": [
+        "FM-005"
+      ]
+    },
+    {
+      "taskId": "T-022-01",
+      "projectId": "WF-022",
+      "taskNm": "중간 점검",
+      "status": "COMPLETED",
+      "assigneeId": "U2026-031",
+      "assigneeNm": "노현우",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 100,
+      "riskGrade": "OK",
+      "processStepId": null,
+      "taskType": "REGULAR",
+      "priorityLevel": "URGENT",
+      "securityLevel": "L2",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "EDU",
+      "durationDays": 120,
+      "costBudget": 12000000,
+      "linkedFormIds": [
+        "FM-004"
+      ]
+    },
+    {
+      "taskId": "T-022-02",
+      "projectId": "WF-022",
+      "taskNm": "세부지침 마련",
+      "status": "COMPLETED",
+      "assigneeId": "U2026-030",
+      "assigneeNm": "손하준",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 100,
+      "riskGrade": "OK",
+      "processStepId": null,
+      "taskType": "ADHOC",
+      "priorityLevel": "LOW",
+      "securityLevel": "L1",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "EDU",
+      "durationDays": 120,
+      "costBudget": 13000000,
+      "linkedFormIds": [
+        "FM-005"
+      ]
+    },
+    {
+      "taskId": "T-022-03",
+      "projectId": "WF-022",
+      "taskNm": "관계기관 협의",
+      "status": "IN_PROGRESS",
+      "assigneeId": "U2026-031",
+      "assigneeNm": "노현우",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 77,
+      "riskGrade": "OK",
+      "processStepId": null,
+      "taskType": "ADHOC",
+      "priorityLevel": "NORMAL",
+      "securityLevel": "L2",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "EDU",
+      "durationDays": 120,
+      "costBudget": 14000000,
+      "linkedFormIds": [
+        "FM-006"
+      ]
+    },
+    {
+      "taskId": "T-022-04",
+      "projectId": "WF-022",
+      "taskNm": "세부지침 마련",
+      "status": "COMPLETED",
+      "assigneeId": "U2026-031",
+      "assigneeNm": "노현우",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 100,
+      "riskGrade": "WARN",
+      "processStepId": null,
+      "taskType": "REGULAR",
+      "priorityLevel": "NORMAL",
+      "securityLevel": "L1",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "EDU",
+      "durationDays": 120,
+      "costBudget": 15000000,
+      "linkedFormIds": [
+        "FM-001"
+      ]
+    },
+    {
+      "taskId": "T-023-01",
+      "projectId": "WF-023",
+      "taskNm": "시범 운영",
+      "status": "COMPLETED",
+      "assigneeId": "U2026-092",
+      "assigneeNm": "하다은",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 100,
+      "riskGrade": "OK",
+      "processStepId": null,
+      "taskType": "REGULAR",
+      "priorityLevel": "NORMAL",
+      "securityLevel": "L1",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "INFO",
+      "durationDays": 120,
+      "costBudget": 37000000,
+      "linkedFormIds": [
+        "FM-005"
+      ]
+    },
+    {
+      "taskId": "T-023-02",
+      "projectId": "WF-023",
+      "taskNm": "추진계획 수립",
+      "status": "IN_PROGRESS",
+      "assigneeId": "U2026-093",
+      "assigneeNm": "오지훈",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 46,
+      "riskGrade": "OK",
+      "processStepId": null,
+      "taskType": "ADHOC",
+      "priorityLevel": "LOW",
+      "securityLevel": "L1",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "INFO",
+      "durationDays": 120,
+      "costBudget": 38000000,
+      "linkedFormIds": [
+        "FM-006"
+      ]
+    },
+    {
+      "taskId": "T-023-03",
+      "projectId": "WF-023",
+      "taskNm": "추진계획 수립",
+      "status": "IN_PROGRESS",
+      "assigneeId": "U2026-093",
+      "assigneeNm": "오지훈",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 41,
+      "riskGrade": "OK",
+      "processStepId": null,
+      "taskType": "REGULAR",
+      "priorityLevel": "NORMAL",
+      "securityLevel": "L3",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "INFO",
+      "durationDays": 120,
+      "costBudget": 39000000,
+      "linkedFormIds": [
+        "FM-001"
+      ]
+    },
+    {
+      "taskId": "T-023-04",
+      "projectId": "WF-023",
+      "taskNm": "세부지침 마련",
+      "status": "ON_HOLD",
+      "assigneeId": "U2026-091",
+      "assigneeNm": "전지훈",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 21,
+      "riskGrade": "OK",
+      "processStepId": null,
+      "taskType": "REGULAR",
+      "priorityLevel": "NORMAL",
+      "securityLevel": "L1",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "INFO",
+      "durationDays": 120,
+      "costBudget": 40000000,
+      "linkedFormIds": [
+        "FM-002"
+      ]
+    },
+    {
+      "taskId": "T-024-01",
+      "projectId": "WF-024",
+      "taskNm": "관계기관 협의",
+      "status": "ON_HOLD",
+      "assigneeId": "U2026-112",
+      "assigneeNm": "곽수아",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 38,
+      "riskGrade": "OK",
+      "processStepId": null,
+      "taskType": "ADHOC",
+      "priorityLevel": "NORMAL",
+      "securityLevel": "L1",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "INFO",
+      "durationDays": 120,
+      "costBudget": 14000000,
+      "linkedFormIds": [
+        "FM-006"
+      ]
+    },
+    {
+      "taskId": "T-024-02",
+      "projectId": "WF-024",
+      "taskNm": "결과 보고",
+      "status": "COMPLETED",
+      "assigneeId": "U2026-112",
+      "assigneeNm": "곽수아",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 100,
+      "riskGrade": "OK",
+      "processStepId": null,
+      "taskType": "REGULAR",
+      "priorityLevel": "LOW",
+      "securityLevel": "L3",
+      "financeYn": true,
+      "mgmtStatus": "사용",
+      "category": "INFO",
+      "durationDays": 120,
+      "costBudget": 15000000,
+      "linkedFormIds": [
+        "FM-001"
+      ]
+    },
+    {
+      "taskId": "T-025-01",
+      "projectId": "WF-025",
+      "taskNm": "결과 보고",
+      "status": "IN_PROGRESS",
+      "assigneeId": "U2026-080",
+      "assigneeNm": "허유진",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 60,
+      "riskGrade": "OK",
+      "processStepId": null,
+      "taskType": "REGULAR",
+      "priorityLevel": "LOW",
+      "securityLevel": "L3",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "ETC",
+      "durationDays": 120,
+      "costBudget": 28000000,
+      "linkedFormIds": [
+        "FM-002"
+      ]
+    },
+    {
+      "taskId": "T-025-02",
+      "projectId": "WF-025",
+      "taskNm": "후속 개선",
+      "status": "ON_HOLD",
+      "assigneeId": "U2026-080",
+      "assigneeNm": "허유진",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 26,
+      "riskGrade": "WARN",
+      "processStepId": null,
+      "taskType": "ADHOC",
+      "priorityLevel": "LOW",
+      "securityLevel": "L3",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "ETC",
+      "durationDays": 120,
+      "costBudget": 29000000,
+      "linkedFormIds": [
+        "FM-003"
+      ]
+    },
+    {
+      "taskId": "T-026-01",
+      "projectId": "WF-026",
+      "taskNm": "결과 보고",
+      "status": "IN_PROGRESS",
+      "assigneeId": "U2026-059",
+      "assigneeNm": "박정우",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 56,
+      "riskGrade": "OK",
+      "processStepId": null,
+      "taskType": "REGULAR",
+      "priorityLevel": "NORMAL",
+      "securityLevel": "L3",
+      "financeYn": true,
+      "mgmtStatus": "사용",
+      "category": "ETC",
+      "durationDays": 120,
+      "costBudget": 5000000,
+      "linkedFormIds": [
+        "FM-003"
+      ]
+    },
+    {
+      "taskId": "T-026-02",
+      "projectId": "WF-026",
+      "taskNm": "추진계획 수립",
+      "status": "ON_HOLD",
+      "assigneeId": "U2026-061",
+      "assigneeNm": "차지훈",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 45,
+      "riskGrade": "OK",
+      "processStepId": null,
+      "taskType": "ADHOC",
+      "priorityLevel": "NORMAL",
+      "securityLevel": "L1",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "ETC",
+      "durationDays": 120,
+      "costBudget": 6000000,
+      "linkedFormIds": [
+        "FM-004"
+      ]
+    },
+    {
+      "taskId": "T-027-01",
+      "projectId": "WF-027",
+      "taskNm": "세부지침 마련",
+      "status": "IN_PROGRESS",
+      "assigneeId": "U2026-121",
+      "assigneeNm": "허가은",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 48,
+      "riskGrade": "WARN",
+      "processStepId": null,
+      "taskType": "REGULAR",
+      "priorityLevel": "NORMAL",
+      "securityLevel": "L3",
+      "financeYn": true,
+      "mgmtStatus": "사용",
+      "category": "TECH",
+      "durationDays": 120,
+      "costBudget": 30000000,
+      "linkedFormIds": [
+        "FM-004"
+      ]
+    },
+    {
+      "taskId": "T-027-02",
+      "projectId": "WF-027",
+      "taskNm": "후속 개선",
+      "status": "DELAYED",
+      "assigneeId": "U2026-121",
+      "assigneeNm": "허가은",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 37,
+      "riskGrade": "RISK",
+      "processStepId": null,
+      "taskType": "ADHOC",
+      "priorityLevel": "NORMAL",
+      "securityLevel": "L2",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "TECH",
+      "durationDays": 120,
+      "costBudget": 31000000,
+      "linkedFormIds": [
+        "FM-005"
+      ]
+    },
+    {
+      "taskId": "T-028-01",
+      "projectId": "WF-028",
+      "taskNm": "시범 운영",
+      "status": "PENDING",
+      "assigneeId": "U2026-144",
+      "assigneeNm": "성가은",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 0,
+      "riskGrade": "OK",
+      "processStepId": null,
+      "taskType": "ADHOC",
+      "priorityLevel": "LOW",
+      "securityLevel": "L1",
+      "financeYn": false,
+      "mgmtStatus": "사용",
+      "category": "FINANCE",
+      "durationDays": 120,
+      "costBudget": 7000000,
+      "linkedFormIds": [
+        "FM-005"
+      ]
+    },
+    {
+      "taskId": "T-028-02",
+      "projectId": "WF-028",
+      "taskNm": "관계기관 협의",
+      "status": "COMPLETED",
+      "assigneeId": "U2026-145",
+      "assigneeNm": "송지호",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 100,
+      "riskGrade": "OK",
+      "processStepId": null,
+      "taskType": "REGULAR",
+      "priorityLevel": "NORMAL",
+      "securityLevel": "L2",
+      "financeYn": true,
+      "mgmtStatus": "사용",
+      "category": "FINANCE",
+      "durationDays": 120,
+      "costBudget": 8000000,
+      "linkedFormIds": [
+        "FM-006"
+      ]
+    },
+    {
+      "taskId": "T-028-03",
+      "projectId": "WF-028",
+      "taskNm": "추진계획 수립",
+      "status": "IN_PROGRESS",
+      "assigneeId": "U2026-144",
+      "assigneeNm": "성가은",
+      "startAt": "2026-02-01",
+      "endAt": "2026-05-31",
+      "progress": 30,
+      "riskGrade": "WARN",
+      "processStepId": null,
+      "taskType": "ADHOC",
+      "priorityLevel": "LOW",
+      "securityLevel": "L1",
+      "financeYn": true,
+      "mgmtStatus": "사용",
+      "category": "FINANCE",
+      "durationDays": 120,
+      "costBudget": 9000000,
+      "linkedFormIds": [
+        "FM-001"
+      ]
+    }
+  ],
+  "subTasksByTask": {
+    "T-001-02": [
+      {
+        "subTaskId": "ST-001-02-1",
+        "taskNm": "부서별 요구액 취합표 작성",
+        "status": "COMPLETED",
+        "assigneeNm": "손승현",
+        "due": "02/07"
+      },
+      {
+        "subTaskId": "ST-001-02-2",
+        "taskNm": "미제출 부서 재요청",
+        "status": "IN_PROGRESS",
+        "assigneeNm": "황도경",
+        "due": "~02/20"
+      },
+      {
+        "subTaskId": "ST-001-02-3",
+        "taskNm": "요구 총괄표 초안 검토",
+        "status": "PENDING",
+        "assigneeNm": "구한결",
+        "due": "~02/27"
+      }
+    ],
+    "T-001-03": [
+      {
+        "subTaskId": "ST-001-03-1",
+        "taskNm": "재정위험 지표 정의",
+        "status": "COMPLETED",
+        "assigneeNm": "황도경",
+        "due": "02/24"
+      },
+      {
+        "subTaskId": "ST-001-03-2",
+        "taskNm": "관계부서 의견조회",
+        "status": "IN_PROGRESS",
+        "assigneeNm": "손승현",
+        "due": "~03/06"
+      },
+      {
+        "subTaskId": "ST-001-03-3",
+        "taskNm": "관리체계 개선안 작성",
+        "status": "PENDING",
+        "assigneeNm": "황도경",
+        "due": "~03/13"
+      }
+    ]
+  },
+  "milestonesByTask": {
+    "T-001-03": [
+      {
+        "msId": "M1",
+        "name": "착수 보고 완료",
+        "date": "2026-02-12",
+        "done": true
+      },
+      {
+        "msId": "M2",
+        "name": "중간 점검",
+        "date": "2026-02-27",
+        "done": true
+      },
+      {
+        "msId": "M3",
+        "name": "최종 보고",
+        "date": "2026-03-15",
+        "done": false
+      }
+    ]
+  },
+  "taskRelations": [
+    {
+      "fromTaskId": "T-001-01",
+      "toTaskId": "T-001-02",
+      "relationType": "의존"
+    },
+    {
+      "fromTaskId": "T-001-02",
+      "toTaskId": "T-001-03",
+      "relationType": "의존"
+    },
+    {
+      "fromTaskId": "T-001-03",
+      "toTaskId": "T-001-04",
+      "relationType": "의존"
+    }
+  ],
+  "steps": [
+    {
+      "stepId": "S-001-01",
+      "projectId": "WF-001",
+      "name": "RECEIPT",
+      "status": "COMPLETED",
+      "startDate": "2026-01-05",
+      "endDate": "2026-01-31",
+      "ownerNm": "정가은"
+    },
+    {
+      "stepId": "S-001-02",
+      "projectId": "WF-001",
+      "name": "REVIEW",
+      "status": "IN_PROGRESS",
+      "startDate": "2026-02-01",
+      "endDate": "2026-03-31",
+      "ownerNm": "정가은"
+    },
+    {
+      "stepId": "S-001-03",
+      "projectId": "WF-001",
+      "name": "PROMOTE",
+      "status": "PENDING",
+      "startDate": "2026-04-01",
+      "endDate": "2026-06-30",
+      "ownerNm": "정가은"
+    },
+    {
+      "stepId": "S-002-01",
+      "projectId": "WF-002",
+      "name": "RECEIPT",
+      "status": "COMPLETED",
+      "startDate": "2026-01-05",
+      "endDate": "2026-01-31",
+      "ownerNm": "정가은"
+    },
+    {
+      "stepId": "S-002-02",
+      "projectId": "WF-002",
+      "name": "REVIEW",
+      "status": "IN_PROGRESS",
+      "startDate": "2026-02-01",
+      "endDate": "2026-03-31",
+      "ownerNm": "정가은"
+    },
+    {
+      "stepId": "S-002-03",
+      "projectId": "WF-002",
+      "name": "PROMOTE",
+      "status": "PENDING",
+      "startDate": "2026-04-01",
+      "endDate": "2026-06-30",
+      "ownerNm": "정가은"
+    },
+    {
+      "stepId": "S-003-01",
+      "projectId": "WF-003",
+      "name": "RECEIPT",
+      "status": "COMPLETED",
+      "startDate": "2026-01-05",
+      "endDate": "2026-01-31",
+      "ownerNm": "정가은"
+    },
+    {
+      "stepId": "S-003-02",
+      "projectId": "WF-003",
+      "name": "REVIEW",
+      "status": "IN_PROGRESS",
+      "startDate": "2026-02-01",
+      "endDate": "2026-03-31",
+      "ownerNm": "정가은"
+    },
+    {
+      "stepId": "S-003-03",
+      "projectId": "WF-003",
+      "name": "PROMOTE",
+      "status": "PENDING",
+      "startDate": "2026-04-01",
+      "endDate": "2026-06-30",
+      "ownerNm": "정가은"
+    },
+    {
+      "stepId": "S-004-01",
+      "projectId": "WF-004",
+      "name": "RECEIPT",
+      "status": "COMPLETED",
+      "startDate": "2026-01-05",
+      "endDate": "2026-01-31",
+      "ownerNm": "곽서윤"
+    },
+    {
+      "stepId": "S-004-02",
+      "projectId": "WF-004",
+      "name": "REVIEW",
+      "status": "IN_PROGRESS",
+      "startDate": "2026-02-01",
+      "endDate": "2026-03-31",
+      "ownerNm": "곽서윤"
+    },
+    {
+      "stepId": "S-004-03",
+      "projectId": "WF-004",
+      "name": "PROMOTE",
+      "status": "PENDING",
+      "startDate": "2026-04-01",
+      "endDate": "2026-06-30",
+      "ownerNm": "곽서윤"
+    },
+    {
+      "stepId": "S-005-01",
+      "projectId": "WF-005",
+      "name": "RECEIPT",
+      "status": "COMPLETED",
+      "startDate": "2026-01-05",
+      "endDate": "2026-01-31",
+      "ownerNm": "곽서윤"
+    },
+    {
+      "stepId": "S-005-02",
+      "projectId": "WF-005",
+      "name": "REVIEW",
+      "status": "IN_PROGRESS",
+      "startDate": "2026-02-01",
+      "endDate": "2026-03-31",
+      "ownerNm": "곽서윤"
+    },
+    {
+      "stepId": "S-005-03",
+      "projectId": "WF-005",
+      "name": "PROMOTE",
+      "status": "PENDING",
+      "startDate": "2026-04-01",
+      "endDate": "2026-06-30",
+      "ownerNm": "곽서윤"
+    },
+    {
+      "stepId": "S-006-01",
+      "projectId": "WF-006",
+      "name": "RECEIPT",
+      "status": "COMPLETED",
+      "startDate": "2026-01-05",
+      "endDate": "2026-01-31",
+      "ownerNm": "하현우"
+    },
+    {
+      "stepId": "S-006-02",
+      "projectId": "WF-006",
+      "name": "REVIEW",
+      "status": "IN_PROGRESS",
+      "startDate": "2026-02-01",
+      "endDate": "2026-03-31",
+      "ownerNm": "하현우"
+    },
+    {
+      "stepId": "S-006-03",
+      "projectId": "WF-006",
+      "name": "PROMOTE",
+      "status": "PENDING",
+      "startDate": "2026-04-01",
+      "endDate": "2026-06-30",
+      "ownerNm": "하현우"
+    },
+    {
+      "stepId": "S-007-01",
+      "projectId": "WF-007",
+      "name": "RECEIPT",
+      "status": "COMPLETED",
+      "startDate": "2026-01-05",
+      "endDate": "2026-01-31",
+      "ownerNm": "하현우"
+    },
+    {
+      "stepId": "S-007-02",
+      "projectId": "WF-007",
+      "name": "REVIEW",
+      "status": "IN_PROGRESS",
+      "startDate": "2026-02-01",
+      "endDate": "2026-03-31",
+      "ownerNm": "하현우"
+    },
+    {
+      "stepId": "S-007-03",
+      "projectId": "WF-007",
+      "name": "PROMOTE",
+      "status": "PENDING",
+      "startDate": "2026-04-01",
+      "endDate": "2026-06-30",
+      "ownerNm": "하현우"
+    },
+    {
+      "stepId": "S-008-01",
+      "projectId": "WF-008",
+      "name": "RECEIPT",
+      "status": "COMPLETED",
+      "startDate": "2026-01-05",
+      "endDate": "2026-01-31",
+      "ownerNm": "곽윤서"
+    },
+    {
+      "stepId": "S-008-02",
+      "projectId": "WF-008",
+      "name": "REVIEW",
+      "status": "IN_PROGRESS",
+      "startDate": "2026-02-01",
+      "endDate": "2026-03-31",
+      "ownerNm": "곽윤서"
+    },
+    {
+      "stepId": "S-008-03",
+      "projectId": "WF-008",
+      "name": "PROMOTE",
+      "status": "PENDING",
+      "startDate": "2026-04-01",
+      "endDate": "2026-06-30",
+      "ownerNm": "곽윤서"
+    },
+    {
+      "stepId": "S-009-01",
+      "projectId": "WF-009",
+      "name": "RECEIPT",
+      "status": "COMPLETED",
+      "startDate": "2026-01-05",
+      "endDate": "2026-01-31",
+      "ownerNm": "곽윤서"
+    },
+    {
+      "stepId": "S-009-02",
+      "projectId": "WF-009",
+      "name": "REVIEW",
+      "status": "IN_PROGRESS",
+      "startDate": "2026-02-01",
+      "endDate": "2026-03-31",
+      "ownerNm": "곽윤서"
+    },
+    {
+      "stepId": "S-009-03",
+      "projectId": "WF-009",
+      "name": "PROMOTE",
+      "status": "PENDING",
+      "startDate": "2026-04-01",
+      "endDate": "2026-06-30",
+      "ownerNm": "곽윤서"
+    },
+    {
+      "stepId": "S-010-01",
+      "projectId": "WF-010",
+      "name": "RECEIPT",
+      "status": "COMPLETED",
+      "startDate": "2026-01-05",
+      "endDate": "2026-01-31",
+      "ownerNm": "황재영"
+    },
+    {
+      "stepId": "S-010-02",
+      "projectId": "WF-010",
+      "name": "REVIEW",
+      "status": "IN_PROGRESS",
+      "startDate": "2026-02-01",
+      "endDate": "2026-03-31",
+      "ownerNm": "황재영"
+    },
+    {
+      "stepId": "S-010-03",
+      "projectId": "WF-010",
+      "name": "PROMOTE",
+      "status": "PENDING",
+      "startDate": "2026-04-01",
+      "endDate": "2026-06-30",
+      "ownerNm": "황재영"
+    }
+  ],
+  "procedureSteps": [
+    {
+      "procId": "PS-001-1",
+      "taskId": "T-001-02",
+      "seq": 1,
+      "name": "요청의 수정 기한",
+      "담당": "MAIN",
+      "선응": "검증 미요청"
+    },
+    {
+      "procId": "PS-001-2",
+      "taskId": "T-001-02",
+      "seq": 2,
+      "name": "담당자 매칭/자격",
+      "담당": "SUB",
+      "선응": "자격 검증 보고"
+    },
+    {
+      "procId": "PS-001-3",
+      "taskId": "T-001-02",
+      "seq": 3,
+      "name": "공개 및 증명",
+      "담당": "MAIN",
+      "선응": "전자 문서"
+    },
+    {
+      "procId": "PS-002-1",
+      "taskId": "T-001-03",
+      "seq": 1,
+      "name": "요청의 수정 기한",
+      "담당": "MAIN",
+      "선응": "검증 미요청"
+    },
+    {
+      "procId": "PS-002-2",
+      "taskId": "T-001-03",
+      "seq": 2,
+      "name": "담당자 매칭/자격",
+      "담당": "SUB",
+      "선응": "자격 검증 보고"
+    },
+    {
+      "procId": "PS-002-3",
+      "taskId": "T-001-03",
+      "seq": 3,
+      "name": "공개 및 증명",
+      "담당": "MAIN",
+      "선응": "전자 문서"
+    },
+    {
+      "procId": "PS-003-1",
+      "taskId": "T-001-05",
+      "seq": 1,
+      "name": "요청의 수정 기한",
+      "담당": "MAIN",
+      "선응": "검증 미요청"
+    },
+    {
+      "procId": "PS-003-2",
+      "taskId": "T-001-05",
+      "seq": 2,
+      "name": "담당자 매칭/자격",
+      "담당": "SUB",
+      "선응": "자격 검증 보고"
+    },
+    {
+      "procId": "PS-003-3",
+      "taskId": "T-001-05",
+      "seq": 3,
+      "name": "공개 및 증명",
+      "담당": "MAIN",
+      "선응": "전자 문서"
+    }
+  ],
+  "approvalLines": [
+    {
+      "lineId": "AL-001-1",
+      "taskId": "T-001-02",
+      "seq": 1,
+      "role": "DRAFT",
+      "approverNm": "손승현",
+      "title": "주무관",
+      "전결": "업무 관급",
+      "대결": false,
+      "approvalStatus": "APPROVED",
+      "decidedAt": "2026-07-01",
+      "dueAt": "2026-07-01",
+      "elapsedDays": 1,
+      "rejectReason": null,
+      "delegation": "전결"
+    },
+    {
+      "lineId": "AL-001-2",
+      "taskId": "T-001-02",
+      "seq": 2,
+      "role": "LEADER",
+      "approverNm": "허민준",
+      "title": "팀장",
+      "전결": null,
+      "대결": false,
+      "approvalStatus": "APPROVING",
+      "decidedAt": null,
+      "dueAt": "2026-07-04",
+      "elapsedDays": 5,
+      "rejectReason": null,
+      "delegation": null
+    },
+    {
+      "lineId": "AL-001-3",
+      "taskId": "T-001-02",
+      "seq": 3,
+      "role": "OWNER",
+      "approverNm": "안지우",
+      "title": "과장",
+      "전결": null,
+      "대결": false,
+      "approvalStatus": "DRAFTING",
+      "decidedAt": null,
+      "dueAt": "2026-07-08",
+      "elapsedDays": 0,
+      "rejectReason": null,
+      "delegation": null
+    },
+    {
+      "lineId": "AL-002-1",
+      "taskId": "T-001-03",
+      "seq": 1,
+      "role": "DRAFT",
+      "approverNm": "황도경",
+      "title": "주무관",
+      "전결": "업무 관급",
+      "대결": false,
+      "approvalStatus": "APPROVED",
+      "decidedAt": "2026-07-03",
+      "dueAt": "2026-07-03",
+      "elapsedDays": 1,
+      "rejectReason": null,
+      "delegation": "전결"
+    },
+    {
+      "lineId": "AL-002-2",
+      "taskId": "T-001-03",
+      "seq": 2,
+      "role": "LEADER",
+      "approverNm": "송지훈",
+      "title": "팀장",
+      "전결": null,
+      "대결": false,
+      "approvalStatus": "APPROVING",
+      "decidedAt": null,
+      "dueAt": "2026-07-08",
+      "elapsedDays": 1,
+      "rejectReason": null,
+      "delegation": null
+    },
+    {
+      "lineId": "AL-002-3",
+      "taskId": "T-001-03",
+      "seq": 3,
+      "role": "OWNER",
+      "approverNm": "정예은",
+      "title": "과장",
+      "전결": null,
+      "대결": false,
+      "approvalStatus": "DRAFTING",
+      "decidedAt": null,
+      "dueAt": "2026-07-10",
+      "elapsedDays": 0,
+      "rejectReason": null,
+      "delegation": null
+    },
+    {
+      "lineId": "AL-003-1",
+      "taskId": "T-001-05",
+      "seq": 1,
+      "role": "DRAFT",
+      "approverNm": "손하준",
+      "title": "주무관",
+      "전결": "업무 관급",
+      "대결": false,
+      "approvalStatus": "APPROVED",
+      "decidedAt": "2026-07-02",
+      "dueAt": "2026-07-02",
+      "elapsedDays": 1,
+      "rejectReason": null,
+      "delegation": "전결"
+    },
+    {
+      "lineId": "AL-003-2",
+      "taskId": "T-001-05",
+      "seq": 2,
+      "role": "LEADER",
+      "approverNm": "남수빈",
+      "title": "팀장",
+      "전결": null,
+      "대결": false,
+      "approvalStatus": "REJECTED",
+      "decidedAt": "2026-07-04",
+      "dueAt": "2026-07-05",
+      "elapsedDays": 2,
+      "rejectReason": "예산 산출 근거 미비",
+      "delegation": null
+    },
+    {
+      "lineId": "AL-003-3",
+      "taskId": "T-001-05",
+      "seq": 3,
+      "role": "OWNER",
+      "approverNm": "전민재",
+      "title": "과장",
+      "전결": null,
+      "대결": true,
+      "approvalStatus": "DRAFTING",
+      "decidedAt": null,
+      "dueAt": "2026-07-09",
+      "elapsedDays": 0,
+      "rejectReason": null,
+      "delegation": "대결"
+    },
+    {
+      "lineId": "AL-004-1",
+      "taskId": "T-001-04",
+      "seq": 1,
+      "role": "DRAFT",
+      "approverNm": "구한결",
+      "title": "주무관",
+      "전결": null,
+      "대결": false,
+      "approvalStatus": "DRAFTING",
+      "decidedAt": null,
+      "dueAt": "2026-07-08",
+      "elapsedDays": 0,
+      "rejectReason": null,
+      "delegation": null
+    },
+    {
+      "lineId": "AL-004-2",
+      "taskId": "T-001-04",
+      "seq": 2,
+      "role": "LEADER",
+      "approverNm": "손승현",
+      "title": "팀장",
+      "전결": null,
+      "대결": false,
+      "approvalStatus": "DRAFTING",
+      "decidedAt": null,
+      "dueAt": "2026-07-10",
+      "elapsedDays": 0,
+      "rejectReason": null,
+      "delegation": null
+    },
+    {
+      "lineId": "AL-004-3",
+      "taskId": "T-001-04",
+      "seq": 3,
+      "role": "OWNER",
+      "approverNm": "정가은",
+      "title": "과장",
+      "전결": null,
+      "대결": false,
+      "approvalStatus": "DRAFTING",
+      "decidedAt": null,
+      "dueAt": "2026-07-13",
+      "elapsedDays": 0,
+      "rejectReason": null,
+      "delegation": null
+    },
+    {
+      "lineId": "AL-005-1",
+      "taskId": "T-001-01",
+      "seq": 1,
+      "role": "DRAFT",
+      "approverNm": "정가은",
+      "title": "과장",
+      "전결": "업무 관급",
+      "대결": false,
+      "approvalStatus": "APPROVED",
+      "decidedAt": "2026-02-10",
+      "dueAt": "2026-02-10",
+      "elapsedDays": 1,
+      "rejectReason": null,
+      "delegation": "전결"
+    },
+    {
+      "lineId": "AL-005-2",
+      "taskId": "T-001-01",
+      "seq": 2,
+      "role": "LEADER",
+      "approverNm": "손승현",
+      "title": "팀장",
+      "전결": null,
+      "대결": false,
+      "approvalStatus": "APPROVED",
+      "decidedAt": "2026-02-11",
+      "dueAt": "2026-02-12",
+      "elapsedDays": 1,
+      "rejectReason": null,
+      "delegation": null
+    },
+    {
+      "lineId": "AL-005-3",
+      "taskId": "T-001-01",
+      "seq": 3,
+      "role": "OWNER",
+      "approverNm": "안지우",
+      "title": "과장",
+      "전결": null,
+      "대결": false,
+      "approvalStatus": "APPROVED",
+      "decidedAt": "2026-02-12",
+      "dueAt": "2026-02-13",
+      "elapsedDays": 1,
+      "rejectReason": null,
+      "delegation": null
+    }
+  ],
+  "formTemplates": [
+    {
+      "templateId": "FM-001",
+      "name": "기안문_별지1호서식.hwp",
+      "fileType": "HWP",
+      "version": "v3",
+      "sizeB": 95000,
+      "date": "2026-01-02"
+    },
+    {
+      "templateId": "FM-002",
+      "name": "내부결재_별지2호서식.hwp",
+      "fileType": "HWP",
+      "version": "v3",
+      "sizeB": 88000,
+      "date": "2026-01-02"
+    },
+    {
+      "templateId": "FM-003",
+      "name": "사업계획서_표준서식.hwpx",
+      "fileType": "HWP",
+      "version": "v12",
+      "sizeB": 1024000,
+      "date": "2026-02-10"
+    },
+    {
+      "templateId": "FM-004",
+      "name": "예산요구서.xlsx",
+      "fileType": "XLSX",
+      "version": "v8",
+      "sizeB": 210000,
+      "date": "2026-03-01"
+    },
+    {
+      "templateId": "FM-005",
+      "name": "성과보고서_서식.docx",
+      "fileType": "DOCX",
+      "version": "v5",
+      "sizeB": 340000,
+      "date": "2026-02-15"
+    },
+    {
+      "templateId": "FM-006",
+      "name": "검토보고서_서식.hwp",
+      "fileType": "HWP",
+      "version": "v2",
+      "sizeB": 120000,
+      "date": "2026-01-20"
+    }
+  ],
+  "taskTemplates": [
+    {
+      "templateId": "TT-001",
+      "projectType": "DEPT_REGULAR",
+      "orgUnitId": null,
+      "name": "월간 행정업무 세트",
+      "taskSet": [
+        {
+          "taskNm": "월간 업무보고 작성",
+          "taskType": "REGULAR",
+          "priorityLevel": "NORMAL"
+        },
+        {
+          "taskNm": "부서 회의록 정리",
+          "taskType": "REGULAR",
+          "priorityLevel": "NORMAL"
+        },
+        {
+          "taskNm": "정기 통계 갱신",
+          "taskType": "REGULAR",
+          "priorityLevel": "NORMAL"
+        }
+      ]
+    },
+    {
+      "templateId": "TT-002",
+      "projectType": "DEPT_REGULAR",
+      "orgUnitId": null,
+      "name": "분기 성과점검 세트",
+      "taskSet": [
+        {
+          "taskNm": "분기 성과지표 점검",
+          "taskType": "REGULAR",
+          "priorityLevel": "NORMAL"
+        },
+        {
+          "taskNm": "관리과제 진도 점검",
+          "taskType": "REGULAR",
+          "priorityLevel": "NORMAL"
+        }
+      ]
+    }
+  ],
+  "goals": [
+    {
+      "goalId": "G-001",
+      "objective": "국민 안전과 재난 대응 역량 강화",
+      "orgUnitId": "MOI-DSM",
+      "level": "실",
+      "keyResults": [
+        {
+          "krId": "KR-001-1",
+          "title": "재난 사망자 전년 대비 10% 감축",
+          "progress": 35,
+          "linkedTaskIds": []
+        },
+        {
+          "krId": "KR-001-2",
+          "title": "재난안전 예방점검 이행률 95%",
+          "progress": 60,
+          "linkedTaskIds": [
+            "T-020-01",
+            "T-020-03"
+          ]
+        }
+      ]
+    },
+    {
+      "goalId": "G-002",
+      "objective": "지방시대·균형발전 실현",
+      "orgUnitId": "MOI-LAI",
+      "level": "실",
+      "keyResults": [
+        {
+          "krId": "KR-002-1",
+          "title": "지방재정자립도 개선 1.5%p",
+          "progress": 40,
+          "linkedTaskIds": [
+            "T-019-03"
+          ]
+        },
+        {
+          "krId": "KR-002-2",
+          "title": "균형발전 사업 집행률 90%",
+          "progress": 55,
+          "linkedTaskIds": []
+        }
+      ]
+    },
+    {
+      "goalId": "G-003",
+      "objective": "디지털·AI 정부 구현",
+      "orgUnitId": "MOI-AIG",
+      "level": "실",
+      "keyResults": [
+        {
+          "krId": "KR-003-1",
+          "title": "AI 행정서비스 30종 확대",
+          "progress": 48,
+          "linkedTaskIds": [
+            "T-015-01",
+            "T-015-03"
+          ]
+        },
+        {
+          "krId": "KR-003-2",
+          "title": "공공데이터 개방 5천건",
+          "progress": 62,
+          "linkedTaskIds": [
+            "T-016-01",
+            "T-016-04"
+          ]
+        },
+        {
+          "krId": "KR-003-3",
+          "title": "전자결재 100% 전환",
+          "progress": 80,
+          "linkedTaskIds": []
+        }
+      ]
+    },
+    {
+      "goalId": "G-004",
+      "objective": "정부혁신과 참여·협업 확대",
+      "orgUnitId": "MOI-PIO",
+      "level": "실",
+      "keyResults": [
+        {
+          "krId": "KR-004-1",
+          "title": "정부혁신 국민체감도 70점",
+          "progress": 52,
+          "linkedTaskIds": [
+            "T-014-01",
+            "T-014-03"
+          ]
+        },
+        {
+          "krId": "KR-004-2",
+          "title": "국민참여 과제 200건",
+          "progress": 45,
+          "linkedTaskIds": [
+            "T-025-01"
+          ]
+        }
+      ]
+    },
+    {
+      "goalId": "G-005",
+      "objective": "재정 건전성과 효율성 제고",
+      "orgUnitId": "MOI-DPI-01",
+      "level": "관",
+      "keyResults": [
+        {
+          "krId": "KR-005-1",
+          "title": "예산 집행 오차율 3% 이하",
+          "progress": 60,
+          "linkedTaskIds": [
+            "T-001-02"
+          ]
+        },
+        {
+          "krId": "KR-005-2",
+          "title": "불용예산 10% 감축",
+          "progress": 45,
+          "linkedTaskIds": [
+            "T-001-03"
+          ]
+        }
+      ]
+    },
+    {
+      "goalId": "G-006",
+      "objective": "국제행정 협력 강화",
+      "orgUnitId": "MOI-DPI-06",
+      "level": "관",
+      "keyResults": [
+        {
+          "krId": "KR-006-1",
+          "title": "행정한류 수출 12개국",
+          "progress": 30,
+          "linkedTaskIds": [
+            "T-026-01"
+          ]
+        },
+        {
+          "krId": "KR-006-2",
+          "title": "국제협력 MOU 8건",
+          "progress": 50,
+          "linkedTaskIds": [
+            "T-012-02"
+          ]
+        }
+      ]
+    }
+  ],
+  "meetings": [
+    {
+      "meetingId": "MTG-001",
+      "meetingNm": "2026 예산 착수 회의",
+      "projectId": "WF-001",
+      "date": "2026-01-26",
+      "participants": [
+        "정가은",
+        "손승현",
+        "황도경",
+        "구한결"
+      ],
+      "summaryText": "예산 편성 방향·부서별 요구 일정 확정",
+      "transcript": [
+        {
+          "speaker": "정가은",
+          "text": "2026년도 예산요구서 작성 일정을 확정합니다. 편성지침 분석 결과부터 공유해 주세요."
+        },
+        {
+          "speaker": "손승현",
+          "text": "부서별 예산요구서는 2월 10일까지 취합하겠습니다."
+        },
+        {
+          "speaker": "황도경",
+          "text": "재정위험 지표 초안은 2월 20일까지 작성해 보고드리겠습니다."
+        }
+      ],
+      "actionItems": [
+        {
+          "itemId": "AI-1",
+          "text": "부서별 예산요구서 취합",
+          "assigneeNm": "손승현",
+          "due": "2026-02-10",
+          "linkedProjectId": "WF-001",
+          "linkedTaskId": "T-001-02",
+          "approved": false
+        },
+        {
+          "itemId": "AI-2",
+          "text": "재정위험 지표 초안 작성",
+          "assigneeNm": "황도경",
+          "due": "2026-02-20",
+          "linkedProjectId": "WF-001",
+          "linkedTaskId": "T-001-03",
+          "approved": false
+        }
+      ]
+    },
+    {
+      "meetingId": "MTG-002",
+      "meetingNm": "성과관리 시행계획 검토회의",
+      "projectId": "WF-006",
+      "date": "2026-02-24",
+      "participants": [
+        "하현우",
+        "구서연",
+        "전다은",
+        "홍가은"
+      ],
+      "summaryText": "전략목표별 성과지표 조정",
+      "transcript": [
+        {
+          "speaker": "하현우",
+          "text": "전략목표별 성과지표를 이번 주 내로 조정 완료합시다."
+        },
+        {
+          "speaker": "구서연",
+          "text": "측정산식이 불명확한 지표는 3월 5일까지 확정하겠습니다."
+        }
+      ],
+      "actionItems": [
+        {
+          "itemId": "AI-3",
+          "text": "성과지표 측정산식 확정",
+          "assigneeNm": "구서연",
+          "due": "2026-03-05",
+          "linkedProjectId": null,
+          "linkedTaskId": null,
+          "approved": false
+        }
+      ]
+    },
+    {
+      "meetingId": "MTG-003",
+      "meetingNm": "정부조직 진단 착수회의",
+      "projectId": "WF-013",
+      "date": "2026-03-09",
+      "participants": [
+        "문도경",
+        "최도경",
+        "고다은"
+      ],
+      "summaryText": "조직진단 범위·일정 합의",
+      "transcript": [
+        {
+          "speaker": "문도경",
+          "text": "조직진단 범위는 본부 전 실·국, 상반기 내 완료로 합의합니다."
+        },
+        {
+          "speaker": "최도경",
+          "text": "정원 현황 기초자료를 먼저 정리하겠습니다."
+        }
+      ],
+      "actionItems": []
+    },
+    {
+      "meetingId": "MTG-004",
+      "meetingNm": "AI 행정서비스 실무회의",
+      "projectId": "WF-015",
+      "date": "2026-03-17",
+      "participants": [
+        "임한결",
+        "홍서윤",
+        "문민재"
+      ],
+      "summaryText": "우선 도입 서비스 선정",
+      "transcript": [
+        {
+          "speaker": "임한결",
+          "text": "우선 도입 서비스는 민원 상담과 문서 요약 두 축으로 제안합니다."
+        },
+        {
+          "speaker": "홍서윤",
+          "text": "시범기관 수요조사를 공공인공지능혁신과에서 진행하겠습니다."
+        },
+        {
+          "speaker": "문민재",
+          "text": "학습용 공공데이터 목록은 개방 계획과 연계해 제공하겠습니다."
+        }
+      ],
+      "actionItems": []
+    },
+    {
+      "meetingId": "MTG-005",
+      "meetingNm": "공공데이터 개방 점검회의",
+      "projectId": "WF-016",
+      "date": "2026-04-07",
+      "participants": [
+        "문민재",
+        "오현서",
+        "노서연"
+      ],
+      "summaryText": "미개방 데이터셋 발굴",
+      "transcript": [
+        {
+          "speaker": "문민재",
+          "text": "상반기 개방 실적을 점검하고 미개방 데이터셋을 발굴합니다."
+        },
+        {
+          "speaker": "오현서",
+          "text": "수요 상위 20개 데이터셋 목록을 정리했습니다."
+        }
+      ],
+      "actionItems": []
+    },
+    {
+      "meetingId": "MTG-006",
+      "meetingNm": "재난안전 예방대책 회의",
+      "projectId": "WF-020",
+      "date": "2026-04-21",
+      "participants": [
+        "고예준",
+        "구가은",
+        "홍우진"
+      ],
+      "summaryText": "현장 점검계획 수립",
+      "transcript": [
+        {
+          "speaker": "고예준",
+          "text": "여름철 대비 현장 점검계획을 5월 초까지 수립합니다."
+        },
+        {
+          "speaker": "홍우진",
+          "text": "풍수해 취약지역 점검 대상을 우선 선정하겠습니다."
+        }
+      ],
+      "actionItems": []
+    },
+    {
+      "meetingId": "MTG-007",
+      "meetingNm": "규제개혁 과제 조정회의",
+      "projectId": "WF-009",
+      "date": "2026-05-12",
+      "participants": [
+        "곽윤서",
+        "안지호",
+        "최예은",
+        "신수빈"
+      ],
+      "summaryText": "부처 협의 과제 선별",
+      "transcript": [
+        {
+          "speaker": "곽윤서",
+          "text": "부처 협의가 필요한 과제를 선별해 협의 일정을 확정하겠습니다."
+        },
+        {
+          "speaker": "안지호",
+          "text": "이해관계 쟁점이 큰 과제 3건은 별도 보고하겠습니다."
+        }
+      ],
+      "actionItems": []
+    },
+    {
+      "meetingId": "MTG-008",
+      "meetingNm": "지방재정 건전성 회의",
+      "projectId": "WF-019",
+      "date": "2026-05-26",
+      "participants": [
+        "배시윤",
+        "정수아",
+        "구유진"
+      ],
+      "summaryText": "재정위험 지자체 관리방안",
+      "transcript": [
+        {
+          "speaker": "배시윤",
+          "text": "재정위험 지자체 관리방안을 논의합니다."
+        },
+        {
+          "speaker": "정수아",
+          "text": "재정지표 모니터링 결과를 공유드립니다."
+        }
+      ],
+      "actionItems": []
+    }
+  ],
+  "regulations": [
+    {
+      "regulationId": "REG-001",
+      "name": "행정안전부와 그 소속기관 직제",
+      "fileType": "pdf",
+      "sizeKB": 1820,
+      "category": "ORGANIZATION",
+      "stepId": "S-008-03",
+      "url": "/mock/reg/reg-001.pdf",
+      "uploadedAt": "2025-12-15"
+    },
+    {
+      "regulationId": "REG-002",
+      "name": "행정안전부와 그 소속기관 직제 시행규칙",
+      "fileType": "hwp",
+      "sizeKB": 640,
+      "category": "ORGANIZATION",
+      "stepId": null,
+      "url": "/mock/reg/reg-002.hwp",
+      "uploadedAt": "2025-12-15"
+    },
+    {
+      "regulationId": "REG-003",
+      "name": "행정기관의 조직과 정원에 관한 통칙",
+      "fileType": "pdf",
+      "sizeKB": 430,
+      "category": "ORGANIZATION",
+      "stepId": "S-007-03",
+      "url": "/mock/reg/reg-003.pdf",
+      "uploadedAt": "2025-12-20"
+    },
+    {
+      "regulationId": "REG-004",
+      "name": "정부조직관리지침(2026)",
+      "fileType": "hwp",
+      "sizeKB": 520,
+      "category": "ORGANIZATION",
+      "stepId": null,
+      "url": "/mock/reg/reg-004.hwp",
+      "uploadedAt": "2026-01-05"
+    },
+    {
+      "regulationId": "REG-005",
+      "name": "국가재정법",
+      "fileType": "pdf",
+      "sizeKB": 2100,
+      "category": "OPERATION",
+      "stepId": "S-001-02",
+      "url": "/mock/reg/reg-005.pdf",
+      "uploadedAt": "2025-12-10"
+    },
+    {
+      "regulationId": "REG-006",
+      "name": "국가재정법 시행령",
+      "fileType": "pdf",
+      "sizeKB": 1750,
+      "category": "OPERATION",
+      "stepId": null,
+      "url": "/mock/reg/reg-006.pdf",
+      "uploadedAt": "2025-12-10"
+    },
+    {
+      "regulationId": "REG-007",
+      "name": "2026 예산안 편성 및 기금운용계획안 작성지침",
+      "fileType": "hwp",
+      "sizeKB": 980,
+      "category": "OPERATION",
+      "stepId": "S-009-01",
+      "url": "/mock/reg/reg-007.hwp",
+      "uploadedAt": "2026-01-10"
+    },
+    {
+      "regulationId": "REG-008",
+      "name": "예산요구서 서식",
+      "fileType": "xlsx",
+      "sizeKB": 210,
+      "category": "OPERATION",
+      "stepId": null,
+      "url": "/mock/reg/reg-008.xlsx",
+      "uploadedAt": "2026-01-12"
+    },
+    {
+      "regulationId": "REG-009",
+      "name": "행정업무의 운영 및 혁신에 관한 규정",
+      "fileType": "pdf",
+      "sizeKB": 560,
+      "category": "OPERATION",
+      "stepId": "S-005-01",
+      "url": "/mock/reg/reg-009.pdf",
+      "uploadedAt": "2026-01-08"
+    },
+    {
+      "regulationId": "REG-010",
+      "name": "기안문 서식(별지 제1호)",
+      "fileType": "hwp",
+      "sizeKB": 95,
+      "category": "OPERATION",
+      "stepId": null,
+      "url": "/mock/reg/reg-010.hwp",
+      "uploadedAt": "2026-01-08"
+    },
+    {
+      "regulationId": "REG-011",
+      "name": "내부결재문서 서식(별지 제2호)",
+      "fileType": "hwp",
+      "sizeKB": 88,
+      "category": "OPERATION",
+      "stepId": "S-010-01",
+      "url": "/mock/reg/reg-011.hwp",
+      "uploadedAt": "2026-01-08"
+    },
+    {
+      "regulationId": "REG-012",
+      "name": "정부업무평가 기본법",
+      "fileType": "pdf",
+      "sizeKB": 430,
+      "category": "OPERATION",
+      "stepId": null,
+      "url": "/mock/reg/reg-012.pdf",
+      "uploadedAt": "2026-01-15"
+    },
+    {
+      "regulationId": "REG-013",
+      "name": "지방자치법",
+      "fileType": "pdf",
+      "sizeKB": 1600,
+      "category": "OPERATION",
+      "stepId": "S-004-01",
+      "url": "/mock/reg/reg-013.pdf",
+      "uploadedAt": "2026-01-15"
+    },
+    {
+      "regulationId": "REG-014",
+      "name": "행정업무운영 편람(2026)",
+      "fileType": "pdf",
+      "sizeKB": 3200,
+      "category": "OPERATION",
+      "stepId": null,
+      "url": "/mock/reg/reg-014.pdf",
+      "uploadedAt": "2026-02-02"
+    },
+    {
+      "regulationId": "REG-015",
+      "name": "공무원 인사규정",
+      "fileType": "pdf",
+      "sizeKB": 780,
+      "category": "HR",
+      "stepId": "S-004-01",
+      "url": "/mock/reg/reg-015.pdf",
+      "uploadedAt": "2026-01-20"
+    },
+    {
+      "regulationId": "REG-016",
+      "name": "사무분장 규정",
+      "fileType": "hwp",
+      "sizeKB": 150,
+      "category": "DUTY",
+      "stepId": null,
+      "url": "/mock/reg/reg-016.hwp",
+      "uploadedAt": "2026-01-20"
+    }
+  ],
+  "riskItems": [
+    {
+      "riskId": "RSK-001",
+      "severity": "WARN",
+      "title": "부서별 예산요구 취합 주의",
+      "refId": "T-001-02",
+      "type": "병목",
+      "detectedAt": "2026-02-02"
+    },
+    {
+      "riskId": "RSK-002",
+      "severity": "RISK",
+      "title": "재정위험 관리체계 검토 지연·위험",
+      "refId": "T-001-03",
+      "type": "일정",
+      "detectedAt": "2026-03-07"
+    },
+    {
+      "riskId": "RSK-003",
+      "severity": "WARN",
+      "title": "국회 예산심의 대응자료 주의",
+      "refId": "T-001-05",
+      "type": "병목",
+      "detectedAt": "2026-04-08"
+    },
+    {
+      "riskId": "RSK-004",
+      "severity": "RISK",
+      "title": "시범 운영 지연·위험",
+      "refId": "T-002-02",
+      "type": "일정",
+      "detectedAt": "2026-03-24"
+    },
+    {
+      "riskId": "RSK-005",
+      "severity": "WARN",
+      "title": "추진계획 수립 주의",
+      "refId": "T-002-04",
+      "type": "병목",
+      "detectedAt": "2026-04-06"
+    },
+    {
+      "riskId": "RSK-006",
+      "severity": "RISK",
+      "title": "결과 보고 지연·위험",
+      "refId": "T-003-04",
+      "type": "일정",
+      "detectedAt": "2026-04-19"
+    },
+    {
+      "riskId": "RSK-007",
+      "severity": "WARN",
+      "title": "결과 보고 주의",
+      "refId": "T-003-05",
+      "type": "병목",
+      "detectedAt": "2026-02-13"
+    },
+    {
+      "riskId": "RSK-008",
+      "severity": "RISK",
+      "title": "시범 운영 지연·위험",
+      "refId": "T-004-02",
+      "type": "일정",
+      "detectedAt": "2026-02-26"
+    },
+    {
+      "riskId": "RSK-009",
+      "severity": "RISK",
+      "title": "후속 개선 지연·위험",
+      "refId": "T-004-03",
+      "type": "일정",
+      "detectedAt": "2026-03-11"
+    },
+    {
+      "riskId": "RSK-010",
+      "severity": "WARN",
+      "title": "추진계획 수립 주의",
+      "refId": "T-004-04",
+      "type": "병목",
+      "detectedAt": "2026-03-24"
+    },
+    {
+      "riskId": "RSK-011",
+      "severity": "RISK",
+      "title": "후속 개선 지연·위험",
+      "refId": "T-007-01",
+      "type": "일정",
+      "detectedAt": "2026-04-06"
+    },
+    {
+      "riskId": "RSK-012",
+      "severity": "WARN",
+      "title": "관계기관 협의 주의",
+      "refId": "T-007-02",
+      "type": "병목",
+      "detectedAt": "2026-04-19"
+    },
+    {
+      "riskId": "RSK-013",
+      "severity": "RISK",
+      "title": "세부지침 마련 지연·위험",
+      "refId": "T-007-05",
+      "type": "일정",
+      "detectedAt": "2026-02-13"
+    },
+    {
+      "riskId": "RSK-014",
+      "severity": "RISK",
+      "title": "중간 점검 지연·위험",
+      "refId": "T-008-01",
+      "type": "일정",
+      "detectedAt": "2026-02-26"
+    },
+    {
+      "riskId": "RSK-015",
+      "severity": "RISK",
+      "title": "추진계획 수립 지연·위험",
+      "refId": "T-009-03",
+      "type": "일정",
+      "detectedAt": "2026-03-11"
+    },
+    {
+      "riskId": "RSK-016",
+      "severity": "RISK",
+      "title": "후속 개선 지연·위험",
+      "refId": "T-014-01",
+      "type": "일정",
+      "detectedAt": "2026-03-24"
+    },
+    {
+      "riskId": "RSK-017",
+      "severity": "RISK",
+      "title": "후속 개선 지연·위험",
+      "refId": "T-014-02",
+      "type": "일정",
+      "detectedAt": "2026-04-06"
+    },
+    {
+      "riskId": "RSK-018",
+      "severity": "RISK",
+      "title": "시범 운영 지연·위험",
+      "refId": "T-016-03",
+      "type": "일정",
+      "detectedAt": "2026-04-19"
+    },
+    {
+      "riskId": "RSK-019",
+      "severity": "RISK",
+      "title": "추진계획 수립 지연·위험",
+      "refId": "T-018-02",
+      "type": "일정",
+      "detectedAt": "2026-02-13"
+    },
+    {
+      "riskId": "RSK-020",
+      "severity": "RISK",
+      "title": "세부지침 마련 지연·위험",
+      "refId": "T-019-01",
+      "type": "일정",
+      "detectedAt": "2026-02-26"
+    },
+    {
+      "riskId": "RSK-021",
+      "severity": "RISK",
+      "title": "결과 보고 지연·위험",
+      "refId": "T-019-02",
+      "type": "일정",
+      "detectedAt": "2026-03-11"
+    },
+    {
+      "riskId": "RSK-022",
+      "severity": "RISK",
+      "title": "후속 개선 지연·위험",
+      "refId": "T-020-02",
+      "type": "일정",
+      "detectedAt": "2026-03-24"
+    },
+    {
+      "riskId": "RSK-023",
+      "severity": "RISK",
+      "title": "관계기관 협의 지연·위험",
+      "refId": "T-021-02",
+      "type": "일정",
+      "detectedAt": "2026-04-06"
+    },
+    {
+      "riskId": "RSK-024",
+      "severity": "RISK",
+      "title": "후속 개선 지연·위험",
+      "refId": "T-027-02",
+      "type": "일정",
+      "detectedAt": "2026-04-19"
+    }
+  ],
+  "notifications": [
+    {
+      "notiId": "N-001",
+      "category": "리스크",
+      "title": "재정위험 관리체계 검토 지연·위험",
+      "refId": "RSK-002",
+      "read": false,
+      "createdAt": "2026-03-07T09:00:00"
+    },
+    {
+      "notiId": "N-002",
+      "category": "리스크",
+      "title": "시범 운영 지연·위험",
+      "refId": "RSK-004",
+      "read": false,
+      "createdAt": "2026-03-24T09:37:00"
+    },
+    {
+      "notiId": "N-003",
+      "category": "리스크",
+      "title": "결과 보고 지연·위험",
+      "refId": "RSK-006",
+      "read": false,
+      "createdAt": "2026-04-19T10:14:00"
+    },
+    {
+      "notiId": "N-004",
+      "category": "리스크",
+      "title": "시범 운영 지연·위험",
+      "refId": "RSK-008",
+      "read": false,
+      "createdAt": "2026-02-26T10:51:00"
+    },
+    {
+      "notiId": "N-005",
+      "category": "리스크",
+      "title": "후속 개선 지연·위험",
+      "refId": "RSK-009",
+      "read": false,
+      "createdAt": "2026-03-11T11:28:00"
+    },
+    {
+      "notiId": "N-006",
+      "category": "리스크",
+      "title": "후속 개선 지연·위험",
+      "refId": "RSK-011",
+      "read": false,
+      "createdAt": "2026-04-06T12:05:00"
+    },
+    {
+      "notiId": "N-007",
+      "category": "리스크",
+      "title": "세부지침 마련 지연·위험",
+      "refId": "RSK-013",
+      "read": false,
+      "createdAt": "2026-02-13T12:42:00"
+    },
+    {
+      "notiId": "N-008",
+      "category": "리스크",
+      "title": "중간 점검 지연·위험",
+      "refId": "RSK-014",
+      "read": false,
+      "createdAt": "2026-02-26T13:19:00"
+    },
+    {
+      "notiId": "N-009",
+      "category": "리스크",
+      "title": "추진계획 수립 지연·위험",
+      "refId": "RSK-015",
+      "read": false,
+      "createdAt": "2026-03-11T13:56:00"
+    },
+    {
+      "notiId": "N-010",
+      "category": "리스크",
+      "title": "후속 개선 지연·위험",
+      "refId": "RSK-016",
+      "read": false,
+      "createdAt": "2026-03-24T14:33:00"
+    },
+    {
+      "notiId": "N-011",
+      "category": "리스크",
+      "title": "후속 개선 지연·위험",
+      "refId": "RSK-017",
+      "read": false,
+      "createdAt": "2026-04-06T15:10:00"
+    },
+    {
+      "notiId": "N-012",
+      "category": "리스크",
+      "title": "시범 운영 지연·위험",
+      "refId": "RSK-018",
+      "read": false,
+      "createdAt": "2026-04-19T15:47:00"
+    },
+    {
+      "notiId": "N-013",
+      "category": "리스크",
+      "title": "추진계획 수립 지연·위험",
+      "refId": "RSK-019",
+      "read": false,
+      "createdAt": "2026-02-13T16:24:00"
+    },
+    {
+      "notiId": "N-014",
+      "category": "리스크",
+      "title": "세부지침 마련 지연·위험",
+      "refId": "RSK-020",
+      "read": false,
+      "createdAt": "2026-02-26T09:01:00"
+    },
+    {
+      "notiId": "N-015",
+      "category": "리스크",
+      "title": "결과 보고 지연·위험",
+      "refId": "RSK-021",
+      "read": false,
+      "createdAt": "2026-03-11T09:38:00"
+    },
+    {
+      "notiId": "N-016",
+      "category": "리스크",
+      "title": "후속 개선 지연·위험",
+      "refId": "RSK-022",
+      "read": false,
+      "createdAt": "2026-03-24T10:15:00"
+    },
+    {
+      "notiId": "N-017",
+      "category": "리스크",
+      "title": "관계기관 협의 지연·위험",
+      "refId": "RSK-023",
+      "read": false,
+      "createdAt": "2026-04-06T10:52:00"
+    },
+    {
+      "notiId": "N-018",
+      "category": "리스크",
+      "title": "후속 개선 지연·위험",
+      "refId": "RSK-024",
+      "read": false,
+      "createdAt": "2026-04-19T11:29:00"
+    },
+    {
+      "notiId": "N-019",
+      "category": "멘션",
+      "title": "정가은님이 '예산 편성지침 분석' 업무에서 회원님을 언급했습니다",
+      "refId": "T-001-01",
+      "read": true,
+      "createdAt": "2026-01-12T10:20:00"
+    },
+    {
+      "notiId": "N-020",
+      "category": "결재",
+      "title": "부서별 예산요구 취합 결재 요청",
+      "refId": "T-001-02",
+      "read": true,
+      "createdAt": "2026-02-03T14:05:00"
+    },
+    {
+      "notiId": "N-021",
+      "category": "멘션",
+      "title": "황도경님이 '재정위험 관리체계 검토' 업무에서 회원님을 언급했습니다",
+      "refId": "T-001-03",
+      "read": false,
+      "createdAt": "2026-02-16T09:40:00"
+    },
+    {
+      "notiId": "N-022",
+      "category": "결재",
+      "title": "예산요구서 초안 작성 결재 요청",
+      "refId": "T-001-04",
+      "read": false,
+      "createdAt": "2026-03-16T11:15:00"
+    },
+    {
+      "notiId": "N-023",
+      "category": "결재",
+      "title": "국회 예산심의 대응자료 결재 요청",
+      "refId": "T-001-05",
+      "read": true,
+      "createdAt": "2026-03-04T15:30:00"
+    },
+    {
+      "notiId": "N-024",
+      "category": "멘션",
+      "title": "황도경님이 '현황 조사·분석' 업무에서 회원님을 언급했습니다",
+      "refId": "T-002-01",
+      "read": true,
+      "createdAt": "2026-02-09T13:50:00"
+    },
+    {
+      "notiId": "N-025",
+      "category": "결재",
+      "title": "'부서별 예산요구 취합' 결재가 검토 단계에서 5일째 정체 중입니다(기한 초과)",
+      "refId": "T-001-02",
+      "read": false,
+      "createdAt": "2026-07-06T08:40:00"
+    },
+    {
+      "notiId": "N-026",
+      "category": "결재",
+      "title": "'국회 예산심의 대응자료' 결재가 반려되었습니다 — 예산 산출 근거 미비",
+      "refId": "T-001-05",
+      "read": false,
+      "createdAt": "2026-07-04T17:10:00"
+    }
+  ],
+  "docAssets": [
+    {
+      "docId": "DOC-PLAN-001",
+      "fileName": "2026년도 예산요구서_사업계획서.hwp",
+      "category": "ETC",
+      "mime": "application/x-hwp",
+      "size": "0.5MB",
+      "uploadedAt": "2026-01-05"
+    },
+    {
+      "docId": "DOC-PLAN-002",
+      "fileName": "2026 예산편성지침 _사업계획서.hwp",
+      "category": "ETC",
+      "mime": "application/x-hwp",
+      "size": "0.4MB",
+      "uploadedAt": "2026-01-06"
+    },
+    {
+      "docId": "DOC-PLAN-004",
+      "fileName": "부내 미래전략 수립·총_사업계획서.hwp",
+      "category": "ETC",
+      "mime": "application/x-hwp",
+      "size": "0.6MB",
+      "uploadedAt": "2026-01-08"
+    },
+    {
+      "docId": "DOC-PLAN-005",
+      "fileName": "청년정책 추진계획_사업계획서.hwp",
+      "category": "ETC",
+      "mime": "application/x-hwp",
+      "size": "0.6MB",
+      "uploadedAt": "2026-01-09"
+    },
+    {
+      "docId": "DOC-PLAN-006",
+      "fileName": "2026 성과관리 시행_사업계획서.hwp",
+      "category": "ETC",
+      "mime": "application/x-hwp",
+      "size": "1.1MB",
+      "uploadedAt": "2026-01-10"
+    },
+    {
+      "docId": "DOC-PLAN-008",
+      "fileName": "소관 법령 제·개정 관_사업계획서.hwp",
+      "category": "ETC",
+      "mime": "application/x-hwp",
+      "size": "1.2MB",
+      "uploadedAt": "2026-01-12"
+    },
+    {
+      "docId": "DOC-PLAN-009",
+      "fileName": "규제개혁 과제 관리_사업계획서.hwp",
+      "category": "ETC",
+      "mime": "application/x-hwp",
+      "size": "0.8MB",
+      "uploadedAt": "2026-01-13"
+    },
+    {
+      "docId": "DOC-PLAN-011",
+      "fileName": "부내 정보보호 강화_사업계획서.hwp",
+      "category": "ETC",
+      "mime": "application/x-hwp",
+      "size": "0.6MB",
+      "uploadedAt": "2026-01-05"
+    },
+    {
+      "docId": "DOC-PLAN-012",
+      "fileName": "국제행정 협력사업 추진_사업계획서.hwp",
+      "category": "ETC",
+      "mime": "application/x-hwp",
+      "size": "1.1MB",
+      "uploadedAt": "2026-01-06"
+    },
+    {
+      "docId": "DOC-PLAN-013",
+      "fileName": "정부조직·정원 진단_사업계획서.hwp",
+      "category": "ETC",
+      "mime": "application/x-hwp",
+      "size": "0.8MB",
+      "uploadedAt": "2026-01-07"
+    },
+    {
+      "docId": "DOC-PLAN-014",
+      "fileName": "정부혁신 종합계획 추진_사업계획서.hwp",
+      "category": "ETC",
+      "mime": "application/x-hwp",
+      "size": "1.4MB",
+      "uploadedAt": "2026-01-08"
+    },
+    {
+      "docId": "DOC-PLAN-015",
+      "fileName": "AI 행정서비스 확대_사업계획서.hwp",
+      "category": "ETC",
+      "mime": "application/x-hwp",
+      "size": "1.2MB",
+      "uploadedAt": "2026-01-09"
+    },
+    {
+      "docId": "DOC-PLAN-016",
+      "fileName": "공공데이터 개방 확대_사업계획서.hwp",
+      "category": "ETC",
+      "mime": "application/x-hwp",
+      "size": "1.2MB",
+      "uploadedAt": "2026-01-10"
+    },
+    {
+      "docId": "DOC-PLAN-017",
+      "fileName": "디지털 공공서비스 혁신_사업계획서.hwp",
+      "category": "ETC",
+      "mime": "application/x-hwp",
+      "size": "1.1MB",
+      "uploadedAt": "2026-01-11"
+    },
+    {
+      "docId": "DOC-PLAN-018",
+      "fileName": "지방자치 제도 개선_사업계획서.hwp",
+      "category": "ETC",
+      "mime": "application/x-hwp",
+      "size": "0.9MB",
+      "uploadedAt": "2026-01-12"
+    },
+    {
+      "docId": "DOC-PLAN-019",
+      "fileName": "지방재정 건전성 관리_사업계획서.hwp",
+      "category": "ETC",
+      "mime": "application/x-hwp",
+      "size": "0.4MB",
+      "uploadedAt": "2026-01-13"
+    },
+    {
+      "docId": "DOC-PLAN-020",
+      "fileName": "재난안전 예방대책 수립_사업계획서.hwp",
+      "category": "ETC",
+      "mime": "application/x-hwp",
+      "size": "1.1MB",
+      "uploadedAt": "2026-01-14"
+    },
+    {
+      "docId": "DOC-PLAN-022",
+      "fileName": "국정감사 대응_사업계획서.hwp",
+      "category": "ETC",
+      "mime": "application/x-hwp",
+      "size": "1.1MB",
+      "uploadedAt": "2026-01-06"
+    },
+    {
+      "docId": "DOC-PLAN-024",
+      "fileName": "공공데이터 분석기반 구_사업계획서.hwp",
+      "category": "ETC",
+      "mime": "application/x-hwp",
+      "size": "0.4MB",
+      "uploadedAt": "2026-01-08"
+    },
+    {
+      "docId": "DOC-PLAN-026",
+      "fileName": "행정한류 수출 확대_사업계획서.hwp",
+      "category": "ETC",
+      "mime": "application/x-hwp",
+      "size": "0.7MB",
+      "uploadedAt": "2026-01-10"
+    },
+    {
+      "docId": "DOC-PLAN-027",
+      "fileName": "통합포털 개편_사업계획서.hwp",
+      "category": "ETC",
+      "mime": "application/x-hwp",
+      "size": "0.9MB",
+      "uploadedAt": "2026-01-11"
+    },
+    {
+      "docId": "DOC-PLAN-028",
+      "fileName": "지방세 제도 개선_사업계획서.hwp",
+      "category": "ETC",
+      "mime": "application/x-hwp",
+      "size": "0.6MB",
+      "uploadedAt": "2026-01-12"
+    },
+    {
+      "docId": "DOC-ORG-001",
+      "fileName": "직제규정_2026.pdf",
+      "category": "ORGANIZATION",
+      "mime": "application/pdf",
+      "size": "1.8MB",
+      "uploadedAt": "2025-12-15"
+    },
+    {
+      "docId": "DOC-ORG-002",
+      "fileName": "사무분장표_2026.hwp",
+      "category": "DUTY",
+      "mime": "application/x-hwp",
+      "size": "245KB",
+      "uploadedAt": "2026-01-08"
+    }
+  ],
+  "aiSummaries": [
+    {
+      "screen": "cm03",
+      "contextType": "org",
+      "contextId": null,
+      "text": "밤사이 결재 2건 완료·1건 반려. '예산요구서' 검토 3일째 정체 — 지금 확인하세요.",
+      "tone": "risk"
+    },
+    {
+      "screen": "wf02",
+      "contextType": "task",
+      "contextId": null,
+      "text": "이 업무는 '검토' 단계에서 3일 정체(부서 평균 대비 +2일). 병목=혁신행정담당관.",
+      "tone": "risk"
+    },
+    {
+      "screen": "rb01",
+      "contextType": "dept",
+      "contextId": null,
+      "text": "부서 평균 결재 리드타임 4.2일(전주 +0.8). 검토 단계가 62% 차지 — 개선 여지 큼.",
+      "tone": "warn"
+    },
+    {
+      "screen": "rb03",
+      "contextType": "report",
+      "contextId": null,
+      "text": "지연 결재 3건·반려 1건을 반영한 주간 보고 초안을 생성했습니다.",
+      "tone": "neutral"
+    },
+    {
+      "screen": "wf02",
+      "contextType": "task",
+      "contextId": "T-001-02",
+      "text": "이 업무는 '검토' 단계에서 5일 정체(부서 평균 대비 +3일)·기한 초과. 병목=허민준 팀장 단계.",
+      "tone": "risk"
+    },
+    {
+      "screen": "wf02",
+      "contextType": "task",
+      "contextId": "T-001-03",
+      "text": "검토 단계 1일차 — 기한 내 정상 진행 중입니다. 예상 완료 7-10.",
+      "tone": "neutral"
+    },
+    {
+      "screen": "wf02",
+      "contextType": "task",
+      "contextId": "T-001-05",
+      "text": "검토 단계에서 반려됨(사유: 예산 산출 근거 미비). 재상신 전 산출 근거 보완이 필요합니다.",
+      "tone": "risk"
+    },
+    {
+      "screen": "cm03",
+      "contextType": "task",
+      "contextId": "T-001-02",
+      "text": "'부서별 예산요구 취합' 결재가 검토 단계 5일째 — 기한(7-04) 초과 상태입니다.",
+      "tone": "risk"
+    },
+    {
+      "screen": "cm03",
+      "contextType": "task",
+      "contextId": "T-001-05",
+      "text": "'국회 예산심의 대응자료' 결재가 반려되었습니다(예산 산출 근거 미비).",
+      "tone": "risk"
+    }
+  ],
+  "biMetrics": [
+    {
+      "widgetId": "B1",
+      "type": "gauge",
+      "title": "결재 리드타임",
+      "value": {
+        "avg": 4.2,
+        "median": 3.8,
+        "p90": 7.1
+      },
+      "target": 3,
+      "unit": "일",
+      "aiLine": "평균 4.2일, 목표 대비 +1.2일"
+    },
+    {
+      "widgetId": "B2",
+      "type": "heatmap",
+      "title": "단계별 병목 히트맵",
+      "series": [
+        {
+          "dept": "기획재정담당관",
+          "기안": 8,
+          "검토": 62,
+          "승인": 12
+        },
+        {
+          "dept": "혁신행정담당관",
+          "기안": 11,
+          "검토": 48,
+          "승인": 9
+        },
+        {
+          "dept": "정보통계담당관",
+          "기안": 6,
+          "검토": 31,
+          "승인": 14
+        },
+        {
+          "dept": "감사담당관",
+          "기안": 9,
+          "검토": 55,
+          "승인": 18
+        }
+      ],
+      "unit": "%",
+      "aiLine": "검토 단계가 전체 지연의 62%"
+    },
+    {
+      "widgetId": "B3",
+      "type": "ranklist",
+      "title": "지연 결재 Top 5",
+      "series": [
+        {
+          "rank": 1,
+          "taskId": "T-001-02",
+          "taskNm": "부서별 예산요구 취합",
+          "assigneeNm": "손승현",
+          "stage": "검토",
+          "elapsedDays": 5
+        },
+        {
+          "rank": 2,
+          "taskId": "T-002-02",
+          "taskNm": "시범 운영",
+          "assigneeNm": "노현우",
+          "stage": "검토",
+          "elapsedDays": 4
+        },
+        {
+          "rank": 3,
+          "taskId": "T-003-04",
+          "taskNm": "결과 보고",
+          "assigneeNm": "노현우",
+          "stage": "승인",
+          "elapsedDays": 3
+        },
+        {
+          "rank": 4,
+          "taskId": "T-001-05",
+          "taskNm": "국회 예산심의 대응자료",
+          "assigneeNm": "손하준",
+          "stage": "검토",
+          "elapsedDays": 2
+        },
+        {
+          "rank": 5,
+          "taskId": "T-001-03",
+          "taskNm": "재정위험 관리체계 검토",
+          "assigneeNm": "황도경",
+          "stage": "검토",
+          "elapsedDays": 1
+        }
+      ],
+      "unit": "일",
+      "aiLine": "'부서별 예산요구 취합' 검토 5일 최장"
+    },
+    {
+      "widgetId": "B4",
+      "type": "stackedbar",
+      "title": "반려·재상신율",
+      "series": [
+        {
+          "stage": "기안",
+          "정상": 94,
+          "반려": 4,
+          "재상신": 2
+        },
+        {
+          "stage": "검토",
+          "정상": 78,
+          "반려": 14,
+          "재상신": 8
+        },
+        {
+          "stage": "승인",
+          "정상": 91,
+          "반려": 6,
+          "재상신": 3
+        }
+      ],
+      "unit": "%",
+      "aiLine": "검토 반려율 14%(전월 +6%p)"
+    },
+    {
+      "widgetId": "B5",
+      "type": "gauge",
+      "title": "SLA 준수율(부서별)",
+      "series": [
+        {
+          "dept": "기획재정담당관",
+          "value": 92
+        },
+        {
+          "dept": "혁신행정담당관",
+          "value": 85
+        },
+        {
+          "dept": "정보통계담당관",
+          "value": 74
+        },
+        {
+          "dept": "감사담당관",
+          "value": 68
+        }
+      ],
+      "target": 90,
+      "unit": "%",
+      "aiLine": "감사담당관 68% — 기준 미달"
+    },
+    {
+      "widgetId": "B6",
+      "type": "trendline",
+      "title": "결재 적체 추세",
+      "series": [
+        {
+          "week": "W1",
+          "value": 9
+        },
+        {
+          "week": "W2",
+          "value": 8
+        },
+        {
+          "week": "W3",
+          "value": 7
+        },
+        {
+          "week": "W4",
+          "value": 8
+        },
+        {
+          "week": "W5",
+          "value": 9
+        },
+        {
+          "week": "W6",
+          "value": 11
+        },
+        {
+          "week": "W7",
+          "value": 13
+        },
+        {
+          "week": "W8",
+          "value": 15
+        }
+      ],
+      "unit": "건",
+      "aiLine": "3주 연속 적체 증가"
+    },
+    {
+      "widgetId": "B7",
+      "type": "donut",
+      "title": "지연 원인 분포",
+      "series": [
+        {
+          "cause": "결재자 부재",
+          "value": 22
+        },
+        {
+          "cause": "검토 과부하",
+          "value": 41
+        },
+        {
+          "cause": "정보 부족",
+          "value": 27
+        },
+        {
+          "cause": "기타",
+          "value": 10
+        }
+      ],
+      "unit": "%",
+      "aiLine": "검토 과부하 41%가 최다 원인"
+    },
+    {
+      "widgetId": "B8",
+      "type": "scatter",
+      "title": "담당자 부하 vs 지연",
+      "series": [
+        {
+          "name": "손승현",
+          "load": 9,
+          "delay": 4.8,
+          "risk": true
+        },
+        {
+          "name": "노현우",
+          "load": 8,
+          "delay": 4.1,
+          "risk": true
+        },
+        {
+          "name": "허민준",
+          "load": 7,
+          "delay": 3.6,
+          "risk": true
+        },
+        {
+          "name": "황도경",
+          "load": 6,
+          "delay": 1.8,
+          "risk": false
+        },
+        {
+          "name": "손하준",
+          "load": 5,
+          "delay": 2.2,
+          "risk": false
+        },
+        {
+          "name": "남수빈",
+          "load": 5,
+          "delay": 1.1,
+          "risk": false
+        },
+        {
+          "name": "송지훈",
+          "load": 4,
+          "delay": 0.9,
+          "risk": false
+        },
+        {
+          "name": "정예은",
+          "load": 4,
+          "delay": 0.6,
+          "risk": false
+        },
+        {
+          "name": "안지우",
+          "load": 3,
+          "delay": 1.4,
+          "risk": false
+        },
+        {
+          "name": "전민재",
+          "load": 3,
+          "delay": 0.4,
+          "risk": false
+        },
+        {
+          "name": "강다은",
+          "load": 2,
+          "delay": 0.7,
+          "risk": false
+        },
+        {
+          "name": "조민준",
+          "load": 2,
+          "delay": 0.3,
+          "risk": false
+        }
+      ],
+      "unit": "건·일",
+      "aiLine": "고부하·고지연 3명 — 재배치 검토"
+    },
+    {
+      "widgetId": "B9",
+      "type": "prediction",
+      "title": "예측(AI)",
+      "series": [
+        {
+          "taskId": "T-001-02",
+          "taskNm": "부서별 예산요구 취합",
+          "reason": "검토 정체 5일·기한 초과"
+        },
+        {
+          "taskId": "T-002-02",
+          "taskNm": "시범 운영",
+          "reason": "담당자 과부하·선행 지연"
+        },
+        {
+          "taskId": "T-003-04",
+          "taskNm": "결과 보고",
+          "reason": "승인 대기 적체 추세"
+        }
+      ],
+      "aiLine": "이번 주 지연 위험 결재 3건 예측"
+    }
+  ],
+  "biSnapshot": {
+    "leadTime": 4.2,
+    "bottleneck": "검토 62%",
+    "rejectRate": "14%",
+    "slaWorst": "감사담당관 68%",
+    "delayedTop": [
+      "T-001-02",
+      "T-002-02",
+      "T-003-04"
+    ],
+    "problems": [
+      "검토 단계 병목(전체 지연의 62%)",
+      "지연 결재 3건 — '부서별 예산요구 취합' 검토 5일 최장",
+      "반려 1건 — '국회 예산심의 대응자료'(예산 산출 근거 미비)",
+      "감사담당관 SLA 68%로 기준(90%) 미달"
+    ]
+  },
+  "canvasNodes": [
+    {
+      "nodeId": "NODE-ROOT",
+      "nodeType": "COMPANY",
+      "refId": null,
+      "label": "행정안전부",
+      "status": "OK",
+      "regularYn": false
+    }
+  ],
+  "canvasEdges": [],
+  "ROOT_NODE": {
+    "nodeId": "NODE-ROOT",
+    "nodeType": "COMPANY",
+    "refId": null,
+    "label": "행정안전부",
+    "status": "OK",
+    "regularYn": false
+  },
+  "homeTabs": [
+    "인사",
+    "자금",
+    "관리",
+    "기술",
+    "정보"
+  ],
+  "toolAttachments": [],
+  "toolPalette": [
+    {
+      "tool": "MEETING",
+      "label": "회의록"
+    },
+    {
+      "tool": "REGULATION",
+      "label": "규정"
+    },
+    {
+      "tool": "WORK_EVAL",
+      "label": "업무평가"
+    },
+    {
+      "tool": "RISK_EVAL",
+      "label": "리스크평가"
+    }
+  ],
+  "AI_MODELS": {
+    "onprem": "온프레미스",
+    "premium": "상위 모델"
+  }
+}
